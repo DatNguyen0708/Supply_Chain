@@ -18,6 +18,9 @@ app.get('/accounts', (req, res) => {
 app.get('/addproduct', (req, res) => {
     res.render('addproduct');
 });
+app.get('/setnewamount/:add/:account', (req, res) => {
+    res.render('setnewamount', { add: req.params.add, account: req.params.account});
+});
 app.get('/ownership/:add/:account', (req, res) => {
     res.render('ownership', { add: req.params.add, account: req.params.account});
 });
