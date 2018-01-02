@@ -1,44 +1,36 @@
-var express = require("express");
+let express =require('express');
+let app = express();
+//let Web3= require('./public/js/web3.min.js');
+let port = process.env.port || 3000;
 
-
-//let product = require('./product');
-
-var app = express();
-
-app.listen(3000);
-
-app.set("view engine", "ejs");
-
-app.set("views", "./views");
-
-app.get("/index", function (req, res) {
-
-	//console.log(test.name);
-
-	//var a = product.sayHello("hihi");
-
-	//let data = ['a', 'b', 'c'];
-	//res.render("index", { data : data , a : a } ) ;
-	res.render("index") ;
-});
-
+app.set('view engine', 'ejs');
+app.set('views', './src/view');
 app.use(express.static(__dirname + '/public'));
 
-app.get("/hello", function (req, res) {
-	res.send("<font color=red>HELLO DUNG SO BU</font>");
+
+
+app. get('/', (req, res) => {
+	res.render('index');
 });
-
-app.post("/hello", function (req, res) {
-	res.send("<font color=red>HIHI DUNG SO BU</font>");
+app.get('/accounts', (req, res) => {
+    res.render('accounts');
 });
-
-app.get("/tintuc/:id", function (req, res) {
-	var i = req.params.id;
-
-	res.send("Serve id=" + i);
+app.get('/addproduct', (req, res) => {
+    res.render('addproduct');
 });
-
+app.get('/ownership/:add/:account', (req, res) => {
+    res.render('ownership', { add: req.params.add, account: req.params.account});
+});
+app.get('/addaction/:add/:account', (req, res) => {
+    res.render('addaction', { add: req.params.add, account: req.params.account});
+});
+app.get('/merge/:add/:account', (req, res) => {
+    res.render('merge', { add: req.params.add, account: req.params.account});
+});
 app.get('/:address', (req, res) => {
-	res.render('product', { address: req.params.address});
-	});
+  res.render('product', { address: req.params.address});
+ });
 
+app.listen(port, () => {
+	console.log('Server is listening on port' + port);
+})

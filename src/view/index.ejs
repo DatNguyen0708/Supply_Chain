@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="js/web3.js"></script>
+  <script src="js/abi.js"></script>
+
+
+
+  <title>SUPPLY CHAIN </title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/heroic-features.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="/">Supply chain</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/accounts">Accounts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/addproduct">Add Product</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+    <div class="raw" id="raw">
+    </div>
+    <!-- Page Heading -->
+    <h1 class="my-4">All Product
+    </h1>
+
+    <!-- Page Features -->
+    <div class="row text-center" id="wrapper">
+
+    </div>
+
+  </div>
+  <!-- /.container -->
+
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Website 2017</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="jquery/jquery.min.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript">
+    if (typeof web3 !== 'undefined') {
+      web3 = new Web3(web3.currentProvider);
+    } else {
+      web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+    }
+    
+    var a = web3.eth.contract(abi).at(add).getCountProduct.call().toNumber();
+    console.log(a);
+
+
+    var data = [];
+
+    for (i = 0; i < a; i++) {
+
+        var s = web3.eth.contract(abi).at(add).getAddressProduct.call(i)
+        data.push(s);
+
+      }
+      console.log(data);
+      for (n = 0; n < data.length; n++) {
+        $("#wrapper").append(`
+  <div class="col-lg-3 col-md-6 mb-4 ">
+  <div class="card">
+    <div class="card-body">
+      <p id ="test">${data[n]}</p>
+    </div>
+    <div class="card-footer">
+      <a href="${data[n]}" class="btn btn-primary">Detail</a>
+    </div>
+  </div>
+
+</div>
+  `)
+      }
+  </script>
+</body>
+
+</html>
