@@ -22,23 +22,18 @@ app.get("/index", function (req, res) {
 	res.render("index") ;
 });
 
+app.get("/accountInformation/:address", function (req, res) {
+	res.render("accountInformation", { address: req.params.address}) ;
+});
+
+app.get("/accounts", function (req, res) {
+	res.render("accounts") ;
+});
+
 app.use(express.static(__dirname + '/public'));
-
-app.get("/hello", function (req, res) {
-	res.send("<font color=red>HELLO DUNG SO BU</font>");
-});
-
-app.post("/hello", function (req, res) {
-	res.send("<font color=red>HIHI DUNG SO BU</font>");
-});
-
-app.get("/tintuc/:id", function (req, res) {
-	var i = req.params.id;
-
-	res.send("Serve id=" + i);
-});
 
 app.get('/:address', (req, res) => {
 	res.render('product', { address: req.params.address});
 	});
+
 

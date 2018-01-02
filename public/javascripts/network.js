@@ -1,36 +1,33 @@
 getContractAddress = function(callback) {
     web3.version.getNetwork(function(error, result) {
         if (error != null) {
+            
             console.log('Unknown network');
-            ah_contract_addr = '';
-            sn_contract_addr = '';
             error = "Failed to load ethereum network and smart contract";
 
-        } else if (result == "1" || result == "2" || result == "'3") {
+        } else if (result == "1" || result == "2" || result == "3") {
+
+            //solo network
             if (result == "1") {
-                db_contract = '0xa84A86293f7dEaf28Bd45dd748564E0243f8E3b1';
-                pro_contract = '';
-                //error("AuctionHouse is not deployed to the main net yet, please try the test net");
+                db_contract = '0xa84A86293f7dEaf28Bd45dd748564E0243f8E3b1';            
             }
 
             //Testnet Setup Morden
             if (result == "2") {
-                //ah_contract_addr = "0x5fF10B4fA88623d4E2E8B7077ae5b8259A78867E";
-                //sn_contract_addr = "0xfe4362ad1c80bbe89705f774af1d769a0f305605";
+               
             }
 
-            // New testnet Ropsten
+            // TestNet Ropsten
             if (result == "3") {
-                //console.log("Vo day nhe ban");
-                ah_contract_addr = "0x2ea9C97a56c2271c3088857FC19586F6ad9A5960";
-                sn_contract_addr = '';
+                db_contract = "0x2ea9C97a56c2271c3088857FC19586F6ad9A5960";              
             }
         } 
-        console.log("network id: " + result);
-        console.log("db contract: " + db_contract);
-        //console.log("sample name contract addr: " + sn_contract_addr);
 
-        callback(db_contract, pro_contract, error);
+        console.log("network id: " + result);
+
+        console.log("db contract: " + db_contract);
+
+        callback(db_contract, error);
 
     });
 };

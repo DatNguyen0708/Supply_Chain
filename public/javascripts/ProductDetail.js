@@ -60,6 +60,12 @@ function showDetail(){
 
     amountProduct.innerHTML = productContract.at(productId).getAmount.call().toString();
 
+    var checkboxConsumed = productContract.at(productId).isConsumed.call().toString();
+    console.log(checkboxConsumed);
+
+    if(checkboxConsumed=="true") {$("#isConsumed").prop("checked", true);}
+    else {$("#isConsumed").prop("checked", false);}
+
     //ratioProduct.innerHTML = productContract.at(productId).ratio.call().toString();
 
 
