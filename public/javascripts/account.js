@@ -71,10 +71,14 @@ function view() {
     res = res + "<tr>";
     res = res + "<td>" + i + "</td>";
     res = res + "<td><a href='/" + data[j] + "'>" + data[j] + "</a></td>";
+    res = res + "<td><a href='/merge/" + data[j] + "/"+executefrom + "' class='btn btn-primary'>Merge</a><a href='/addaction/" + data[j] + "/"+executefrom+ "' class='btn btn-info' style= 'margin-left:5px;'>Add Action</a><a href='/tranferOwnership/" + data[i] + "/"+executefrom+ "' class='btn btn-danger' style= 'margin-left:5px;'>Tranfer Owner</a><a href='/setnewamount/" + data[i] + "/" +executefrom+ "' class='btn btn-success' id= '" + j + "' style= 'margin-left:5px;'>Set Amount</a></td>";
+
+
     res = res + "</tr>";
   }
 
   res += "</tbody><tfoot></tfoot></table>";
+
 
   document.getElementById("tableAccounts").innerHTML = res;
   document.getElementById("tableAccounts").innerHTML = document.getElementById("tableAccounts").innerHTML.replace(/&/g, "");
@@ -85,6 +89,13 @@ function view() {
 
   console.log("Refreshing product!");
 
+
+  for (var j = 0; j < data.length; j++) {
+    if (web3.eth.contract(abiProduct).at(data[j]).getCountParent.call().toNumber() != 0) {
+      $('#' + j).hide();
+    }
+  }
+
   $(document).ready(function() {
     //createtable();
     $('#listAccounts').DataTable({
@@ -94,22 +105,4 @@ function view() {
       ]
     });
   });
-
-
-
-  // for (i = 0; i < data.length; i++) {
-  //   $("#productOfOwner").append(`
-  //   <tr>
-  //     <td>${i}</td>
-  //     <td> <a href="/${data[i]}">${data[i]}</a></td>
-  //     <td><a href="/merge/${data[i]}/${executefrom}" class="btn btn-primary">Merge</a><a href="/addaction/${data[i]}" class="btn btn-info" style= "margin-left:5px;">Add Action</a><a href="/tranferOwner/${data[i]}" class="btn btn-danger" style= "margin-left:5px;">Tranfer Owner</a><a href="/setamount/${data[i]}" class="btn btn-success" id= "${i}" style= "margin-left:5px;">Set Amount</a></td>
-  //   </tr>
-  // `);
-
-  //   if (web3.eth.contract(abiProduct).at(data[i]).getCountParent.call().toNumber() != 0) {
-  //     $("#" + i).hide();
-  //   }
-
-  // }
-
 }
