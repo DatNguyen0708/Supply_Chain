@@ -66,6 +66,7 @@ function showDetail(){
      console.log(checkboxConsumed);
 
      if(checkboxConsumed=="true") {$("#isConsumed").prop("checked", true);}
+     else {$("#isConsumed").prop("checked", false);}
 
 }
 
