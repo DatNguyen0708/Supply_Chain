@@ -1,7 +1,6 @@
     window.onload = function () {
         var account = document.getElementById('account').value;
         var product = document.getElementById('add').value;
-        // console.log(abi);
     }
     function submit() {
         var description = document.getElementById('description').value;
