@@ -8,9 +8,8 @@ getContractAddress = function(callback) {
 
         } else if (result == "1" || result == "2" || result == "'3") {
             if (result == "1") {
-                db_contract = '0x389b917f468F3Ef0fC272aD2327220A455C76ab1';
+                db_contract = '0x119bFDC4d42e1620c8Ba1bE13be938Bec0A244ba';
                 pro_contract = '';
-                //error("AuctionHouse is not deployed to the main net yet, please try the test net");
             }
 
             //Testnet Setup Morden
@@ -30,7 +29,7 @@ getContractAddress = function(callback) {
         console.log("db contract: " + db_contract);
         //console.log("sample name contract addr: " + sn_contract_addr);
 
-        callback(db_contract, pro_contract, error);
+        callback(db_contract, error);
 
     });
 };

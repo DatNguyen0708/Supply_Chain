@@ -1,3 +1,4 @@
+
 pragma solidity ^ 0.4 .15;
 
 contract Database {
@@ -27,7 +28,7 @@ contract Database {
   function createProduct(bytes32 _name, address[] _parentProducts, bytes32 _unit, uint _amount, uint _ratio, address _handler) returns(address) {
 
         return new Product(_name, _parentProducts, _unit, _amount, _ratio, _handler, this);
-
+        
   }
 
   // so product hien tai duoc luu trong contract database
@@ -326,9 +327,9 @@ contract Product {
 
 }
 
-//db  0x389b917f468F3Ef0fC272aD2327220A455C76ab1
-//ac2 0x8b1fb2f184AC158b024571990FFFc5BE46534760
-//ac3 0x0C22B6B92fD7AD1e88Ad112Fd4643aaA658e7b09
+//db  0xd5842816726aAAB7eC999aF885986bECBB87C3e5
+//ac2 0xCa9304eAA235a7547076E2406A50D87C2a86E004
+//ac3 0xE6d43A62976401B571D8F78e6a4534bDBA896ef5
 //ac4 
 //ac5 
 
