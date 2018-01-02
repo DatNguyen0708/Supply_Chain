@@ -3,7 +3,15 @@
    <% include header%>
   <script src="/javascripts/accountInformation.js"></script>
   <!-- Page Content -->
-  <br></br><br></br>
+  <div class="panel panel-info" id="infoPanel" style="margin: 5%">
+    <div class="panel-heading">
+        <h3 class="panel-title">Chung ta se lam gi ?</h3>
+    </div>
+    <div class="panel-body" id="infoPanelText">
+        <div id="bidder"></div>
+
+    </div>
+  </div>
   <input type="hidden" value="<%= address %>" id="address">
   <div class="container">
         <h2 style="" align="center"> ACCOUNT : <%= address %></h2>

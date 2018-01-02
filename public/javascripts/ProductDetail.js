@@ -12,8 +12,6 @@ window.onload = function () {
 
         console.log(web3.eth.contract(abiDatabase).at(db_contract).getCountProduct.call().toNumber());
 
-        //console.log(web3.eth.contract(abiProduct).at("0x08e2176A37228460783a15fB5f2f6BBd5EbaAfEf").getCountChild.call().toNumber());
-
         web3.eth.getAccounts(function (err, accs) {
             if (err != null) {
                 alert("There was an error fetching your accounts.");
@@ -134,7 +132,7 @@ function waitAndRefreshAction(actionCount){
             res = res + "<tr>";
             res = res + "<td>" + actionId[3] + "</td>";
             res = res + "<td>" + actionId[0] + "</td>";
-            res = res + "<td>" + actionId[1] + "</td>";
+            res = res + "<td>" + convertTimestamp(actionId[1]) + "</td>";
             if(actionId[2]==0) res = res + "<td>" + "" + "</td>";
             else
             res = res + "<td>" + actionId[2] + "</td>";
@@ -291,7 +289,7 @@ function waitAndRefreshChild(countChild) {
             res = res + "<tr>";
             res = res + "<td>" + childs[j*2] + "</td>";
             res = res + "<td><a href='/"+ childs[j*2+1] + "'>" + childs[j*2+1] + "</a></td>";
-            res = res + "<td>" + actions[1] + "</td>";
+            res = res + "<td>" + convertTimestamp(actions[1]) + "</td>";
             if(actions[2] ==0) res = res + "<td>" + "" + "</td>";
             else
             res = res + "<td>" + actions[2] + "</td>";
