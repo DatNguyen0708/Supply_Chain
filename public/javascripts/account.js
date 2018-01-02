@@ -39,7 +39,7 @@
         <tr>
           <td>${i}</td>
           <td> <a href="/${data[i]}">${data[i]}</a></td>
-          <td><a href="/merge/${data[i]}/${executefrom}" class="btn btn-primary">Merge</a><a href="/addaction/${data[i]}" class="btn btn-info" style= "margin-left:5px;">Add Action</a><a href="/tranferOwner/${data[i]}" class="btn btn-danger" style= "margin-left:5px;">Tranfer Owner</a><a href="/setamount/${data[i]}" class="btn btn-success" id= "${i}" style= "margin-left:5px;">Set Amount</a></td>
+          <td><a href="/merge/${data[i]}/${executefrom}" class="btn btn-primary">Merge</a><a href="/addaction/${data[i]}/${executefrom}" class="btn btn-info" style= "margin-left:5px;">Add Action</a><a href="/tranferOwner/${data[i]}" class="btn btn-danger" style= "margin-left:5px;">Tranfer Owner</a><a href="/setamount/${data[i]}" class="btn btn-success" id= "${i}" style= "margin-left:5px;">Set Amount</a></td>
         </tr>
       `);
 

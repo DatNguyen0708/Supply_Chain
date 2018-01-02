@@ -4,62 +4,67 @@
   <!-- Page Content -->
   <input type="hidden" value="<%= add %>" id="add">
   <input type="hidden" value="<%= account %>" id="account">
-  <div class="container" style="margin-top: 50px;">
-    <h1>Merge Product</h1>
-    <p>Merge this product with....</p>
-
-
-
-    <div class="form-group row">
-      <label for="chooseproduct " class="col-2 col-form-label ">Choose Product</label>
-      <div class="col-10 ">
-
-        <select class="form-control " id="comboboxProduct" multiple></select>
-      </div>
+  <div class="container" style="margin-top: 100px;">
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8"> 
+        <h1  style="color: red;" align="center">Merge Product</h1>
+        <p  style="color: blue;" align="center">Merge this product with....</p>
+        <div class="box-body padding-large">
+          <div class="form-group row">
+            <label for="chooseproduct " class="col-md-3 col-xs-12 text-left">Choose Product</label>
+            <div class="col-10 ">
+              <select class="col-md-9 col-xs-12 form-control" id="comboboxProduct" multiple></select>
+            </div>
+          </div>
+        </div>
+        <div class="box-body padding-large">
+          <div class="form-group row">
+            <label for="newproduct" class="col-md-3 col-xs-12 text-left">New Product</label>
+            <input type="text" name="newproduct" class="col-md-9 col-xs-12 form-control" id="newproduct" placeholder="New Product...">
+          </div>
+        </div>
+        <div class="box-body padding-large">
+          <div class="form-group row">
+              <label for="ratio" class="col-md-3 col-xs-12 text-left">Ratio To Product</label>
+              <input type="text" name="ratio" class="col-md-9 col-xs-12 form-control" id="ratio" placeholder="Ratio to product">
+          </div>
+        </div>
+        <div class="box-body padding-large">
+          <div class="form-group row">
+            <label for="amount" class="col-md-3 col-xs-12 text-left">New Product Amount</label>
+            <input type="number" name="amount" class="col-md-9 col-xs-12 form-control" id="amount" placeholder="New product amount">
+          </div>
+        </div>
+        <div class="box-body padding-large">
+          <div class="form-group row">
+            <label for="unit" class="col-md-3 col-xs-12 text-left">New Product Unit</label>
+            <input type="text" name="unit" class="col-md-9 col-xs-12 form-control" id="unit" placeholder="New product unit">
+          </div>
+        </div>
+        <div class="box-body padding-large">
+          <div class="form-group row">
+            <label for="executefrom" class="col-md-3 col-xs-12 text-left">Execute From</label>
+            <input type="text" name="executefrom" class="col-md-9 col-xs-12 form-control" id="x" value="<%= account %>" disabled>
+          </div>
+        </div>
+        <div class="box-body padding-large">
+          <div class="form-group row">
+            <label for="password" class="col-md-3 col-xs-12 text-left">Password</label>
+            <input type="password" name="password" class="col-md-9 col-xs-12 form-control" id="password" placeholder="Password">
+          </div>
+        </div>
+        <div class="box-body padding-large">
+          <div class="form-group row">
+            <label class="col-md-5 col-xs-12 text-left"></label>
+            <button type="submit " class="col-md-2 col-xs-12 btn btn-primary " onclick="submit();">Submit</button>
+            <label class="col-md-5 col-xs-12 text-left"></label>
+          </div>
+        </div>
+      <div class="col-md-2"></div>
     </div>
-    <div class="form-group row">
-      <label for="newproduct" class="col-2 col-form-label">New Product</label>
-      <div class="col-10">
-        <input type="text" name="newproduct" class="form-control" id="newproduct" placeholder="New Product...">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="ratio" class="col-2 col-form-label">Ratio To Product</label>
-      <div class="col-10">
-        <input type="text" name="ratio" class="form-control" id="ratio" placeholder="Ratio to product">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="amount" class="col-2 col-form-label">New Product Amount</label>
-      <div class="col-10">
-        <input type="number" name="amount" class="form-control" id="amount" placeholder="New product amount">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="unit" class="col-2 col-form-label">New Product Unit</label>
-      <div class="col-10">
-        <input type="text" name="unit" class="form-control" id="unit" placeholder="New product unit">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="executefrom " class="col-2 col-form-label ">Execute From</label>
-      <div class="col-10 ">
-        <input type="text" name="executefrom" class="form-control" id="executefrom" value="<%= account %>" disabled>
-      </div>
-    </div>
-    <div class="form-group row" style="margin-bottom: 20px">
-      <label for="password" class="col-2 col-form-label">Password</label>
-      <div class="col-10">
-        <input type="password" name="password" class="form-control" id="password" placeholder="Password">
-      </div>
-    </div>
-    <div class="form-group row" align="center" style="margin-left : 40% !important">
-      <button type="submit " class="btn btn-primary " onclick="submit();">Submit</button>
-    </div>
-
   </div>
-  <!-- /.container -->
-  
+  </div>
 
   <!-- Footer -->
   <% include footer%>
