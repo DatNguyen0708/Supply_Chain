@@ -8,7 +8,7 @@ getContractAddress = function(callback) {
 
         } else if (result == "1" || result == "2" || result == "'3") {
             if (result == "1") {
-                db_contract = '0x119bFDC4d42e1620c8Ba1bE13be938Bec0A244ba';
+                db_contract = '0xd4713E2Dde2926F12A8bBd78201b2D416A352C11';
                 pro_contract = '';
             }
 
