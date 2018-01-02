@@ -8,7 +8,7 @@ getContractAddress = function(callback) {
 
         } else if (result == "1" || result == "2" || result == "'3") {
             if (result == "1") {
-                db_contract = '0x389b917f468F3Ef0fC272aD2327220A455C76ab1';
+                db_contract = '0xa84A86293f7dEaf28Bd45dd748564E0243f8E3b1';
                 pro_contract = '';
                 //error("AuctionHouse is not deployed to the main net yet, please try the test net");
             }
