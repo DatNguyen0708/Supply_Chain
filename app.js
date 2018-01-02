@@ -23,6 +23,9 @@ app.get("/index", function (req, res) {
 });
 
 
+app.get('/tranferOwnership/:add/:account', (req, res) => {
+    res.render('tranferOwnership', { add: req.params.add, account: req.params.account});
+});
 app.get("/accountInformation/:address", function (req, res) {
 	res.render("accountInformation", { address: req.params.address}) ;
 });
