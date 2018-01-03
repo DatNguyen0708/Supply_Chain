@@ -9,7 +9,7 @@ getContractAddress = function(callback) {
 
             //solo network
             if (result == "1") {
-                db_contract = '0xdc4a70BB008ac8ce6e9b9F7f0765007BDe71f755';            
+                db_contract = '0x4aDa0BDa00D738a79fFCDc8A6CF3Bf9fCFBddC48';            
             }
 
             //Testnet Setup Morden
@@ -19,7 +19,7 @@ getContractAddress = function(callback) {
 
             // TestNet Ropsten
             if (result == "3") {
-                db_contract = "0xdc4a70BB008ac8ce6e9b9F7f0765007BDe71f755";              
+                db_contract = "0x4aDa0BDa00D738a79fFCDc8A6CF3Bf9fCFBddC48";              
             }
         } 
 
