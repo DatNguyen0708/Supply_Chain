@@ -47,7 +47,7 @@ window.onload = function () {
 
             owners[n] = web3.eth.contract(abiProduct).at(data[n]).getOwner.call().toString();
 
-            name[n] = web3.toUtf8(web3.eth.contract(abiProduct).at(data[n]).name.call().toString());
+            name[n] = web3.toUtf8(web3.eth.contract(abiProduct).at(data[n]).name.call().toString()).toUpperCase();
 
             console.log(owners[n]);
 
@@ -55,66 +55,48 @@ window.onload = function () {
 
             if(web3.eth.contract(abiProduct).at(data[n]).getCountParent.call() == 0){
 
-                console.log("1 em nhe");
-
-            $("#wrapper").append(`
-
-            <div class="col-6 col-sm-4">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-header-red">
-                           <h1 class="card-heading">${name[n]}</h1>
-                        </div>
-
-                        <div class="card-body">
-                          <p class="card-p">
-                                Primary materials
-                            </p>
-                        </div>
-
-                        <nav class="nav-tabs">
-                            <ul class="nav nav-pills pull-left">
-                                <li class="card-action"><a href="accountInformation/${owners[n]}"><b>Owner:${owners[n]}</b></a></li>
-                                <li class="card-action"><a href="${data[n]}" class="w3-button w3-block w3-green">Detail</a></li>
-                            </ul>                           
-                        </nav>
-
-                         </div>
-                </div>
-            </div>           
-            `)
+                $("#wrapper").append(`
+                    <div class="col-md-4">   
+                            <div class="panel-group">
+                                <div class="panel panel-danger">
+                                  <div class="panel-heading" >${name[n]}</div>
+                                  <div class="panel-body test">
+                                        <b style="color: #FF3333;">Owner : </b><a href="accountInformation/${owners[n]}">${owners[n]}</a>
+                                        <nav class="nav-tabs" style="margin-top:5px;">
+                                            <ul class="nav nav-pills pull-left">
+                                                <a href="${data[n]}" class="w3-button w3-block w3-green" style="align:center;">Detail</a>  
+                                            </ul>                           
+                                        </nav>
+                                  </div>
+                              </div>
+                          </div>                   
+                    </div>   
+                `)   
             }
 
             else {
             
-            $("#wrapper").append(`
+                $("#wrapper").append(`
+                    <div class="col-md-4">   
+                            <div class="panel-group">
+                                <div class="panel panel-success">
+                                  <div class="panel-heading" >${name[n]}</div>
+                                  <div class="panel-body test">
+                                        <b style="color: green;">Owner : </b><a href="accountInformation/${owners[n]}">${owners[n]}</a>
+                                        <nav class="nav-tabs" style="margin-top:5px;">
+                                            <ul class="nav nav-pills pull-left">
+                                                <a href="${data[n]}" class="w3-button w3-block w3-green" style="align:center;">Detail</a>  
+                                            </ul>                           
+                                        </nav>
+                                  </div>
+                              </div>
+                          </div>                   
+                    </div>   
+                `)   
+            }
 
-            <div class="col-6 col-sm-4">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-header-blue">
-                           <h1 class="card-heading">${name[n]}</h1>
-                        </div>
-
-                        <div class="card-body">
-                          <p class="card-p">
-                                Secondary materials
-                            </p>
-                        </div>
-
-                        <nav class="nav-tabs">
-                            <ul class="nav nav-pills pull-left">
-                                <li class="card-action"><a href="accountInformation/${owners[n]}"><b>Owner:${owners[n]}</b></a></li>
-                                <li class="card-action"><a href="${data[n]}" class="w3-button w3-block w3-green">Detail</a></li>
-                            </ul>                           
-                        </nav>
-
-                         </div>
-                </div>
-            </div>           
-            `)
         }
-
+    });
 }
 
 
@@ -167,8 +149,6 @@ window.onload = function () {
 
         //  auctionSection.innerHTML = res;
         //  paganiation1.innerHTML = ress;
-    });
-}
 
 
 

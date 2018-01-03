@@ -24,7 +24,7 @@ contract Database {
        products.push(productAddress);
   }
 
-  function createProduct(bytes32 _name, address[] _parentProducts, bytes32 _unit, uint _amount, uint _ratio, address _handler) returns(address) {
+  function createProduct(string _name, address[] _parentProducts, string _unit, uint _amount, uint _ratio, address _handler) returns(address) {
 
         return new Product(_name, _parentProducts, _unit, _amount, _ratio, _handler, this);
 
@@ -98,9 +98,9 @@ contract Product {
     bool public isConsumed;
 
     // ten sp
-    bytes32 public name;
+    string public name;
 
-    bytes32 public unit;
+    string public unit;
 
     uint public amount;
 
@@ -109,14 +109,13 @@ contract Product {
     // mang cac hanh dong duoc thuc hien tren sp do
     Action[] public actions;
 
-    function Product(bytes32 _name, address[] _parentProducts, bytes32 _unit, uint _amount, uint _ratio, address handler, address _DATABASE_CONTRACT) {
+    function Product(string _name, address[] _parentProducts, string _unit, uint _amount, uint _ratio, address handler, address _DATABASE_CONTRACT) {
 
         name = _name;
         isConsumed = false;
         parentProducts = _parentProducts;
         unit =_unit;
         amount= _amount;
-        //ratio=_ratio;
 
         owner = handler;
 
@@ -142,44 +141,33 @@ contract Product {
     }
 
 
-    function addAction(bytes32[] newProductsNames, bytes32[] units, uint[] amounts, uint[] ratios) notConsumed onlyOwner{
-        if (newProductsNames.length != units.length || newProductsNames.length != amounts.length  || newProductsNames.length != ratios.length)
-        revert();   
+    function derive(string newProductsName, string unitChild, uint amountChild, uint ratioToChild) notConsumed onlyOwner{ 
 
-        uint totalSpend = 0;
-
-        for (uint i = 0; i < amounts.length; i++) {     
-          totalSpend+= amounts[i] * ratios[i];                
-        }
+        uint totalSpend = amountChild * ratioToChild;
 
         if (amount < totalSpend){
           revert();
         }
 
-        if (amount > totalSpend){
-          isConsumed=false;
-        }
-
-        else {
+        if (amount == totalSpend){
           isConsumed=true;
         }
+
         this.setAmount(this.getAmount() - totalSpend);
 
         Action memory action;
-        action.description = "Add Product"; 
+        action.description = "Derived"; 
         action.timestamp = now;
 
         actions.push(action);
 
         Database database = Database(DATABASE_CONTRACT);
 
-        for (uint j = 0; j < newProductsNames.length; j++) {  
-
-          address[] memory parentProduct = new address[](1);
-          parentProduct[0] = this;
-          address newProduct1 = database.createProduct(newProductsNames[j], parentProduct, units[j], amounts[j],ratios[j], owner ); 
-          childProducts.push(newProduct1);
-        }
+        address[] memory parentProduct = new address[](1);
+        parentProduct[0] = this;
+        address newProduct1 = database.createProduct(newProductsName, parentProduct, unitChild, amountChild, ratioToChild, owner ); 
+        childProducts.push(newProduct1);
+        
     }
 
 
@@ -279,7 +267,7 @@ contract Product {
         isConsumed= false;
     }
 
-    function merge( address[] otherProducts, bytes32 newProductName,uint[] ratioToProduct,uint newProductAmount, bytes32 newProductUnit) notConsumed  {
+    function merge( address[] otherProducts, string newProductName,uint[] ratioToProduct,uint newProductAmount, string newProductUnit) notConsumed  {
 
         if ((otherProducts.length +1) != ratioToProduct.length )
            revert();
@@ -326,11 +314,11 @@ contract Product {
 
 }
 
-//db  0xDD6839c40C574202f34EDa4E1EA016f1160B9407
-//ac2 0x9f896831ee743bA15d3240e9390355822dAA7962
-//ac3 0x31a310e3347776b8b28878bfd682bEDf2b5342Cc
-//ac4 0xA15E2f2B777D5E63b9Ea2FD9B90EC90cA4E9204C
-//ac5 0x14f1Cc12c366e32d08b40B01FC887982747543B9
+//db  0xdc4a70BB008ac8ce6e9b9F7f0765007BDe71f755
+//ac2 0x70E93F08b2418636008C1aC7014fd69dC24b6701
+//ac3 0x40B7472785be6BbbB8433576ce8F47a4762a7867
+//ac4 
+//ac5 
 
 //pd1_ac3       0xa2d4540CFA30aC0a2a7Ff1f6ba978e851B1d1cAb    8800
 //pd2_ac3       0x66FCe348E7742910135B536f5E0aa92289A1A2fb     200 -30    
