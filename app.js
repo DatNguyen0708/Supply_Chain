@@ -22,7 +22,6 @@ app.get("/index", function (req, res) {
 	res.render("index") ;
 });
 
-
 app.get('/tranferOwnership/:add/:account', (req, res) => {
     res.render('tranferOwnership', { add: req.params.add, account: req.params.account});
 });
@@ -47,3 +46,6 @@ app.get('/:address', (req, res) => {
 	res.render('product', { address: req.params.address});
 	});
 
+app.get("/createproduct", function (req, res) {
+	res.render("createproduct");
+});

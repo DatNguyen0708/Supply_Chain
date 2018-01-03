@@ -1,4 +1,3 @@
-
 window.onload = function() {
   getContractAddress(function(db_contract, error) {
     if (error != null) {

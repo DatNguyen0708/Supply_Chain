@@ -1,4 +1,4 @@
-    window.onload = function () {
+ window.onload = function () {
         var account = document.getElementById('account').value;
         console.log(account);
         var product = document.getElementById('add').value;

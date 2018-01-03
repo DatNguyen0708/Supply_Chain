@@ -12,6 +12,8 @@ window.onload = function () {
 
         console.log(web3.eth.contract(abiDatabase).at(db_contract).getCountProduct.call().toNumber());
 
+        //console.log(web3.eth.contract(abiProduct).at("0x08e2176A37228460783a15fB5f2f6BBd5EbaAfEf").getCountChild.call().toNumber());
+
         web3.eth.getAccounts(function (err, accs) {
             if (err != null) {
                 alert("There was an error fetching your accounts.");
@@ -43,28 +45,29 @@ function showDetail(){
 
     var amountProduct = document.getElementById("amountProduct");
 
-    var isConsumed = document.getElementById("isConsumed");
+    var ratioProduct = document.getElementById("ratioProduct");
 
     addressProduct.innerHTML = productId;
 
     console.log(productId);
 
 
-    nameProduct.innerHTML = web3.toUtf8(productContract.at(productId).name.call().toString());
+    nameProduct.innerHTML = web3.hexToUtf8(productContract.at(productId).name.call().toString());
 
     ownerProduct.innerHTML = productContract.at(productId).getOwner.call().toString();
 
-    unitProduct.innerHTML = web3.toUtf8(productContract.at(productId).unit.call().toString());
-    console.log(web3.toUtf8(productContract.at(productId).unit.call().toString()));
+    unitProduct.innerHTML = web3.hexToUtf8(productContract.at(productId).unit.call().toString());
 
     amountProduct.innerHTML = productContract.at(productId).getAmount.call().toString();
-    console.log(productContract.at(productId).getAmount.call().toString());
 
-     var checkboxConsumed = productContract.at(productId).isConsumed.call().toString();
-     console.log(checkboxConsumed);
+    var checkboxConsumed = productContract.at(productId).isConsumed.call().toString();
+    console.log(checkboxConsumed);
 
-     if(checkboxConsumed=="true") {$("#isConsumed").prop("checked", true);}
-     else {$("#isConsumed").prop("checked", false);}
+    if(checkboxConsumed=="true") {$("#isConsumed").prop("checked", true);}
+    else {$("#isConsumed").prop("checked", false);}
+
+    //ratioProduct.innerHTML = productContract.at(productId).ratio.call().toString();
+
 
 }
 

@@ -58,23 +58,27 @@ window.onload = function () {
                 console.log("1 em nhe");
 
             $("#wrapper").append(`
+
             <div class="col-6 col-sm-4">
                 <div class="card">
                     <div class="card-content">
                         <div class="card-header-red">
                            <h1 class="card-heading">${name[n]}</h1>
                         </div>
+
                         <div class="card-body">
                           <p class="card-p">
                                 Primary materials
                             </p>
                         </div>
+
                         <nav class="nav-tabs">
                             <ul class="nav nav-pills pull-left">
                                 <li class="card-action"><a href="accountInformation/${owners[n]}"><b>Owner:${owners[n]}</b></a></li>
                                 <li class="card-action"><a href="${data[n]}" class="w3-button w3-block w3-green">Detail</a></li>
                             </ul>                           
                         </nav>
+
                          </div>
                 </div>
             </div>           
@@ -84,23 +88,27 @@ window.onload = function () {
             else {
             
             $("#wrapper").append(`
+
             <div class="col-6 col-sm-4">
                 <div class="card">
                     <div class="card-content">
                         <div class="card-header-blue">
                            <h1 class="card-heading">${name[n]}</h1>
                         </div>
+
                         <div class="card-body">
                           <p class="card-p">
                                 Secondary materials
                             </p>
                         </div>
+
                         <nav class="nav-tabs">
                             <ul class="nav nav-pills pull-left">
                                 <li class="card-action"><a href="accountInformation/${owners[n]}"><b>Owner:${owners[n]}</b></a></li>
                                 <li class="card-action"><a href="${data[n]}" class="w3-button w3-block w3-green">Detail</a></li>
                             </ul>                           
                         </nav>
+
                          </div>
                 </div>
             </div>           
@@ -161,5 +169,11 @@ window.onload = function () {
         //  paganiation1.innerHTML = ress;
     });
 }
+
+
+
+
+
+
 
 

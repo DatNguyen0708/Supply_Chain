@@ -63,8 +63,6 @@ contract Product {
     
       // dau thoi gian va numberblock khi action thuc hien xong
       uint timestamp;
-
-      uint ratio;
     }
 
     // product da duoc su dung xong hay chua
@@ -104,7 +102,7 @@ contract Product {
 
     uint public amount;
 
-    
+    uint public ratio;
 
     // mang cac hanh dong duoc thuc hien tren sp do
     Action[] public actions;
@@ -116,7 +114,7 @@ contract Product {
         parentProducts = _parentProducts;
         unit =_unit;
         amount= _amount;
-        //ratio=_ratio;
+        ratio=_ratio;
 
         owner = handler;
 
@@ -125,7 +123,6 @@ contract Product {
         Action memory creation;
         creation.description = "Product creation";
         creation.timestamp = now;
-        creation.ratio = _ratio;
 
         actions.push(creation);
 
@@ -183,12 +180,11 @@ contract Product {
     }
 
 
-    function getAction(uint idx) constant returns (string, uint, uint) {
+    function getAction(uint idx) constant returns (string, uint) {
         Action storage a = actions[idx];
 
         return (a.description,
-                a.timestamp,
-                a.ratio
+                a.timestamp
                 );
     }
 
@@ -207,8 +203,6 @@ contract Product {
           this.setConsumed(true);
         }
 
-
-
         address[] memory parentProduct1 = new address[](1);
         parentProduct1[0] = this;
 
@@ -216,7 +210,7 @@ contract Product {
 
         Database database = Database(DATABASE_CONTRACT);
 
-        address newProduct2 = database.createProduct( name, parentProduct1, unit, _amount, 0, _newOwner );  
+        address newProduct2 = database.createProduct( name, parentProduct1, unit, _amount, ratio, _newOwner );  
 
         childProducts.push(newProduct2);
 
@@ -302,41 +296,40 @@ contract Product {
 
         Database database = Database(DATABASE_CONTRACT);
 
-        address newProduct = database.createProduct(newProductName, parentProduct1, newProductUnit, newProductAmount, 0, owner);
+        address newProduct = database.createProduct(newProductName, parentProduct1, newProductUnit, newProductAmount, ratio, owner);
 
         for (uint k = 0; k < parentProduct1.length; k++){
           Product pro2 = Product(parentProduct1[k]);
           pro2.setAmount(pro2.getAmount() - (newProductAmount * ratioToProduct[k])) ; 
-          pro2.collaborateInMerge(newProduct,ratioToProduct[k]);
+          pro2.collaborateInMerge(newProduct);
           if (pro2.getAmount() == 0) pro2.setConsumed(true);  
           else pro2.setConsumed(false);
         }   
     }
 
-    function collaborateInMerge(address newProductAddress, uint ratioToProduct) notConsumed {
+    function collaborateInMerge(address newProductAddress) notConsumed {
         childProducts.push(newProductAddress);
 
         Action memory action;
         action.description = "Collaborate in merge";
         action.timestamp = now;
-        action.ratio = ratioToProduct;
 
         actions.push(action);
     }
 
 }
 
-//db  0xa84A86293f7dEaf28Bd45dd748564E0243f8E3b1
-//ac2 0x824DDd2486220F60453E37D77582841525b5829c
-//ac3 0x4ADcf02fB21e78A3C953c6cD2c0007A27B4E92C5
-//ac4 0x0358F92c897cf89A02db2883E43a820b3D971960
-//ac5 0x0229dbD18C62Ad43709da7800cAfD1FBEDD0cbC2
+//db  0x1eEB6e15504b9a0Cf2F31db53271d153D6F3d556
+//ac2 0x8b1fb2f184AC158b024571990FFFc5BE46534760
+//ac3 0x0C22B6B92fD7AD1e88Ad112Fd4643aaA658e7b09
+//ac4 
+//ac5 
 
-//pd1_ac3       0xa2d4540CFA30aC0a2a7Ff1f6ba978e851B1d1cAb    8800
-//pd2_ac3       0x66FCe348E7742910135B536f5E0aa92289A1A2fb     200 -30    
-//pd3_ac3       0x06178f2A79a2090377318948cc2176831E3258A9     200 -10
-//pd4_ac3       0x84c9B3484Cd7c004AEA15065619B1796Fe9720AF     300
-//pd5_ac3       0x57fcBdf932b703f824a688BF3fFc44C1310E3227     0 
+//pd1_ac3       0x807231A20E4912160E6a1769EB80375a8EE904Cb    8800
+//pd2_ac4       0xa20eDb925ED23009eFF6198Ff27D643c15FDEC4A    200 -30    
+//pd3_ac4       0x9019A8dFbee3C40dBAfa424eb7d1Cda09d143805    200 -10
+//pd4_ac5       0x1Ac3eB01B9868111B2Db92c1b10CaF72B6b379e3    300
+//pd5_ac3       0x6F053d69Eb54241B6F331397e2D152835fCaC615    0 
 //pd6_ac3       0x94eEf8996867a7e9cefa153A2b3762A0F63E9e0a    200
 //pd7_ac4       0x1d73b14d761BB04ee61ebb8741d082cD245f378F    100 -20
 //pd8_ac4_child   0x419C8D1CA8Dc2bc4f44eAf968507944B121897A6    10
