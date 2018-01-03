@@ -1,78 +1,76 @@
 <% include header%>
-    <script src="javascripts/ProductDetail.js"></script>
-    
+<script src="/javascripts/ProductDetail.js"></script>
 
-    <div class="panel panel-info" id="infoPanel" style="margin: 5%">
-        <div class="panel-heading">
-            <h3 class="panel-title">Chung ta se lam gi ?</h3>
-        </div>
-        <div class="panel-body" id="infoPanelText">
-            <div id="bidder"></div>
-
-        </div>
+<div class="panel panel-info" id="infoPanel" style="margin-top: 52px">
+    <div class="panel-heading">
+        <h3 class="panel-title">Chung ta se lam gi ?</h3>
     </div>
+    <div class="panel-body" id="infoPanelText">
+        <div id="bidder"></div>
+
+    </div>
+</div>
 
 
-    <input type="hidden" value="<%= address %>" id="address">
-      
-    <div class="container" role="main">
-        <div class="row">
-            <div class="col-md-4">
-                <center>
-                    <h2 style="color: red;">List parent of this product</h2>
-                </center>
-                <div id="tableParent" style="margin-left:0%; margin-right:0%;"></div>
-            </div>
+<input type="hidden" value="<%= address %>" id="address">
+
+<div class="container" role="main">
+    <div class="row">
+        <div class="col-md-4">
+            <center>
+                <h2 style="color: red;">List parent of this product</h2>
+            </center>
+            <div id="tableParent" style="margin-left:0%; margin-right:0%;"></div>
+        </div>
 
 
 
-            <div class="col-md-4">
-                <h3 style="color:blueviolet" align="center"> PRODUCT </h3>
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Product Information</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="box-body padding-large">
-                            <div class="form-group row">
-                                <label class="col-md-2 col-xs-12 text-left" for="addressProductTitle">Address*:</label>
-                                <label class="col-md-2 col-xs-12 text-left" id="addressProduct" style="color:brown;" ></label>
+        <div class="col-md-4">
+            <center>
+                <h2 style="color: #0026ff"><label id="nameProduct"></label></h2>
+            </center>            
+                <div class="panel-group">
+                    <div class="panel panel-success">
+                      <div class="panel-heading" >Information</div>
+                      <div class="panel-body test">
+                         <div class="box-body padding-large">
+                                <div class="form-group row">
+                                    <label for="addressProductTitle">Address*:</label>
+                                    <label id="addressProduct" style="color:brown;" ></label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="box-body padding-large">
-                            <div class="form-group row">
-                                <label class="col-md-2 col-xs-12 text-left" for="nameProductTitle">Name*:</label>
-                                <label class="col-md-2 col-xs-12 text-left" id="nameProduct" style="color:brown;"></label>
+                            <div class="box-body padding-large">
+                                <div class="form-group row">
+                                    <label for="ownerProductTitle">Owner*:</label>
+                                    <label id="ownerProduct" style="color:brown;"></label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="box-body padding-large">
-                            <div class="form-group row">
-                                <label class="col-md-2 col-xs-2 text-left" for="ownerProductTitle">Owner*:</label>
-                                <label class="col-md-2 col-xs-6 text-left" id="ownerProduct" style="color:brown;"></label>
+                            <div class="box-body padding-large">
+                                <div class="form-group row">
+                                    <label for="unitProductTitle">Unit*:</label>
+                                    <label id="unitProduct" style="color:brown;"></label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="box-body padding-large">
-                            <div class="form-group row">
-                                <label class="col-md-2 col-xs-12 text-left" for="unitProductTitle">Unit*:</label>
-                                <label class="col-md-2 col-xs-12 text-left" id="unitProduct" style="color:brown;"></label>
+                            <div class="box-body padding-large">
+                                <div class="form-group row">
+                                    <label for="amountProductTitle">Amount*:</label>
+                                    <label id="amountProduct" style="color:brown;"></label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="box-body padding-large">
-                            <div class="form-group row">
-                                <label class="col-md-2 col-xs-12 text-left" for="amountProductTitle">Amount*:</label>
-                                <label class="col-md-2 col-xs-12 text-left" id="amountProduct" style="color:brown;"></label>
-                            </div>
-                        </div>
-                        <div class="box-body padding-large">
-                            <div class="form-group row">
-                                <label class="col-md-2 col-xs-12 text-left" for="isConsumed">IsConsumed*:</label>
-                                <input class="col-md-2 col-xs-12 text-left" type="checkbox"  disabled id="isConsumed">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            <div class="box-body padding-large">
+                                <div class="form-group row">
+                                    <label for="isConsumed">IsConsumed*:</label>
+                                    <input type="checkbox"  disabled id="isConsumed">
+                                </div>
+                            </div> 
+                      </div>
+                  </div>
+              </div>
 
+                            
+        </div>
+                  
+           
 
 
 

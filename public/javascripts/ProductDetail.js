@@ -51,8 +51,9 @@ function showDetail(){
 
     console.log(productId);
 
+    //nameProduct = nameProduct.toUpperCase();
 
-    nameProduct.innerHTML = web3.hexToUtf8(productContract.at(productId).name.call().toString());
+    nameProduct.innerHTML = web3.hexToUtf8(productContract.at(productId).name.call().toString()).toUpperCase();
 
     ownerProduct.innerHTML = productContract.at(productId).getOwner.call().toString();
 
