@@ -24,7 +24,7 @@ contract Database {
        products.push(productAddress);
   }
 
-  function createProduct(string _name, address[] _parentProducts, string _unit, uint _amount, uint _ratio, address _handler) returns(address) {
+  function createProduct(bytes32 _name, address[] _parentProducts, bytes32 _unit, uint _amount, uint _ratio, address _handler) returns(address) {
 
         return new Product(_name, _parentProducts, _unit, _amount, _ratio, _handler, this);
 
@@ -43,7 +43,7 @@ contract Database {
         return productOfOwner[_handler].length;
   }
 
-    function getProductOfOwnerByAddress(address _handler, uint idx) constant returns (address) {
+  function getProductOfOwnerByAddress(address _handler, uint idx) constant returns (address) {
         return productOfOwner[_handler][idx];
   }
 
@@ -98,25 +98,27 @@ contract Product {
     bool public isConsumed;
 
     // ten sp
-    string public name;
+    bytes32 public name;
 
-    string public unit;
+    bytes32 public unit;
 
     uint public amount;
-
-    
 
     // mang cac hanh dong duoc thuc hien tren sp do
     Action[] public actions;
 
-    function Product(string _name, address[] _parentProducts, string _unit, uint _amount, uint _ratio, address handler, address _DATABASE_CONTRACT) {
+    function Product(bytes32 _name, address[] _parentProducts, bytes32 _unit, uint _amount, uint _ratio, address handler, address _DATABASE_CONTRACT) {
 
         name = _name;
-        isConsumed = false;
         parentProducts = _parentProducts;
         unit =_unit;
         amount= _amount;
-
+        if (amount==0){
+          revert();
+        }
+        
+        isConsumed = false;
+        
         owner = handler;
 
         DATABASE_CONTRACT = _DATABASE_CONTRACT;
@@ -141,7 +143,7 @@ contract Product {
     }
 
 
-    function derive(string newProductsName, string unitChild, uint amountChild, uint ratioToChild) notConsumed onlyOwner{ 
+    function derive(bytes32 newProductsName, bytes32 unitChild, uint amountChild, uint ratioToChild) notConsumed onlyOwner{ 
 
         uint totalSpend = amountChild * ratioToChild;
 
@@ -192,6 +194,7 @@ contract Product {
         }
 
         if(amount == _amount) {
+
           this.setConsumed(true);
         }
 
@@ -267,7 +270,7 @@ contract Product {
         isConsumed= false;
     }
 
-    function merge( address[] otherProducts, string newProductName,uint[] ratioToProduct,uint newProductAmount, string newProductUnit) notConsumed  {
+    function merge( address[] otherProducts, bytes32 newProductName,uint[] ratioToProduct,uint newProductAmount, bytes32 newProductUnit) notConsumed  {
 
         if ((otherProducts.length +1) != ratioToProduct.length )
            revert();

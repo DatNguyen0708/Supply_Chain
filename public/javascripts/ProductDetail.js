@@ -53,11 +53,11 @@ function showDetail(){
 
     //nameProduct = nameProduct.toUpperCase();
 
-    nameProduct.innerHTML = web3.hexToUtf8(productContract.at(productId).name.call().toString()).toUpperCase();
+    nameProduct.innerHTML = web3.toUtf8(productContract.at(productId).name.call().toString()).toUpperCase();
 
     ownerProduct.innerHTML = productContract.at(productId).getOwner.call().toString();
 
-    unitProduct.innerHTML = web3.hexToUtf8(productContract.at(productId).unit.call().toString());
+    unitProduct.innerHTML = web3.toUtf8(productContract.at(productId).unit.call().toString());
 
     amountProduct.innerHTML = productContract.at(productId).getAmount.call().toString();
 

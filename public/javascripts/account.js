@@ -71,7 +71,7 @@ function view() {
     res = res + "<tr>";
     res = res + "<td>" + i + "</td>";
     res = res + "<td><a href='/" + data[j] + "'>" + data[j] + "</a></td>";
-    res = res + "<td><a href='/merge/" + data[j] + "/"+executefrom + "' class='btn btn-primary'>Merge</a><a href='/addaction/" + data[j] + "/"+executefrom+ "' class='btn btn-info' style= 'margin-left:5px;'>Add Action</a><a href='/tranferOwnership/" + data[i] + "/"+executefrom+ "' class='btn btn-danger' style= 'margin-left:5px;'>Tranfer Owner</a><a href='/setnewamount/" + data[i] + "/" +executefrom+ "' class='btn btn-success' id= '" + j + "' style= 'margin-left:5px;'>Set Amount</a></td>";
+    res = res + "<td><a href='/merge/" + data[j] + "/"+executefrom + "' class='btn btn-primary' id = 'merge"+i+"'>Merge</a><a href='/addaction/" + data[j] + "/"+executefrom+ "' class='btn btn-info' style= 'margin-left:5px;' id = 'addaction"+i+"'>Add Action</a><a href='/tranferOwnership/" + data[i] + "/"+executefrom+ "' class='btn btn-danger' style= 'margin-left:5px;' id = 'ownership"+i+"'>Tranfer Owner</a><a href='/setnewamount/" + data[i] + "/" +executefrom+ "' class='btn btn-success' id= '" + j + "' style= 'margin-left:5px;' >Set Amount</a></td>";
 
 
     res = res + "</tr>";
@@ -91,6 +91,13 @@ function view() {
 
 
   for (var j = 0; j < data.length; j++) {
+    var i=j+1;
+    if(web3.eth.contract(abiProduct).at(data[j]).getAmount.call().toNumber() == 0){
+      console.log("hjhj em o day ne anh"+j);
+      $('#merge' + i).hide();
+      $("#addaction"+i).hide();
+      $("#ownership"+i).hide();
+    }
     if (web3.eth.contract(abiProduct).at(data[j]).getCountParent.call().toNumber() != 0) {
       $('#' + j).hide();
     }

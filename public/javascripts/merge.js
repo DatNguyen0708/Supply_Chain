@@ -24,8 +24,6 @@ window.onload = function() {
       if (web3.eth.contract(abiProduct).at(s.toString()).getAmount.call().toNumber() > 0) {
         data.push(s);
       }
-
-
     }
 
     for (n = 0; n < data.length; n++) {
