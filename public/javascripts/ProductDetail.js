@@ -67,6 +67,9 @@ function showDetail(){
     if(checkboxConsumed=="true") {$("#isConsumed").prop("checked", true);}
     else {$("#isConsumed").prop("checked", false);}
 
+    
+
+
     //ratioProduct.innerHTML = productContract.at(productId).ratio.call().toString();
 
 
@@ -137,8 +140,8 @@ function waitAndRefreshAction(actionCount){
             res = res + "<td>" + actionId[3] + "</td>";
             res = res + "<td>" + actionId[0] + "</td>";
             res = res + "<td>" + convertTimestamp(actionId[1]) + "</td>";
-            if(actionId[2]==0) res = res + "<td>" + "" + "</td>";
-            else
+           // if(actionId[2]==0) res = res + "<td>" + "" + "</td>";
+            //else
             res = res + "<td>" + actionId[2] + "</td>";
             res = res + "</tr>";
         }
@@ -183,7 +186,7 @@ function showParentAndChild() {
         getChildById(i, productId);
     }
 
-    waitAndRefreshParent(countParent);
+    waitAndRefreshParent(countParent, productId);
 
     waitAndRefreshChild(countChild);
  
@@ -215,14 +218,32 @@ function getChildById(childId, productId){
     console.log(childs);
 }
 
-function waitAndRefreshParent(countParent) {
+function waitAndRefreshParent(countParent, productId) {
 
     console.log(parents);
+
+    var arrayRatioPro = [];
+
+    var countRatioPro = productContract.at(productId).getCountRatioPro.call().toNumber();
+
+    for (var i = 0; i < countRatioPro; i++) {
+
+        var ratioProByIdx = productContract.at(productId).getRatioProByIdx.call(i);
+
+        arrayRatioPro.push(ratioProByIdx);
+
+        console.log(ratioProByIdx);
+    }
+
+    console.log(arrayRatioPro);
+
+
+
 
     var res = "";
 
         var auc = [];
-            auc[0] = ["STT", "Address"];
+            auc[0] = ["STT", "Address","Ratio"];
 
         res = "<table border=1 id=\"listParent\" class=\"table table-striped table-bordered responstable\" cellspacing=\"0\" style=\"width: 100%;color: brown;\">";     
             res += "<thead>"
@@ -240,6 +261,7 @@ function waitAndRefreshParent(countParent) {
             res = res + "<tr>";
             res = res + "<td>" + parents[j*2] + "</td>";
             res = res + "<td><a href='/"+ parents[j*2+1] + "'>" + parents[j*2+1] + "</a></td>";
+            res = res + "<td>" + arrayRatioPro[j] + "</td>";
             res = res + "</tr>";
         }
 
@@ -266,10 +288,12 @@ function waitAndRefreshChild(countChild) {
 
     console.log(childs);
 
+    console.log(countChild);
+
     var res = "";
 
         var auc = [];
-            auc[0] = ["STT", "Address", "CreateAt", "Ratio"];
+            auc[0] = ["STT", "Address", "CreateAt"];
 
         res = "<table border=1 id=\"listChild\" class=\"table table-striped table-bordered responstable\" cellspacing=\"0\" style=\"width: 100%;color: brown;\">";     
             res += "<thead>"
@@ -285,6 +309,8 @@ function waitAndRefreshChild(countChild) {
 
             var auc = childs[j];
 
+            console.log(childs[j]);
+
             //show timestamp and ratio of each product when it have already create
             var actions = productContract.at(childs[j*2+1]).getAction.call(0);
             
@@ -294,9 +320,9 @@ function waitAndRefreshChild(countChild) {
             res = res + "<td>" + childs[j*2] + "</td>";
             res = res + "<td><a href='/"+ childs[j*2+1] + "'>" + childs[j*2+1] + "</a></td>";
             res = res + "<td>" + convertTimestamp(actions[1]) + "</td>";
-            if(actions[2] ==0) res = res + "<td>" + "" + "</td>";
-            else
-            res = res + "<td>" + actions[2] + "</td>";
+            //if(actions[2] ==0) res = res + "<td>" + "" + "</td>";
+            //else
+            //res = res + "<td>" + actions[2] + "</td>";
             res = res + "</tr>";
         }
 

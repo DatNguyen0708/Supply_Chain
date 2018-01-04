@@ -24,7 +24,7 @@ contract Database {
        products.push(productAddress);
   }
 
-  function createProduct(bytes32 _name, address[] _parentProducts, bytes32 _unit, uint _amount, uint _ratio, address _handler) returns(address) {
+  function createProduct(bytes32 _name, address[] _parentProducts, bytes32 _unit, uint _amount, uint[] _ratio, address _handler) returns(address) {
 
         return new Product(_name, _parentProducts, _unit, _amount, _ratio, _handler, this);
 
@@ -104,10 +104,12 @@ contract Product {
 
     uint public amount;
 
+    uint[] public ratioPro;
+
     // mang cac hanh dong duoc thuc hien tren sp do
     Action[] public actions;
 
-    function Product(bytes32 _name, address[] _parentProducts, bytes32 _unit, uint _amount, uint _ratio, address handler, address _DATABASE_CONTRACT) {
+    function Product(bytes32 _name, address[] _parentProducts, bytes32 _unit, uint _amount, uint[] _ratio, address handler, address _DATABASE_CONTRACT) {
 
         name = _name;
         parentProducts = _parentProducts;
@@ -126,7 +128,8 @@ contract Product {
         Action memory creation;
         creation.description = "Product creation";
         creation.timestamp = now;
-        creation.ratio = _ratio;
+
+        ratioPro = _ratio;
 
         actions.push(creation);
 
@@ -160,6 +163,7 @@ contract Product {
         Action memory action;
         action.description = "Derived"; 
         action.timestamp = now;
+        action.ratio = ratioToChild;
 
         actions.push(action);
 
@@ -167,7 +171,11 @@ contract Product {
 
         address[] memory parentProduct = new address[](1);
         parentProduct[0] = this;
-        address newProduct1 = database.createProduct(newProductsName, parentProduct, unitChild, amountChild, ratioToChild, owner ); 
+
+        uint[] memory ratio1 = new uint[](1);
+        ratio1[0] = ratioToChild;
+
+        address newProduct1 = database.createProduct(newProductsName, parentProduct, unitChild, amountChild, ratio1, owner ); 
         childProducts.push(newProduct1);
         
     }
@@ -199,15 +207,23 @@ contract Product {
         }
 
 
+        Action memory action;
+        action.description ="Tranfer to new Owner"; 
+        action.timestamp = now;
+        actions.push(action);
 
+    
         address[] memory parentProduct1 = new address[](1);
         parentProduct1[0] = this;
+
+        uint[] memory ratio1 = new uint[](1);
+        ratio1[0] = 0;
 
         this.setAmount(this.getAmount() - _amount);
 
         Database database = Database(DATABASE_CONTRACT);
 
-        address newProduct2 = database.createProduct( name, parentProduct1, unit, _amount, 0, _newOwner );  
+        address newProduct2 = database.createProduct( name, parentProduct1, unit, _amount, ratio1, _newOwner );  
 
         childProducts.push(newProduct2);
 
@@ -216,6 +232,14 @@ contract Product {
     // get owner
     function getOwner() constant returns (address){
         return owner;
+    }
+
+    function getCountRatioPro() constant returns (uint){
+        return ratioPro.length;
+    }
+
+    function getRatioProByIdx(uint idx) constant returns (uint){
+        return ratioPro[idx];
     }
 
     // dem so hanh dong cua product hien tai
@@ -291,9 +315,9 @@ contract Product {
           if (pro1.getAmount() < (newProductAmount * ratioToProduct[j1])) revert();     
         }
 
-        Database database = Database(DATABASE_CONTRACT);
+        //Database database = Database(DATABASE_CONTRACT);
 
-        address newProduct = database.createProduct(newProductName, parentProduct1, newProductUnit, newProductAmount, 0, owner);
+        address newProduct = Database(DATABASE_CONTRACT).createProduct(newProductName, parentProduct1, newProductUnit, newProductAmount, ratioToProduct, owner);
 
         for (uint k = 0; k < parentProduct1.length; k++){
           Product pro2 = Product(parentProduct1[k]);
@@ -317,9 +341,9 @@ contract Product {
 
 }
 
-//db  0xdc4a70BB008ac8ce6e9b9F7f0765007BDe71f755
-//ac2 0x70E93F08b2418636008C1aC7014fd69dC24b6701
-//ac3 0x40B7472785be6BbbB8433576ce8F47a4762a7867
+//db  0xE4643845d902Bfb52B8ae785b6a633B50676E64e
+//ac2 0x308fF6517725C12dDaD704fD7C5633a82e103a21
+//ac3 0xC50E11CE0f80B3F1B05a4b279f95e94a73BB0640
 //ac4 
 //ac5 
 

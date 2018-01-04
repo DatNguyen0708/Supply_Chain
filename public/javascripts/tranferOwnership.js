@@ -25,7 +25,13 @@
             alert("Amount not enough");
             return;
         }
-        web3.personal.unlockAccount(executefrom, password);
+
+        var checkPass = checkPassword(executefrom, password);
+
+        if(checkPass == false) {    alert("WRONG PASSWORD"); return; } 
+
+        //web3.personal.unlockAccount(executefrom, password);
+
         web3.eth.contract(abiProduct).at(product.toString()).transferOwnership.sendTransaction(to, amount, {
             from: executefrom,
             gas: "0x0" + (4000000).toString(16)

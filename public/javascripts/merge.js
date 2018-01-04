@@ -54,13 +54,17 @@ function submit() {
     for(i=0;i<ratio.length;i++){
 
       if(isNaN(ratio[i])){
-        alert("WRONG RATIO, IT IS NOT NUMBER ...............")
+        alert("WRONG RATIO, IT MUST BE NUMBER ...............")
         return;
 
       }
     }
   console.log(web3.eth.contract(abiProduct).at(addfirstproduct));
-  web3.personal.unlockAccount(executefrom, password);
+
+  var checkPass = checkPassword(executefrom, password);
+
+  if(checkPass == false) {  alert("WRONG PASSWORD"); return; } 
+
   web3.eth.contract(abiProduct).at(addfirstproduct).merge.sendTransaction(comboboxProduct, newproduct, ratio, amount, unit, {
     from: executefrom,
     gas: 4000000
