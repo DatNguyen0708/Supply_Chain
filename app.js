@@ -1,39 +1,60 @@
-let express =require('express');
-let app = express();
-//let Web3= require('./public/js/web3.min.js');
-let port = process.env.port || 3000;
+var express = require("express");
 
-app.set('view engine', 'ejs');
-app.set('views', './src/view');
+
+//let product = require('./product');
+
+var app = express();
+
+app.listen(3000);
+
+app.set("view engine", "ejs");
+
+app.set("views", "./views");
+
+app.get("/index", function (req, res) {
+
+	//console.log(test.name);
+
+	//var a = product.sayHello("hihi");
+
+	//let data = ['a', 'b', 'c'];
+	//res.render("index", { data : data , a : a } ) ;
+	res.render("index") ;
+});
+
+
 app.use(express.static(__dirname + '/public'));
 
 
+app.get("/createproduct", function (req, res) {
+	res.render("createproduct");
+});
 
-app. get('/', (req, res) => {
-	res.render('index');
+app.get('/tranferOwnership/:add/:account', (req, res) => {
+    res.render('tranferOwnership', { add: req.params.add, account: req.params.account});
 });
-app.get('/accounts', (req, res) => {
-    res.render('accounts');
+
+app.get("/accountInformation/:address", function (req, res) {
+	res.render("accountInformation", { address: req.params.address}) ;
 });
-app.get('/addproduct', (req, res) => {
-    res.render('addproduct');
-});
-app.get('/setnewamount/:add/:account', (req, res) => {
-    res.render('setnewamount', { add: req.params.add, account: req.params.account});
-});
-app.get('/ownership/:add/:account', (req, res) => {
-    res.render('ownership', { add: req.params.add, account: req.params.account});
-});
+
 app.get('/addaction/:add/:account', (req, res) => {
-    res.render('addaction', { add: req.params.add, account: req.params.account});
+    res.render('addAction', { add: req.params.add, account: req.params.account});
 });
+
+app.get('/setnewamount/:add/:account', (req, res) => {
+    res.render('setNewAmount', { add: req.params.add, account: req.params.account});
+});
+
+app.get("/accounts", function (req, res) {
+	res.render("accounts") ;
+});
+
 app.get('/merge/:add/:account', (req, res) => {
     res.render('merge', { add: req.params.add, account: req.params.account});
 });
-app.get('/:address', (req, res) => {
-  res.render('product', { address: req.params.address});
- });
 
-app.listen(port, () => {
-	console.log('Server is listening on port' + port);
-})
+app.get('/:address', (req, res) => {
+	res.render('product', { address: req.params.address});
+	});
+

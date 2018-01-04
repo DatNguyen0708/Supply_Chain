@@ -1,0 +1,60 @@
+
+ <% include header%>
+ <script src="/javascripts/createproduct.js"></script>
+
+
+
+ <div class="container" style="margin-top: 100px;">
+     <div class="row">
+       <div class="col-md-2"></div>
+       <div class="col-md-8"> 
+         <h1  style="color: red;" align="center">Create Product</h1>
+     
+         <br></br>
+         <div class="box-body padding-large">
+          <div class="form-group row">
+            <label for="nameofproduct" class="col-md-3 col-xs-12 text-left">Name of Product</label>
+            <input type="text" name="nameofproduct" class="col-md-9 col-xs-12 form-control" id="nameofproduct" placeholder="Name of Product...">
+          </div>
+        </div>
+        <div class="box-body padding-large">
+          <div class="form-group row">
+            <label for="unit" class="col-md-3 col-xs-12 text-left">Unit</label>
+            <input type="text" name="unit" class="col-md-9 col-xs-12 form-control" id="unit" placeholder="Unit...">
+          </div>
+        </div>
+        <div class="box-body padding-large">
+          <div class="form-group row">
+            <label for="amount" class="col-md-3 col-xs-12 text-left">Amount</label>
+            <input onkeyup="validateamount(this);" type="text" name="amount" class="col-md-9 col-xs-12 form-control" id="amount" placeholder="Amount..." required>
+          </div>
+        </div>
+        <div class="box-body padding-large">
+          <div class="form-group row">
+            <label for="executefrom" class="col-md-3 col-xs-12 text-left">Execute From</label>
+            <select class="col-md-9 col-xs-12 form-control" id="comboboxAccount"></select>
+          </div>
+        </div>	   
+         <div class="box-body padding-large">
+           <div class="form-group row">
+             <label for="password" class="col-md-3 col-xs-12 text-left">Password</label>
+             <input type="password" name="password" class="col-md-9 col-xs-12 form-control" id="password" placeholder="Password">
+           </div>
+         </div>
+
+           
+         <div class="box-body padding-large">
+           <div class="form-group row">
+             <label class="col-md-5 col-xs-12 text-left"></label>
+             <button type="submit " class="col-md-2 col-xs-12 btn btn-primary " id = "Button"onclick="submit();">Submit</button>
+             <label class="col-md-5 col-xs-12 text-left"></label>
+           </div>
+         </div>
+       <div class="col-md-2"></div>
+     </div>
+   </div>
+</div>
+
+
+
+<% include footer%>

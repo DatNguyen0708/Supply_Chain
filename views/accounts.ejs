@@ -1,0 +1,42 @@
+<!-- Navigation -->
+   <% include header%>
+ <script src="javascripts/account.js"></script>
+  <!-- Page Content -->
+  <br></br><br></br>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8"> 
+        <h2 style="" align="center"> ACCOUNT</h2>
+        <div class="box-body padding-large">
+          <div class="form-group row">
+            <label class="col-md-3 col-xs-12 text-left" for="executefrom">Execute from*:</label>
+            <select class="col-md-9 col-xs-12 form-control" id="comboboxAccount" style="width: 63%;"></select>
+          </div>
+        </div>
+        <div class="box-body padding-large">
+        <div class="form-group row"> 
+        <div class="col-md-4 col-xs-12 text-left"></div>
+        <button class="btn btn-success col-md-8 col-xs-12 text-left" type="submit" style="width: 30%;" onclick="view()">View</button>          
+      </div>
+      <div class="col-md-2"></div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+    <br></br>      
+    <div class="container">
+      <h2 style="" align="center">Product of Owner</h2>
+
+      <div id="tableAccounts" style="margin-left:0%; margin-right:0%;"></div>
+
+    </div>
+  </div>
+
+
+  <br></br>
+  <!-- Footer -->
+    <% include footer%>
