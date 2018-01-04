@@ -71,7 +71,7 @@ function view() {
     res = res + "<tr>";
     res = res + "<td>" + i + "</td>";
     res = res + "<td><a href='/" + data[j] + "'>" + data[j] + "</a></td>";
-    res = res + "<td><a href='/merge/" + data[j] + "/"+executefrom + "' class='btn btn-primary' id = 'merge"+i+"'>Merge</a><a href='/addaction/" + data[j] + "/"+executefrom+ "' class='btn btn-info' style= 'margin-left:5px;' id = 'addaction"+i+"'>Derive</a><a href='/tranferOwnership/" + data[i] + "/"+executefrom+ "' class='btn btn-danger' style= 'margin-left:5px;' id = 'ownership"+i+"'>Sell</a><a href='/setnewamount/" + data[i] + "/" +executefrom+ "' class='btn btn-success' id= '" + j + "' style= 'margin-left:5px;' >Set Amount</a></td>";
+    res = res + "<td><a href='/merge/" + data[j] + "/"+executefrom + "' class='btn btn-primary' id = 'merge"+i+"'>Merge</a><a href='/addaction/" + data[j] + "/"+executefrom+ "' class='btn btn-info' style= 'margin-left:5px;' id = 'addaction"+i+"'>Derive</a><a href='/tranferOwnership/" + data[j] + "/"+executefrom+ "' class='btn btn-danger' style= 'margin-left:5px;' id = 'ownership"+i+"'>Sell</a><a href='/setnewamount/" + data[j] + "/" +executefrom+ "' class='btn btn-success' id= '" + j + "' style= 'margin-left:5px;' >Set Amount</a></td>";
 
 
     res = res + "</tr>";

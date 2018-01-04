@@ -4,8 +4,6 @@ contract Database {
   // mang dia chi product ma database nay luu tru
   address[] public products;
 
-  
-
   // Constructor to create a Database 
   function Database() {}
 

@@ -4,10 +4,16 @@ contract Database {
   // mang dia chi product ma database nay luu tru
   address[] public products;
 
-  
+  // mang dia chi account dc quyen tao nguyen lieu tho
+  address[] public accountRaw;
+
+  //chu so huu contract (admin)
+  address public ownerDB;
 
   // Constructor to create a Database 
-  function Database() {}
+  function Database() {
+  		ownerDB= msg.sender;
+  }
 
   function() {
        // If anyone wants to send Ether to this contract, the transaction gets rejected
@@ -16,6 +22,18 @@ contract Database {
 
 
   mapping(address => address[]) public productOfOwner;
+
+  modifier onlyOwnerDB {
+      if (msg.sender != ownerDB)
+        revert();
+      _;
+    }
+
+  function AddlistAccountRaw(address _accountRaw) onlyOwnerDB {
+      accountRaw.push(_accountRaw);
+  }
+
+
 
   function AddlistProductOfOwner(address _handler, address _pro){
       productOfOwner[_handler].push(_pro);
