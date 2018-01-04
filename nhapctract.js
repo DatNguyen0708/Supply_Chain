@@ -28,6 +28,14 @@ contract Database {
         revert();
       _;
     }
+    function checkAccountRaw(address _account) returns (bool){
+		for (uint i = 0; i < accountRaw.length - 1; i++) {
+			if (_account == accountRaw[i]) {
+			return true;
+			}
+		}
+		return false;
+    }
 
   function AddlistAccountRaw(address _accountRaw) onlyOwnerDB {
       accountRaw.push(_accountRaw);
@@ -129,36 +137,76 @@ contract Product {
     // mang cac hanh dong duoc thuc hien tren sp do
     Action[] public actions;
 
+    // function Product(bytes32 _name, bytes32 _unit, uint _amount, address _DATABASE_CONTRACT ) {
+    	
+    //     name = _name;
+    //     parentProducts = [];
+    //     unit =_unit;
+    //     amount= _amount;
+    //     if (amount==0){
+    //       revert();
+    //     }
+        
+    //     isConsumed = false;
+        
+    //     owner = msg.sender;
+
+    //     Database database = Database(DATABASE_CONTRACT);
+
+    //     bool check = database.checkAccountRaw(owner);
+    //     if(check == false){
+    //     	revert();
+    //     }
+
+    //     DATABASE_CONTRACT = _DATABASE_CONTRACT;
+
+    //     Action memory creation;
+    //     creation.description = "Product creation";
+    //     creation.timestamp = now;
+
+    //     actions.push(creation);
+
+    //     database.AddlistProductOfOwner(owner, this);
+
+    //     database.storeProductReference(this);
+    // }
+
     function Product(bytes32 _name, address[] _parentProducts, bytes32 _unit, uint _amount, uint[] _ratio, address handler, address _DATABASE_CONTRACT) {
 
-        name = _name;
-        parentProducts = _parentProducts;
-        unit =_unit;
-        amount= _amount;
-        if (amount==0){
-          revert();
-        }
-        
-        isConsumed = false;
-        
-        owner = handler;
+	    name = _name;
+	    parentProducts = _parentProducts;
+	    unit = _unit;
+	    amount = _amount;
+	    if (amount == 0) {
+	      revert();
+	    }
 
-        DATABASE_CONTRACT = _DATABASE_CONTRACT;
+	    isConsumed = false;
 
-        Action memory creation;
-        creation.description = "Product creation";
-        creation.timestamp = now;
+	    owner = handler;
 
-        ratioPro = _ratio;
+	    DATABASE_CONTRACT = _DATABASE_CONTRACT;
+	    Database database = Database(DATABASE_CONTRACT);
+	    if (parentProducts.length == 0){
+	      bool check = database.checkAccountRaw(owner);
+	      if (check == false){
+	        revert();
+	      }
+	    }
 
-        actions.push(creation);
+	    Action memory creation;
+	    creation.description = "Product creation";
+	    creation.timestamp = now;
 
-        Database database = Database(DATABASE_CONTRACT);
+	    ratioPro = _ratio;
 
-        database.AddlistProductOfOwner(owner, this);
+	    actions.push(creation);
 
-        database.storeProductReference(this);
-    }
+	    database.AddlistProductOfOwner(owner, this);
+
+	    database.storeProductReference(this);
+  	}
+
 
     function() {
         // If anyone wants to send Ether to this contract, the transaction gets rejected```
@@ -361,6 +409,6 @@ contract Product {
 
 }
 
-//db  0xc6353D158f702637fD5a90d87Ceed63b363854B6
+//db  0xcbfb373EDF1235dF12Ef5BA626Ba855E3B69F260
 //ac2 0x9E992bea6DD9C3D8839e6BC8243054D81fA12C45
 //ac3 0xdCb885a2dBa489396f103973A43EAAA7Fb79c78e
