@@ -1,4 +1,7 @@
-function submit() {
+window.onload = function() {
+    hideSpinner();
+}
+function submit() { 
 
     var account = document.getElementById('account').value;
     var product = document.getElementById('add').value;
@@ -9,6 +12,7 @@ function submit() {
     var ratio = document.getElementById('ratio').value;
     var executefrom = document.getElementById('x').value.toString();
     var password = document.getElementById('password').value;
+
     for (i = 0; i < ratio.length; i++) {
         if (isNaN(ratio[i])) {
             alert("WRONG RATIO, IT IS NOT NUMBER ...............")
@@ -24,11 +28,44 @@ function submit() {
 
     var checkPass = checkPassword(executefrom, password);
 
-    if(checkPass == false) {    alert("WRONG PASSWORD"); return; } 
+    if (checkPass == false) {
+        alert("WRONG PASSWORD");
+        return;
+    }
 
-    web3.eth.contract(abiProduct).at(product).derive.sendTransaction(newproduct, unit, amount, ratio, {
-        from: executefrom,
-        gas: "0x0" + (4000000).toString(16)
-    });
-    
+
+    document.getElementById("Button").disabled = true;
+
+    showSpinner();
+
+    var a = web3.eth.contract(abiProduct).at(product).derive.sendTransaction(newproduct, unit, amount, ratio, {
+            from: executefrom,
+            gas: "0x0" + (4000000).toString(16)
+        },
+
+        function(error, result) {
+            if (!error) {
+                console.log(result);
+                console.log(web3.eth.getTransactionReceipt(result));
+
+                while (1) {
+                    if (web3.eth.getTransactionReceipt(result) != null) {
+                        hideSpinner();
+                        if (web3.eth.getTransactionReceipt(result).status == "0x1") {
+                            alert('You are add derive success');
+                            location.replace("/index#all_product");
+                            //location.replace("/" + product);
+                        }
+                        break;
+                    }
+                }
+            } else {
+                if (error != null) {
+                    console.log(error);
+                    alert('You are add derive success');
+                    return;
+                }
+                console.error(error);
+            }
+        });
 }

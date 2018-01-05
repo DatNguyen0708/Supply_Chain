@@ -59,7 +59,7 @@ function showDetail(){
 
     unitProduct.innerHTML = web3.toUtf8(productContract.at(productId).unit.call().toString());
 
-    amountProduct.innerHTML = productContract.at(productId).getAmount.call().toString();
+    amountProduct.innerHTML = productContract.at(productId).getAmount.call().toNumber();
 
     var checkboxConsumed = productContract.at(productId).isConsumed.call().toString();
     console.log(checkboxConsumed);

@@ -1,19 +1,12 @@
 
     <% include header%>
     <script src="/javascripts/addAction.js"></script>
-    
+
     <!-- Page Content -->
     <input type="hidden" value="<%= add %>" id="add">
     <input type="hidden" value="<%= account %>" id="account">
-    <div class="panel panel-info" id="infoPanel" style="margin: 5%">
-	    <div class="panel-heading">
-	        <h3 class="panel-title">Chung ta se lam gi ?</h3>
-	    </div>
-	    <div class="panel-body" id="infoPanelText">
-	        <div id="bidder"></div>
-
-	    </div>
-  	</div>
+   
+  <br><br><br>
     <div class="container">
 	    <div class="row">
 	      <div class="col-md-2"></div>
@@ -21,6 +14,12 @@
 	        <h1  style="color: red;" align="center">Derive For This Product</h1>
 	        <h3  style="color: blue;" align="center"><%= add %></h3>
 	        <br></br>
+	         <div class="box-body padding-large">
+	          <div class="form-group row">
+	          	<label class="col-md-3 col-xs-12 text-left"><p><h5 style="color:red;" id="statusMessage"></h5></p></label>
+	            <span id="spinner" class="col-md-1 col-xs-12 text-left"></span>  
+	          </div>
+	        </div>
 	        <div class="box-body padding-large">
 	          <div class="form-group row">
 	            <label for="newproduct" class="col-md-3 col-xs-12 text-left">New Product Names</label>
@@ -36,13 +35,13 @@
 	        <div class="box-body padding-large">
 	          <div class="form-group row">
 	            <label for="amount" class="col-md-3 col-xs-12 text-left">Amount</label>
-	            <input type="number" name="amount" class="col-md-9 col-xs-12 form-control" id="amount" placeholder="Amount">
+	            <input onkeyup="validateamount(this);" type="text" name="amount" class="col-md-9 col-xs-12 form-control" id="amount" placeholder="Amount..." required>	            
 	          </div>
 	        </div>
 	        <div class="box-body padding-large">
 	          <div class="form-group row">
 	            <label for="ratio" class="col-md-3 col-xs-12 text-left">Ratio</label>
-	            <input type="number" name="ratio" class="col-md-9 col-xs-12 form-control" id="ratio" placeholder="Ratio">
+	            <input onkeyup="validateamount(this);" type="text" name="ratio" class="col-md-9 col-xs-12 form-control" id="ratio" placeholder="Ratio..." required>
 	          </div>
 	        </div>
 	        <div class="box-body padding-large">
@@ -60,7 +59,7 @@
 	        <div class="box-body padding-large">
 	          <div class="form-group row">
 	            <label class="col-md-5 col-xs-12 text-left"></label>
-	            <button type="submit " class="col-md-2 col-xs-12 btn btn-primary " onclick="submit();">Submit</button>
+	            <button type="submit " class="col-md-2 col-xs-12 btn btn-primary " id="Button" onclick="submit();">Submit</button>
 	            <label class="col-md-5 col-xs-12 text-left"></label>
 	          </div>
 	        </div>
@@ -70,8 +69,7 @@
   	</div>
 
 
-
-
+<br></br><br></br> <br></br>
 
 
     

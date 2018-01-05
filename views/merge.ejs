@@ -40,7 +40,7 @@
         <div class="box-body padding-large">
           <div class="form-group row">
             <label for="amount" class="col-md-3 col-xs-12 text-left">New Product Amount</label>
-            <input type="text" name="amount" class="col-md-9 col-xs-12 form-control" id="amount" placeholder="New product amount">
+            <input onkeyup="validateamount(this);" type="text" name="amount" class="col-md-9 col-xs-12 form-control" id="amount" placeholder="New product amount">            
           </div>
         </div>
         <div class="box-body padding-large">
@@ -64,7 +64,7 @@
         <div class="box-body padding-large">
           <div class="form-group row">
             <label class="col-md-5 col-xs-12 text-left"></label>
-            <button type="submit " class="col-md-2 col-xs-12 btn btn-primary " onclick="submit();">Submit</button>
+            <button type="submit " class="col-md-2 col-xs-12 btn btn-primary " id="Button" onclick="submit();">Submit</button>
             <label class="col-md-5 col-xs-12 text-left"></label>
           </div>
         </div>
