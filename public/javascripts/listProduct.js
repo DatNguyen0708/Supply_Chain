@@ -6,7 +6,7 @@ window.onload = function() {
       throw "Cannot load contract address";
     }
     $("#content").append(`
-    	<h1  style="color: red;" align="center">List of Product</h1>
+    	<h1  style="color: red; margin-top:5%;" align="center">List of Product</h1>
 		<div id="tableListProduct" style="margin-left:5%; margin-right:5%;"></div>
        
       

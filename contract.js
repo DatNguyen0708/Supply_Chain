@@ -58,7 +58,7 @@ contract Database {
       accounts.push(_account);
   }
 
-   function getCountAccount() constant returns (uint){
+  function getCountAccount() constant returns (uint){
         return accounts.length;
   }
 
@@ -183,7 +183,7 @@ contract Product {
         bool check = database.checkAccountRaw(owner);
           if (check == false){
             revert();         
-      }       
+        }       
       }
       bool check1 = database.checkAccount(owner);
       if( check1 == false){
@@ -405,6 +405,6 @@ contract Product {
 
 }
 
-//db  0x4417649D6f4667EDBe9fbD960880c6836B572617
+//db  0x9f9E6d33F87FB7792c1395CA35621206F822b593
 //ac2 0x43DFED51209340608D8FECBca49D71F273eFaC6F
 //ac3 0x732F164E7E7D56c138BEC03548a3A011C1B806dC
