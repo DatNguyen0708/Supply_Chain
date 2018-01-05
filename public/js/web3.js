@@ -6360,7 +6360,8 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
         var result = this.provider.send(payload);
     
         if (!Jsonrpc.isValidResponse(result)) {
-            throw errors.InvalidResponse(result);
+            //throw errors.InvalidResponse(result);
+            return false;
         }
     
         return result.result;

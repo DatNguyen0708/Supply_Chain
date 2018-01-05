@@ -5,7 +5,18 @@
   <script src="/javascripts/accountInformation.js"></script>
   <!-- Page Content -->
   <br></br><br></br>
-  <input type="hidden" value="<%= address %>" id="address">
+  
+  <!-- Page Content -->
+    <input type="hidden" value="<%= address %>" id="address">
+    <div class="panel panel-info" id="infoPanel" style="margin-top: 5%; margin-left: 5%; margin-right: 5%">
+      <div class="panel-heading">
+          <h3 class="panel-title">Chung ta se lam gi ?</h3>
+      </div>
+      <div class="panel-body" id="infoPanelText">
+          <div id=""></div>
+
+      </div>
+    </div>
   <div class="container">
         <h2 style="" align="center"> ACCOUNT : <%= address %></h2>
         

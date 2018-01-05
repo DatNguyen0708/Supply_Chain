@@ -4,10 +4,16 @@ contract Database {
   // mang dia chi product ma database nay luu tru
   address[] public products;
 
-  
+  // mang dia chi account dc quyen tao nguyen lieu tho
+  address[] public accountRaw;
+
+  //chu so huu contract (admin)
+  address public ownerDB;
 
   // Constructor to create a Database 
-  function Database() {}
+  function Database() {
+      ownerDB= msg.sender;
+  }
 
   function() {
        // If anyone wants to send Ether to this contract, the transaction gets rejected
@@ -16,6 +22,26 @@ contract Database {
 
 
   mapping(address => address[]) public productOfOwner;
+
+  modifier onlyOwnerDB {
+      if (msg.sender != ownerDB)
+        revert();
+      _;
+    }
+    function checkAccountRaw(address _account) returns (bool){
+    for (uint i = 0; i < accountRaw.length ; i++) {
+      if (_account == accountRaw[i]) {
+      return true;
+      }
+    }
+    return false;
+    }
+
+  function AddlistAccountRaw(address _accountRaw) onlyOwnerDB {
+      accountRaw.push(_accountRaw);
+  }
+
+
 
   function AddlistProductOfOwner(address _handler, address _pro){
       productOfOwner[_handler].push(_pro);
@@ -111,36 +137,79 @@ contract Product {
     // mang cac hanh dong duoc thuc hien tren sp do
     Action[] public actions;
 
+    // function Product(bytes32 _name, bytes32 _unit, uint _amount, address _DATABASE_CONTRACT ) {
+      
+    //     name = _name;
+    //     parentProducts = [];
+    //     unit =_unit;
+    //     amount= _amount;
+    //     if (amount==0){
+    //       revert();
+    //     }
+        
+    //     isConsumed = false;
+        
+    //     owner = msg.sender;
+
+    //     Database database = Database(DATABASE_CONTRACT);
+
+    //     bool check = database.checkAccountRaw(owner);
+    //     if(check == false){
+    //      revert();
+    //     }
+
+    //     DATABASE_CONTRACT = _DATABASE_CONTRACT;
+
+    //     Action memory creation;
+    //     creation.description = "Product creation";
+    //     creation.timestamp = now;
+
+    //     actions.push(creation);
+
+    //     database.AddlistProductOfOwner(owner, this);
+
+    //     database.storeProductReference(this);
+    // }
+
     function Product(bytes32 _name, address[] _parentProducts, bytes32 _unit, uint _amount, uint[] _ratio, address handler, address _DATABASE_CONTRACT) {
 
-        name = _name;
-        parentProducts = _parentProducts;
-        unit =_unit;
-        amount= _amount;
-        if (amount==0){
+      name = _name;
+      parentProducts = _parentProducts;
+      unit = _unit;
+      amount = _amount;
+      if (amount == 0) {
+        revert();
+      }
+
+      isConsumed = false;
+
+      owner = handler;
+
+      DATABASE_CONTRACT = _DATABASE_CONTRACT;
+      Database database = Database(DATABASE_CONTRACT);
+      if (parentProducts.length == 0){
+        if (msg.sender != owner){
           revert();
         }
-        
-        isConsumed = false;
-        
-        owner = handler;
+        bool check = database.checkAccountRaw(owner);
+          if (check == false){
+            revert();         
+      }       
+      }
 
-        DATABASE_CONTRACT = _DATABASE_CONTRACT;
+      Action memory creation;
+      creation.description = "Product creation";
+      creation.timestamp = now;
 
-        Action memory creation;
-        creation.description = "Product creation";
-        creation.timestamp = now;
+      ratioPro = _ratio;
 
-        ratioPro = _ratio;
+      actions.push(creation);
 
-        actions.push(creation);
+      database.AddlistProductOfOwner(owner, this);
 
-        Database database = Database(DATABASE_CONTRACT);
-
-        database.AddlistProductOfOwner(owner, this);
-
-        database.storeProductReference(this);
+      database.storeProductReference(this);
     }
+
 
     function() {
         // If anyone wants to send Ether to this contract, the transaction gets rejected```
@@ -343,6 +412,6 @@ contract Product {
 
 }
 
-//db  0xc6353D158f702637fD5a90d87Ceed63b363854B6
-//ac2 0x9E992bea6DD9C3D8839e6BC8243054D81fA12C45
-//ac3 0xdCb885a2dBa489396f103973A43EAAA7Fb79c78e
+//db  0x939664d923f56762C827D30dc8551E30810D320d
+//ac2 0x43DFED51209340608D8FECBca49D71F273eFaC6F
+//ac3 0x732F164E7E7D56c138BEC03548a3A011C1B806dC

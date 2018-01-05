@@ -29,7 +29,7 @@ contract Database {
       _;
     }
     function checkAccountRaw(address _account) returns (bool){
-		for (uint i = 0; i < accountRaw.length - 1; i++) {
+		for (uint i = 0; i < accountRaw.length ; i++) {
 			if (_account == accountRaw[i]) {
 			return true;
 			}
@@ -188,10 +188,13 @@ contract Product {
 	    DATABASE_CONTRACT = _DATABASE_CONTRACT;
 	    Database database = Database(DATABASE_CONTRACT);
 	    if (parentProducts.length == 0){
-	      bool check = database.checkAccountRaw(owner);
-	      if (check == false){
-	        revert();
-	      }
+	    	if (msg.sender != owner){
+	    		revert();
+	    	}
+    		bool check = database.checkAccountRaw(owner);
+      		if (check == false){
+        		revert();      		
+			}	      
 	    }
 
 	    Action memory creation;
@@ -409,6 +412,6 @@ contract Product {
 
 }
 
-//db  0xcbfb373EDF1235dF12Ef5BA626Ba855E3B69F260
-//ac2 0x9E992bea6DD9C3D8839e6BC8243054D81fA12C45
-//ac3 0xdCb885a2dBa489396f103973A43EAAA7Fb79c78e
+//db  0x939664d923f56762C827D30dc8551E30810D320d
+//ac2 0x43DFED51209340608D8FECBca49D71F273eFaC6F
+//ac3 0x732F164E7E7D56c138BEC03548a3A011C1B806dC

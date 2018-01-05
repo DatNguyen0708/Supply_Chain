@@ -60,7 +60,10 @@ function submit() {
       }
     }
   console.log(web3.eth.contract(abiProduct).at(addfirstproduct));
-  web3.personal.unlockAccount(executefrom, password);
+  var checkpass=checkPassword(executefrom, password);
+
+      if(checkpass == false) {  alert("WRONG PASSWORD"); return; } 
+  //web3.personal.unlockAccount(executefrom, password);
   web3.eth.contract(abiProduct).at(addfirstproduct).merge.sendTransaction(comboboxProduct, newproduct, ratio, amount, unit, {
     from: executefrom,
     gas: 4000000

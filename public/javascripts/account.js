@@ -13,7 +13,7 @@ window.onload = function() {
 
     console.log(db_contract);
     console.log(web3.eth.contract(abiDatabase).at(db_contract).getCountProduct.call().toNumber());
-
+    $("#pro_of_owner").hide();
 
     var accounts = [];
     accounts = web3.eth.accounts;
@@ -37,10 +37,13 @@ window.onload = function() {
 
 function view() {
 
-  //$("#productOfOwner").text("");
   var executefrom = document.getElementById("comboboxAccount").value;
   var countproduct = dbContract.getCountProductOfOwner.call(executefrom).toNumber();
+  var password = document.getElementById('password').value;
+  var checkpass=checkPassword(executefrom, password);
 
+  if(checkpass == false) {  alert("WRONG PASSWORD"); return; }
+   
   var data = [];
 
   for (i = 0; i < countproduct; i++) {
@@ -49,67 +52,71 @@ function view() {
 
   }
   console.log(data);
+  if( data.length !=0){
+
+      $("#pro_of_owner").show();
+      var res = "";
+
+      var auc = [];
+      auc[0] = ["ID", "Product", "Action"];
+
+      res = "<table border=1 id=\"listAccounts\" class=\"table table-striped table-bordered responstable\" cellspacing=\"0\" style=\"width: 100%;color: brown;\">";
+      res += "<thead>"
+
+      res += "<tr>";
+      for (var j = 0; j <= auc[0].length - 1; j++) {
+        res += "<th>" + auc[0][j] + "</th>";
+      }
+
+      res += "</tr></thead><tbody>";
+
+      for (var j = 0; j < data.length; j++) {
+        var i = j + 1;
+        res = res + "<tr>";
+        res = res + "<td>" + i + "</td>";
+        res = res + "<td><a href='/" + data[j] + "'>" + data[j] + "</a></td>";
+        res = res + "<td><a href='/merge/" + data[j] + "/"+executefrom + "' class='btn btn-primary' id = 'merge"+i+"'>Merge</a><a href='/addaction/" + data[j] + "/"+executefrom+ "' class='btn btn-info' style= 'margin-left:5px;' id = 'addaction"+i+"'>Derive</a><a href='/tranferOwnership/" + data[j] + "/"+executefrom+ "' class='btn btn-danger' style= 'margin-left:5px;' id = 'ownership"+i+"'>Sell</a><a href='/setnewamount/" + data[j] + "/" +executefrom+ "' class='btn btn-success' id= '" + j + "' style= 'margin-left:5px;' >Set Amount</a></td>";
 
 
-  var res = "";
+        res = res + "</tr>";
+      }
 
-  var auc = [];
-  auc[0] = ["ID", "Product", "Action"];
-
-  res = "<table border=1 id=\"listAccounts\" class=\"table table-striped table-bordered responstable\" cellspacing=\"0\" style=\"width: 100%;color: brown;\">";
-  res += "<thead>"
-
-  res += "<tr>";
-  for (var j = 0; j <= auc[0].length - 1; j++) {
-    res += "<th>" + auc[0][j] + "</th>";
-  }
-
-  res += "</tr></thead><tbody>";
-
-  for (var j = 0; j < data.length; j++) {
-    var i = j + 1;
-    res = res + "<tr>";
-    res = res + "<td>" + i + "</td>";
-    res = res + "<td><a href='/" + data[j] + "'>" + data[j] + "</a></td>";
-    res = res + "<td><a href='/merge/" + data[j] + "/"+executefrom + "' class='btn btn-primary' id = 'merge"+i+"'>Merge</a><a href='/addaction/" + data[j] + "/"+executefrom+ "' class='btn btn-info' style= 'margin-left:5px;' id = 'addaction"+i+"'>Derive</a><a href='/tranferOwnership/" + data[j] + "/"+executefrom+ "' class='btn btn-danger' style= 'margin-left:5px;' id = 'ownership"+i+"'>Sell</a><a href='/setnewamount/" + data[j] + "/" +executefrom+ "' class='btn btn-success' id= '" + j + "' style= 'margin-left:5px;' >Set Amount</a></td>";
+      res += "</tbody><tfoot></tfoot></table>";
 
 
-    res = res + "</tr>";
-  }
+      document.getElementById("tableAccounts").innerHTML = res;
+      document.getElementById("tableAccounts").innerHTML = document.getElementById("tableAccounts").innerHTML.replace(/&/g, "");
+      document.getElementById("tableAccounts").innerHTML = document.getElementById("tableAccounts").innerHTML.replace(/amp;#92;/g, "\\");
+      document.getElementById("tableAccounts").innerHTML = document.getElementById("tableAccounts").innerHTML.replace(/amp;/g, "&");
+      document.getElementById("tableAccounts").innerHTML = document.getElementById("tableAccounts").innerHTML.replace(/lt;/g, "<");
+      document.getElementById("tableAccounts").innerHTML = document.getElementById("tableAccounts").innerHTML.replace(/gt;/g, ">");
 
-  res += "</tbody><tfoot></tfoot></table>";
-
-
-  document.getElementById("tableAccounts").innerHTML = res;
-  document.getElementById("tableAccounts").innerHTML = document.getElementById("tableAccounts").innerHTML.replace(/&/g, "");
-  document.getElementById("tableAccounts").innerHTML = document.getElementById("tableAccounts").innerHTML.replace(/amp;#92;/g, "\\");
-  document.getElementById("tableAccounts").innerHTML = document.getElementById("tableAccounts").innerHTML.replace(/amp;/g, "&");
-  document.getElementById("tableAccounts").innerHTML = document.getElementById("tableAccounts").innerHTML.replace(/lt;/g, "<");
-  document.getElementById("tableAccounts").innerHTML = document.getElementById("tableAccounts").innerHTML.replace(/gt;/g, ">");
-
-  console.log("Refreshing product!");
+      console.log("Refreshing product!");
 
 
-  for (var j = 0; j < data.length; j++) {
-    var i=j+1;
-    if(web3.eth.contract(abiProduct).at(data[j]).getAmount.call().toNumber() == 0){
-      console.log("hjhj em o day ne anh"+j);
-      $('#merge' + i).hide();
-      $("#addaction"+i).hide();
-      $("#ownership"+i).hide();
+      for (var j = 0; j < data.length; j++) {
+        var i=j+1;
+        if(web3.eth.contract(abiProduct).at(data[j]).getAmount.call().toNumber() == 0){
+          console.log("hjhj em o day ne anh"+j);
+          $('#merge' + i).hide();
+          $("#addaction"+i).hide();
+          $("#ownership"+i).hide();
+        }
+        if (web3.eth.contract(abiProduct).at(data[j]).getCountParent.call().toNumber() != 0) {
+          $('#' + j).hide();
+        }
+      }
+
+      $(document).ready(function() {
+        //createtable();
+        $('#listAccounts').DataTable({
+          "lengthMenu": [
+            [5, 20, 50, -1],
+            [5, 20, 50, "All"]
+          ]
+        });
+      });
     }
-    if (web3.eth.contract(abiProduct).at(data[j]).getCountParent.call().toNumber() != 0) {
-      $('#' + j).hide();
-    }
-  }
 
-  $(document).ready(function() {
-    //createtable();
-    $('#listAccounts').DataTable({
-      "lengthMenu": [
-        [5, 20, 50, -1],
-        [5, 20, 50, "All"]
-      ]
-    });
-  });
+  
 }
