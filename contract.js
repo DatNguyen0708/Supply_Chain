@@ -66,6 +66,14 @@ contract Database {
         return accounts[idx];
   }
 
+  function getCountAccountRaw() constant returns (uint){
+        return accountRaw.length;
+  }
+
+  function getAddressAccountRaw(uint idx) constant returns (address){
+        return accountRaw[idx];
+  }
+
   function AddlistProductOfOwner(address _handler, address _pro){
       productOfOwner[_handler].push(_pro);
   }
@@ -412,6 +420,6 @@ contract Product {
 
 }
 
-//db  0x9f9E6d33F87FB7792c1395CA35621206F822b593
+//db  0x449aFf7938E9c9E5486Bf3Fcf503384434a319d8
 //ac2 0x43DFED51209340608D8FECBca49D71F273eFaC6F
 //ac3 0x732F164E7E7D56c138BEC03548a3A011C1B806dC
