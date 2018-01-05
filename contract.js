@@ -354,8 +354,15 @@ contract Product {
 
     // them so luong product neu da su dung het, ap dung voi nguyen lieu tho
     function setNewAmount(uint _newAmount) onlyHaveChild onlyOwner{
-        amount += _newAmount; 
-        isConsumed= false;
+        if(_newAmount < 0){
+          revert();
+        }
+        amount = _newAmount; 
+        if(amount == 0){
+          isConsumed = true;
+        }else{
+          isConsumed= false;
+        }
     }
 
     function merge( address[] otherProducts, bytes32 newProductName,uint[] ratioToProduct,uint newProductAmount, bytes32 newProductUnit) notConsumed  {
