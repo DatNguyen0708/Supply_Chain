@@ -71,7 +71,7 @@ function submit() {
   
 
   //$("#productOfOwner").text("");
-  var executefrom = document.getElementById("comboboxAccount").value;
+  var executefrom = document.getElementById("account").value;
 
   var _name = web3.toHex(document.getElementById("nameofproduct").value);
   var _unit = web3.toHex(document.getElementById("unit").value);

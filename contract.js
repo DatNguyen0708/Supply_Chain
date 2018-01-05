@@ -10,6 +10,9 @@ contract Database {
   //chu so huu contract (admin)
   address public ownerDB;
 
+  //mang dia chi account cos so huu product
+  address[] public accounts;
+
   // Constructor to create a Database 
   function Database() {
       ownerDB= msg.sender;
@@ -28,6 +31,7 @@ contract Database {
         revert();
       _;
     }
+
     function checkAccountRaw(address _account) returns (bool){
     for (uint i = 0; i < accountRaw.length ; i++) {
       if (_account == accountRaw[i]) {
@@ -37,11 +41,30 @@ contract Database {
     return false;
     }
 
-  function AddlistAccountRaw(address _accountRaw) onlyOwnerDB {
-      accountRaw.push(_accountRaw);
+
+    function checkAccount(address _account) returns (bool){
+      for (uint i = 0; i < accounts.length ; i++) {
+        if (_account == accounts[i]) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+  function AddlistAccountRaw(address _account) onlyOwnerDB {
+      accountRaw.push(_account);
+  }
+  function AddlistAccount(address _account)  {
+      accounts.push(_account);
   }
 
+   function getCountAccount() constant returns (uint){
+        return accounts.length;
+  }
 
+  function getAddressAccount(uint idx) constant returns (address){
+        return accounts[idx];
+  }
 
   function AddlistProductOfOwner(address _handler, address _pro){
       productOfOwner[_handler].push(_pro);
@@ -137,40 +160,6 @@ contract Product {
     // mang cac hanh dong duoc thuc hien tren sp do
     Action[] public actions;
 
-    // function Product(bytes32 _name, bytes32 _unit, uint _amount, address _DATABASE_CONTRACT ) {
-      
-    //     name = _name;
-    //     parentProducts = [];
-    //     unit =_unit;
-    //     amount= _amount;
-    //     if (amount==0){
-    //       revert();
-    //     }
-        
-    //     isConsumed = false;
-        
-    //     owner = msg.sender;
-
-    //     Database database = Database(DATABASE_CONTRACT);
-
-    //     bool check = database.checkAccountRaw(owner);
-    //     if(check == false){
-    //      revert();
-    //     }
-
-    //     DATABASE_CONTRACT = _DATABASE_CONTRACT;
-
-    //     Action memory creation;
-    //     creation.description = "Product creation";
-    //     creation.timestamp = now;
-
-    //     actions.push(creation);
-
-    //     database.AddlistProductOfOwner(owner, this);
-
-    //     database.storeProductReference(this);
-    // }
-
     function Product(bytes32 _name, address[] _parentProducts, bytes32 _unit, uint _amount, uint[] _ratio, address handler, address _DATABASE_CONTRACT) {
 
       name = _name;
@@ -195,6 +184,10 @@ contract Product {
           if (check == false){
             revert();         
       }       
+      }
+      bool check1 = database.checkAccount(owner);
+      if( check1 == false){
+        database.AddlistAccount(owner);
       }
 
       Action memory creation;
@@ -412,6 +405,6 @@ contract Product {
 
 }
 
-//db  0x939664d923f56762C827D30dc8551E30810D320d
+//db  0x4417649D6f4667EDBe9fbD960880c6836B572617
 //ac2 0x43DFED51209340608D8FECBca49D71F273eFaC6F
 //ac3 0x732F164E7E7D56c138BEC03548a3A011C1B806dC

@@ -49,7 +49,18 @@ app.get('/setnewamount/:add/:account', (req, res) => {
 app.get("/accounts", function (req, res) {
 	res.render("accounts") ;
 });
-
+app.get("/admintrator", function (req, res) {
+	res.render("admintrator") ;
+});
+app.get("/admintrator/index", function (req, res) {
+	res.render("indexAdmin") ;
+});
+app.get("/admintrator/listAccount", function (req, res) {
+	res.render("listAccount") ;
+});
+app.get("/admintrator/listProduct", function (req, res) {
+	res.render("listProduct") ;
+});
 app.get('/merge/:add/:account', (req, res) => {
     res.render('merge', { add: req.params.add, account: req.params.account});
 });
