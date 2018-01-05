@@ -35,7 +35,7 @@ window.onload = function () {
 }
 function validateamount(amount) {
   var numval = amount.value
-  curphonevar = numval.replace(/[\\A-Za-z!"£$%^&\,*+_={};:'@#~,.Š\/<>?|`¬\]\[]| |/g, '');
+  curphonevar = numval.replace(/[\\A-Za-z!"£$%^&\,*+_={}();:'@#~,.Š\/<>?|`¬\]\[]| |/g, '');
   amount.value = curphonevar;
   amount.focus;
 }
@@ -59,8 +59,8 @@ function submit() {
     return;
   }
   
- 
   document.getElementById("Button").disabled = true;
+ 
   web3.personal.unlockAccount(executefrom, password)
 
   var productContract = web3.eth.contract(abiProduct);
@@ -79,19 +79,12 @@ function submit() {
       gas: '4700000'
     }, function (e, contract) {
       console.log(e, contract);
-      if (e!=null){alert(e);}
+      if (e!=null){alert(e);return}
     
       if (typeof contract.address !== 'undefined') {
         console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
         alert('You are deploy success');
-        location.replace("/index")
-
-      }
-
-       
-      
+        location.replace("/index#all_product")
+      }      
     })
-    
-
-
 }
