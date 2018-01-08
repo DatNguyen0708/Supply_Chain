@@ -6,8 +6,7 @@ window.onload = function() {
       throw "Cannot load contract address";
     }
       $("#content").append(`
-        <div id="contentAction"></div>
-        
+        <div id="contentAction"></div>        
         </div>
         <div class="container" style="margin-top:4%">
         <div class="row">
@@ -21,7 +20,6 @@ window.onload = function() {
             </div>
             </div>
         </div>
-       
     `);
 
     dbContract = web3.eth.contract(abiDatabase).at(db_contract);
@@ -51,8 +49,9 @@ window.onload = function() {
                 <label class="col-md-5 col-xs-12 text-left"></label>
                 <button type="submit " class="col-md-2 col-xs-12 btn btn-primary " onclick="access();">Access</button>
                 <label class="col-md-5 col-xs-12 text-left"></label>
-              </div></div>
-              <div class="col-md-2"></div>
+              </div>
+            </div>
+          <div class="col-md-2"></div>
       </div>
     `);
 
