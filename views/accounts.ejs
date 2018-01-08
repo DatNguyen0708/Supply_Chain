@@ -1,6 +1,6 @@
 <!-- Navigation -->
    <% include header%>
- <script src="javascripts/account.js"></script>
+ <script src="/javascripts/account.js"></script>
   <!-- Page Content -->
   <br></br><br></br>
   <div class="container">
@@ -12,6 +12,12 @@
           <div class="form-group row">
             <label class="col-md-3 col-xs-12 text-left" for="executefrom">Execute from*:</label>
             <select class="col-md-9 col-xs-12 form-control" id="comboboxAccount" style="width: 63%;"></select>
+          </div>
+        </div>
+        <div class="box-body padding-large">
+          <div class="form-group row">
+                <label for="password" class="col-md-3 col-xs-12 text-left">Password</label>
+                <input type="password" name="password" class="col-md-9 col-xs-12 form-control" id="password" placeholder="Password">            
           </div>
         </div>
         <div class="box-body padding-large">
@@ -28,7 +34,7 @@
 
 
     <br></br>      
-    <div class="container">
+    <div class="container" id="pro_of_owner">
       <h2 style="" align="center">Product of Owner</h2>
 
       <div id="tableAccounts" style="margin-left:0%; margin-right:0%;"></div>
@@ -37,6 +43,6 @@
   </div>
 
 
-  <br></br>
+  <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br>
   <!-- Footer -->
     <% include footer%>

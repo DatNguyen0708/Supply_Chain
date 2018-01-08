@@ -1,13 +1,11 @@
 
 window.onload = function () {
-    var account = document.getElementById('account').value;
-    var product = document.getElementById('add').value;
-}
-function validateamount(amount) {
-    var numval = addnewamount.value
-    curphonevar = numval.replace(/[\\A-Za-z!"£$%^&\,*+_={}();:'@#~,.Š\/<>?|`¬\]\[]| |/g, '');
-    addnewamount.value = curphonevar;
-    addnewamount.focus;
+        var account = document.getElementById('account').value;
+        var product = document.getElementById('add').value;
+        var product = document.getElementById('add').value;
+        var a= web3.toUtf8(web3.eth.contract(abiProduct).at(product).name.call().toString());
+        document.getElementById('12').innerHTML = a;
+    
 }
 function submit() {
     var amount = document.getElementById('addnewamount').value;

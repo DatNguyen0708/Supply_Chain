@@ -11,15 +11,12 @@
               <option>${a[n]}</option>
               `)}
         }
+     
+        var a= web3.toUtf8(web3.eth.contract(abiProduct).at(product).name.call().toString());
+        document.getElementById('12').innerHTML = a;
+    
 
     }
-    function validateamount(amount) {
-        var numval = amount.value
-        curphonevar = numval.replace(/[\\A-Za-z!"£$%^&\,*+_={}();:'@#~,.Š\/<>?|`¬\]\[]| |/g, '');
-        amount.value = curphonevar;
-        amount.focus;
-      }
-
 
     function submit() {
         var product = document.getElementById('add').value;
@@ -50,7 +47,7 @@
 
         if(checkPass == false) {alert("Wrong Password"); return; } 
 
-
+        document.getElementById("Button").disabled = true;
 
         web3.eth.contract(abiProduct).at(product).transferOwnership.sendTransaction(to, amount, {
             from: executefrom,

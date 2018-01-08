@@ -59,7 +59,7 @@ function showDetail(){
 
     unitProduct.innerHTML = web3.toUtf8(productContract.at(productId).unit.call().toString());
 
-    amountProduct.innerHTML = productContract.at(productId).getAmount.call().toString();
+    amountProduct.innerHTML = productContract.at(productId).getAmount.call().toNumber();
 
     var checkboxConsumed = productContract.at(productId).isConsumed.call().toString();
     console.log(checkboxConsumed);
@@ -175,11 +175,13 @@ function showParentAndChild() {
     var countParent = productContract.at(productId).getCountParent.call().toNumber();
 
     var countChild = productContract.at(productId).getCountChild.call().toNumber();
+  
 
     console.log(productId + " "+countParent + " " +countChild);
 
     for (var i = 0; i < countParent; i++) {
         getParentById(i, productId);
+        
     }
 
     for (var i = 0; i < countChild; i++) {
@@ -243,7 +245,7 @@ function waitAndRefreshParent(countParent, productId) {
     var res = "";
 
         var auc = [];
-            auc[0] = ["STT", "Address","Ratio"];
+            auc[0] = ["STT", "Address","Ratio","Unit"];
 
         res = "<table border=1 id=\"listParent\" class=\"table table-striped table-bordered responstable\" cellspacing=\"0\" style=\"width: 100%;color: brown;\">";     
             res += "<thead>"
@@ -260,8 +262,9 @@ function waitAndRefreshParent(countParent, productId) {
 
             res = res + "<tr>";
             res = res + "<td>" + parents[j*2] + "</td>";
-            res = res + "<td><a href='/"+ parents[j*2+1] + "'>" + parents[j*2+1] + "</a></td>";
+            res = res + "<td><a href='/"+ parents[j*2+1] + "'>" + web3.toUtf8(web3.eth.contract(abiProduct).at(parents[j*2+1]).name.call().toString()) +" : "+ parents[j*2+1] + "</a></td>";
             res = res + "<td>" + arrayRatioPro[j] + "</td>";
+            res = res + "<td>" + web3.toUtf8(web3.eth.contract(abiProduct).at(parents[j*2+1]).unit.call().toString()) + "</td>";
             res = res + "</tr>";
         }
 
@@ -318,7 +321,7 @@ function waitAndRefreshChild(countChild) {
 
             res = res + "<tr>";
             res = res + "<td>" + childs[j*2] + "</td>";
-            res = res + "<td><a href='/"+ childs[j*2+1] + "'>" + childs[j*2+1] + "</a></td>";
+            res = res + "<td><a href='/"+ childs[j*2+1] + "'>"+web3.toUtf8(web3.eth.contract(abiProduct).at(childs[j*2+1]).name.call().toString()) +" : "+ childs[j*2+1] + "</a></td>";
             res = res + "<td>" + convertTimestamp(actions[1]) + "</td>";
             //if(actions[2] ==0) res = res + "<td>" + "" + "</td>";
             //else

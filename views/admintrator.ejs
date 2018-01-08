@@ -1,0 +1,56 @@
+
+ <% include header%>
+ <script src="/javascripts/admintrator.js"></script>
+
+
+ <div class="panel panel-info" id="infoPanel" style="margin-top: 52px;">
+ <div class="panel-heading">
+     <h3 class="panel-title">What will we do ?</h3>
+ </div>
+ <div class="panel-body" id="infoPanelText">
+     <div id="bidder"></div>
+
+ </div>
+</div>
+<div class="container"  id="check_account">
+     <div class="row">
+       <div class="col-md-2"></div>
+       <div class="col-md-8"> 
+          <h1  style="color: red;" align="center">Check account</h1>
+          <h5 style="color: blue;" align="center">Please check if your account is admintrator</h5>
+          <br></br>
+          <div class="box-body padding-large">
+            <div class="form-group row">
+              <label for="executefrom" class="col-md-3 col-xs-12 text-left">Account Address:</label>
+              <select class="col-md-9 col-xs-12 form-control" id="comboboxAccountAdmin"></select>
+            </div>
+          </div>     
+           <div class="box-body padding-large">
+             <div class="form-group row">
+               <label for="password" class="col-md-3 col-xs-12 text-left">Password</label>
+               <input type="password" name="password" class="col-md-9 col-xs-12 form-control" id="password" placeholder="Password">
+             </div>
+           </div>
+
+             
+           <div class="box-body padding-large">
+             <div class="form-group row">
+               <label class="col-md-5 col-xs-12 text-left"></label>
+               <button type="submit " class="col-md-2 col-xs-12 btn btn-primary " onclick="check();">Check</button>
+               <label class="col-md-5 col-xs-12 text-left"></label>
+             </div>
+           </div>
+        
+        </div>
+       <div class="col-md-2"></div>
+     </div>
+   </div>
+
+
+
+<br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+
+
+<% include footer%>

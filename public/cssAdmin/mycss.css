@@ -1,0 +1,47 @@
+
+
+#h1{
+    color: #FF3030;
+    font-family: 'Fjalla One';
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    line-height: 72px;
+   
+    text-align: center;
+    text-transform: uppercase;
+    margin-top: 0px;
+    text-decoration: underline;
+    /*-webkit-animation: my 700ms infinite;
+     -moz-animation: my 700ms infinite; 
+     -o-animation: my 700ms infinite; 
+     animation: my 700ms infinite;*/
+};
+
+    
+
+@-webkit-keyframes my {
+     0% { color: #F8CD0A; } 
+     50% { color: #EE0000;  } 
+     100% { color: #F8CD0A;  } 
+ }
+ @-moz-keyframes my { 
+     0% { color: #F8CD0A;  } 
+     50% { color: #EE0000;  }
+     100% { color: #F8CD0A;  } 
+ }
+ @-o-keyframes my { 
+     0% { color: #F8CD0A; } 
+     50% { color: #EE0000; } 
+     100% { color: #F8CD0A;  } 
+ }
+ @keyframes my { 
+     0% { color: #F8CD0A;  } 
+     50% { color: #EE0000;  }
+     100% { color: #F8CD0A;  } 
+
+
+
+ } 
+
+

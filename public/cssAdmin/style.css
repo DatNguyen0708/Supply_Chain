@@ -292,28 +292,3 @@ a.cart-in{
 
 
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-
-/*---------------------------------Card Main Page Index----------------------------------------------------------------*/
-
-
-        	/*--------------------------------------*/
-			/*     jpolly168 AeVale/OneSixEight     */
-            /*     XblackvelvetX                    */
-            /*     Main Elements,,,,,,,             */
-			/*     #wah comes int waves....wahhhhhh.*/
-			/*--------------------------------------*/
-            
-    @import url(http://fonts.googleapis.com/css?family=Roboto:400,500,900);
-body {
-      background-color: #fcfcfc;
-                transition: background-color 300ms;
-                font-family: 'Roboto', sans-serif;   
-                /* background:url('http://cdn.pcwallart.com/images/light-yellow-background-wallpaper-4.jpg'); */
-                background-repeat:none;
-                background-size:cover;
-}
