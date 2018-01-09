@@ -1,40 +1,26 @@
 <!-- Navigation -->
 
-   <% include header%>
-   
+<% include header%>
+
   <script src="/javascripts/accountInformation.js"></script>
   <!-- Page Content -->
-  <br></br><br></br>
+  <br></br>
+  <br></br>
   <input type="hidden" value="<%= address %>" id="address">
   <div class="container">
-        <h2 style="" align="center"> ACCOUNT : <%= address %></h2>
-        
-        <br></br>
-      <h2 style="" align="center">Product of this account</h2>
-      <div class="container">
+    <h2 style="" align="center"> ACCOUNT :
+      <%= address %>
+    </h2>
 
-        <div id="tableAccountInfo" style="margin-left:0%; margin-right:0%;"></div>
-        
-        <!-- <div class="row">
-          <div class="col-md-1"></div>
-          <div class="col-md-10"> 
-            <table class="table table-striped table-bordered responstable">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Product</th>
-                </tr>
-              </thead>
-              <tbody id="productOfAccount">
-              </tbody>
-            </table>
-          </div>
-          <div class="col-md-1"></div>
-        </div> -->
-      </div>
+    <br></br>
+    <h2 style="" align="center">Product of this account</h2>
+    <div class="container">
 
-</div>
+      <div id="tableAccountInfo" style="margin-left:0%; margin-right:0%;"></div>
+
+    </div>
+
+  </div>
   <br></br>
   <!-- Footer -->
-    <% include footer%>
-
+  <% include footer%>

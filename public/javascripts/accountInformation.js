@@ -26,7 +26,7 @@ window.onload = function() {
     var res = "";
 
     var auc = [];
-    auc[0] = ["STT", "Product"];
+    auc[0] = ["STT","Name" ,"Product"];
 
     res = "<table border=1 id=\"listAccountInfo\" class=\"table table-striped table-bordered responstable\" cellspacing=\"0\" style=\"width: 100%;color: brown;\">";
     res += "<thead>"
@@ -42,6 +42,7 @@ window.onload = function() {
       var i = j+1;
       res = res + "<tr>";
       res = res + "<td>" + i + "</td>";
+      res = res + "<td>" + web3.toUtf8(web3.eth.contract(abiProduct).at(data[j]).name.call().toString())+ "</td>";
       res = res + "<td><a href='/"+ data[j] + "'>" + data[j] + "</a></td>";
       res = res + "</tr>";
     }

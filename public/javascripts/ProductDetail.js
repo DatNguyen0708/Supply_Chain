@@ -45,6 +45,8 @@ function showDetail(){
 
     var amountProduct = document.getElementById("amountProduct");
 
+    var expirydate = document.getElementById("expirydate"); 
+
     var ratioProduct = document.getElementById("ratioProduct");
 
     addressProduct.innerHTML = productId;
@@ -61,8 +63,10 @@ function showDetail(){
 
     amountProduct.innerHTML = productContract.at(productId).getAmount.call().toNumber();
 
+    expirydate.innerHTML= convertTimestamp(productContract.at(productId).expirydate.call());
+
     var checkboxConsumed = productContract.at(productId).isConsumed.call().toString();
-    console.log(checkboxConsumed);
+    
 
     if(checkboxConsumed=="true") {$("#isConsumed").prop("checked", true);}
     else {$("#isConsumed").prop("checked", false);}

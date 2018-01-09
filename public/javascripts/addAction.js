@@ -1,11 +1,11 @@
-window.onload = function() {
-  
+window.onload = function () {
+
     var product = document.getElementById('add').value;
-    var a= web3.toUtf8(web3.eth.contract(abiProduct).at(product).name.call().toString());
-    document.getElementById('12').innerHTML = a;
+    var a = web3.toUtf8(web3.eth.contract(abiProduct).at(product).name.call().toString());
+    document.getElementById('nameproduct').innerHTML = a;
 
 }
-function submit() { 
+function submit() {
 
     var account = document.getElementById('account').value;
     var product = document.getElementById('add').value;
@@ -15,6 +15,9 @@ function submit() {
     var unit = document.getElementById('unit').value;
     var amount = document.getElementById('amount').value;
     var ratio = document.getElementById('ratio').value;
+    var expirydate = toTimestamp(document.getElementById("expirydate").value);
+
+
     var executefrom = document.getElementById('x').value.toString();
     var password = document.getElementById('password').value;
 
@@ -30,7 +33,10 @@ function submit() {
             return;
         }
     }
-
+    if (newproduct == "" || unit == "" || amount == "" || ratio == "" || expirydate == "") {
+        alert("Please enter blank input")
+        return
+    }
     var checkPass = checkPassword(executefrom, password);
 
     if (checkPass == false) {
@@ -38,18 +44,18 @@ function submit() {
         return;
     }
 
-    alert("Wating for....")
+
 
     document.getElementById("Button").disabled = true;
 
 
 
-    var a = web3.eth.contract(abiProduct).at(product).derive.sendTransaction(newproduct, unit, amount, ratio, {
-            from: executefrom,
-            gas: "0x0" + (4000000).toString(16)
-        },
+    var a = web3.eth.contract(abiProduct).at(product).derive.sendTransaction(newproduct, unit, amount, ratio, expirydate, {
+        from: executefrom,
+        gas: "0x0" + (4000000).toString(16)
+    },
 
-        function(error, result) {
+        function (error, result) {
             if (!error) {
                 console.log(result);
                 console.log(web3.eth.getTransactionReceipt(result));
@@ -59,8 +65,12 @@ function submit() {
                         hideSpinner();
                         if (web3.eth.getTransactionReceipt(result).status == "0x1") {
                             alert('You are add derive success');
-                            location.replace("/index#all_product");
-                            //location.replace("/" + product);
+                            var event = web3.eth.contract(abiProduct).at(product).CreateContract1({});
+                            event.watch(function (err, msg) {
+                                if (!err)
+                                    console.log(msg.args.proadd1);
+                                    location.replace("/"+msg.args.proadd1);
+                            });  
                         }
                         break;
                     }

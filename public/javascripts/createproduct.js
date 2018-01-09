@@ -36,15 +36,14 @@ window.onload = function() {
 
 function check() {
   var accountCheck = document.getElementById("comboboxAccountAdd").value;
-  console.log(typeof(accountCheck));
-  console.log(accountCheck);
+
   var passwordAdd = document.getElementById("passwordAdd").value;
 
   if(passwordAdd=="") {
     alert("Please input password");
     return;
   }
-  console.log(passwordAdd);
+
 
   var checkpass = checkPassword(accountCheck, passwordAdd);
 
@@ -68,22 +67,23 @@ function submit() {
 
   //$("#productOfOwner").text("");
   var executefrom = document.getElementById("account").value;
+  var expirydate= toTimestamp(document.getElementById("expirydate").value);
 
   var _name = web3.toHex(document.getElementById("nameofproduct").value);
   var _unit = web3.toHex(document.getElementById("unit").value);
   var _amount = document.getElementById("amount").value;
   
-  console.log(_name);
+  
   console.log(_unit);
 
   var _DATABASE_CONTRACT = db_contract;
-  if (_amount == "" || _name == "" || _unit == "" || !isNaN(document.getElementById("nameofproduct").value) || !isNaN(document.getElementById("unit").value)) {
+  if (_amount == "" || _name == "" || _unit == "" || expirydate==""||!isNaN(document.getElementById("nameofproduct").value) || !isNaN(document.getElementById("unit").value)) {
     alert("Please enter input again");
     return;
   }
-  alert("Wating for....")
+
   document.getElementById("Button").disabled = true;
-  
+  alert("Wating for....")
   var productContract = web3.eth.contract(abiProduct);
   console.log(_name);
   var product = productContract.new(
@@ -91,6 +91,7 @@ function submit() {
     _unit,
     _amount, [],
     executefrom,
+    expirydate,
     _DATABASE_CONTRACT, {
       from: executefrom,
       data: bytecode,
