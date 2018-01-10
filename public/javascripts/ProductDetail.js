@@ -59,6 +59,8 @@ function showDetail(){
 
     ownerProduct.innerHTML = productContract.at(productId).getOwner.call().toString();
 
+    ownerProduct.setAttribute("href",/accountInformation/+productContract.at(productId).getOwner.call().toString())
+
     unitProduct.innerHTML = web3.toUtf8(productContract.at(productId).unit.call().toString());
 
     amountProduct.innerHTML = productContract.at(productId).getAmount.call().toNumber();

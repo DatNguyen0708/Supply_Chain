@@ -52,8 +52,8 @@ function check() {
     return;
   }
 
-  console.log(dbContract.checkAccountRaw.call(accountCheck));
-  if (dbContract.checkAccountRaw.call(accountCheck) == true) {
+  console.log(dbContract.checkAccount.call(accountCheck));
+  if (d  == true) {
     $("#check_account").hide();
     $("#create_new_raw_product").show();
     document.getElementById("account").value = accountCheck;
