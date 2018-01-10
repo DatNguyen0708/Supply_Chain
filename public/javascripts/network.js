@@ -9,7 +9,7 @@ getContractAddress = function(callback) {
 
             //solo network
             if (result == "1") {
-                db_contract = '0x0508C9280549D1beA4B90661CbCf44BAB922A710'; 
+                db_contract = '0x7DB67389b7Fac92e82441eCB7868144817CE95Ed'; 
                 //db_contract = '0x79001D80AbF5360dea671f52c496bf2Da3728811';           
             }
 

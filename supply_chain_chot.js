@@ -50,6 +50,22 @@ contract Database {
     ownerDB = _newOwnerDB;
   }
 
+  function editAccount(address _account, bytes32 _name, bytes32 _description, bool _checkRaw) onlyOwnerDB {
+    if((_name == "") || (_description == "")) {
+      revert();
+    }
+    for (uint i = 0; i < accounts.length; i++) {
+      OwnerPro storage a = accounts[i];
+      if(a.ownerPro == _account){
+        a.name = _name;
+        a.description = _description;
+        a.checkRaw = _checkRaw;
+        return;
+      }
+    }
+    revert();
+  }
+
   // kiem tra account co quyen tao sp ms hay ko
   function checkAccount(address _account) returns(uint) {
     for (uint i = 0; i < accounts.length; i++) {
@@ -133,7 +149,6 @@ contract Database {
   function getProductOfOwnerByAddress(address _handler, uint idx) constant returns(address) {
     return productOfOwner[_handler][idx];
   }
-
 }
 
 contract Product {
@@ -202,8 +217,8 @@ contract Product {
 
   uint[] public ratioPro;
 
-  event ActionMerge(address, uint);
-  event ActionDerive(address, uint);
+  event ActionMerge(address merge);
+  event ActionDerive(address derive);
 
   // mang cac hanh dong duoc thuc hien tren sp do
   Action[] public actions;
@@ -296,7 +311,7 @@ contract Product {
     address newProduct = database.createProduct(newProductsName, parentProduct, unitChild, amountChild, ratio1, owner, expirydateChild);
     childProducts.push(newProduct);
 
-    ActionDerive(newProduct, now);
+    ActionDerive(newProduct);
   }
 
   // lay action
@@ -471,7 +486,7 @@ contract Product {
       else pro2.setConsumed(false);
     }
 
-    ActionMerge(newProduct, now);
+    ActionMerge(newProduct);
   }
 
   function collaborateInMerge(address newProductAddress, uint ratioToProduct, uint newProductAmount) notConsumed onlyPro{
@@ -502,7 +517,7 @@ contract Product {
   }
 }
 
-//db  0x69264D4E56Ba7d35b3aF716da6Be576fbc7E5D14
+//db  0x7DB67389b7Fac92e82441eCB7868144817CE95Ed
 //ac2 0xa562a101e01747Fb14a94eF6e0c7Bbea68A593D6
 //ac3 0xE104C85AEd805c74538E05A543e176620cbdC4C3
 //ac4 0x09e288CA24E8473BbB6A15D78A8B41316609aceF
@@ -510,3 +525,4 @@ contract Product {
 //ac6 0x7Bb34159863812f2d479D63f9Af4706D47bb2B67
 
 //pd2   0xEb62F2908f06B36462B6F5C2E28E31C07bF71cC2   tranfer
+//pd3   0x154A13ec6cF20d17383384803b7F095200aACb85   derive

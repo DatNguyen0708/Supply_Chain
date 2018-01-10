@@ -45,7 +45,10 @@ function showDetail(){
 
     var amountProduct = document.getElementById("amountProduct");
 
-    var ratioProduct = document.getElementById("ratioProduct");
+    var expirydate = document.getElementById("expirydate"); 
+
+    var expired= document.getElementById("expired");
+
 
     addressProduct.innerHTML = productId;
 
@@ -61,18 +64,17 @@ function showDetail(){
 
     amountProduct.innerHTML = productContract.at(productId).getAmount.call().toNumber();
 
+    expirydate.innerHTML= convertTimestamp(productContract.at(productId).expirydate.call());
+
     var checkboxConsumed = productContract.at(productId).isConsumed.call().toString();
     console.log(checkboxConsumed);
 
     if(checkboxConsumed=="true") {$("#isConsumed").prop("checked", true);}
     else {$("#isConsumed").prop("checked", false);}
 
-    
-
-
-    //ratioProduct.innerHTML = productContract.at(productId).ratio.call().toString();
-
-
+    if(productContract.at(productId).expirydate.call().toNumber()<=Date.now()/1000){
+        expired.innerHTML += "EXPIRED"
+    }
 }
 
 function showAction(){
@@ -102,7 +104,7 @@ function getActionById(actionId){
 
     console.log(actionById);
 
-    actionById[4] = actionId+1;
+    actionById[3] = actionId+1;
 
     listActions.push(actionById);
 
@@ -116,7 +118,7 @@ function waitAndRefreshAction(actionCount){
     var res = "";
 
         var auc = [];
-            auc[0] = ["STT", "Action", "Timestamp", "Ratio", "Amount"];
+            auc[0] = ["STT", "Action", "Timestamp", "Amount"];
 
         res = "<table border=1 id=\"listAction\" class=\"table table-striped table-bordered responstable\" cellspacing=\"0\" style=\"width: 100%;color: brown;\">";     
             res += "<thead>"
@@ -137,13 +139,10 @@ function waitAndRefreshAction(actionCount){
             console.log(actionId[0]);
 
             res = res + "<tr>";
-            res = res + "<td>" + actionId[4] + "</td>";
+            res = res + "<td>" + actionId[3] + "</td>";
             res = res + "<td>" + actionId[0] + "</td>";
             res = res + "<td>" + convertTimestamp(actionId[1]) + "</td>";
-            if(actionId[2]==0) res = res + "<td>" + "" + "</td>";
-            else
             res = res + "<td>" + actionId[2] + "</td>";
-            res = res + "<td>" + actionId[3] + "</td>";
             res = res + "</tr>";
         }
 
@@ -263,6 +262,8 @@ function waitAndRefreshParent(countParent, productId) {
             res = res + "<td>" + parents[j*2] + "</td>";
             //res = res + "<td><a href='/"+ parents[j*2+1] + "'>" + parents[j*2+1] + "</a></td>";
             res = res + "<td><a href='/"+ parents[j*2+1] + "'>" + web3.toUtf8(web3.eth.contract(abiProduct).at(parents[j*2+1]).name.call().toString()) +" : "+ parents[j*2+1] + "</a></td>";
+            if(arrayRatioPro[j] ==0) res = res + "<td>" + "" + "</td>";
+            else
             res = res + "<td>" + arrayRatioPro[j] + "</td>";
             res = res + "<td>" + web3.toUtf8(web3.eth.contract(abiProduct).at(parents[j*2+1]).unit.call().toString()) + "</td>";
             res = res + "</tr>";

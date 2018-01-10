@@ -47,10 +47,12 @@ function view() {
   var data = [];
 
   for (i = 0; i < countproduct; i++) {
-    var s = dbContract.getProductOfOwnerByAddress.call(executefrom, i)
-    data.push(s);
 
+    var s = dbContract.getProductOfOwnerByAddress.call(executefrom, i);
+  
+    data.push(s);
   }
+
   console.log(data);
   if( data.length !=0){
 
@@ -58,7 +60,7 @@ function view() {
       var res = "";
 
       var auc = [];
-      auc[0] = ["ID", "Product", "Action"];
+      auc[0] = ["ID", "Name of Product","Address of Product", "Action"];
 
       res = "<table border=1 id=\"listAccounts\" class=\"table table-striped table-bordered responstable\" cellspacing=\"0\" style=\"width: 100%;color: brown;\">";
       res += "<thead>"
@@ -74,6 +76,7 @@ function view() {
         var i = j + 1;
         res = res + "<tr>";
         res = res + "<td>" + i + "</td>";
+        res = res + "<td>" + web3.toUtf8(web3.eth.contract(abiProduct).at(data[j]).name.call().toString()) + "</td>";
         res = res + "<td><a href='/" + data[j] + "'>" + data[j] + "</a></td>";
         res = res + "<td><a href='/merge/" + data[j] + "/"+executefrom + "' class='btn btn-primary' id = 'merge"+i+"'>Merge</a><a href='/addaction/" + data[j] + "/"+executefrom+ "' class='btn btn-info' style= 'margin-left:5px;' id = 'addaction"+i+"'>Derive</a><a href='/tranferOwnership/" + data[j] + "/"+executefrom+ "' class='btn btn-danger' style= 'margin-left:5px;' id = 'ownership"+i+"'>Sell</a><a href='/setnewamount/" + data[j] + "/" +executefrom+ "' class='btn btn-success' id= '" + j + "' style= 'margin-left:5px;' >Set Amount</a></td>";
 
@@ -105,6 +108,13 @@ function view() {
         if (web3.eth.contract(abiProduct).at(data[j]).getCountParent.call().toNumber() != 0) {
           $('#' + j).hide();
         }
+        if (web3.eth.contract(abiProduct).at(data[j]).expirydate.call().toNumber() <Date.now()/1000) {
+          $('#' + j).attr('disabled','disabled');
+          $('#merge' + i).attr('disabled','disabled');
+          $("#addaction"+i).attr('disabled','disabled');
+          $("#ownership"+i).attr('disabled','disabled');
+        }
+
       }
 
       $(document).ready(function() {
