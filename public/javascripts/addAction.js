@@ -37,6 +37,11 @@ function submit() {
         alert("Please enter blank input")
         return
     }
+    if(toTimestamp(document.getElementById("expirydate").value)<=Date.now()/1000){
+        alert("Please enter new date")
+        return
+    
+      }
     var checkPass = checkPassword(executefrom, password);
 
     if (checkPass == false) {

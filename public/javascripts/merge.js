@@ -70,6 +70,11 @@ function submit() {
 
     }
   }
+  if(toTimestamp(document.getElementById("expirydate").value)<=Date.now()/1000){
+    alert("Please enter new date")
+    return
+
+  }
   console.log(web3.eth.contract(abiProduct).at(addfirstproduct));
 
   var checkPass = checkPassword(executefrom, password);

@@ -53,7 +53,7 @@ function check() {
   }
 
   console.log(dbContract.checkAccount.call(accountCheck));
-  if (d  == true) {
+  if (dbContract.checkAccount.call(accountCheck) == true) {
     $("#check_account").hide();
     $("#create_new_raw_product").show();
     document.getElementById("account").value = accountCheck;
@@ -67,6 +67,7 @@ function submit() {
 
   //$("#productOfOwner").text("");
   var executefrom = document.getElementById("account").value;
+  var _expirydte = document.getElementById("expirydate").value;
   var expirydate= toTimestamp(document.getElementById("expirydate").value);
 
   var _name = web3.toHex(document.getElementById("nameofproduct").value);
@@ -77,13 +78,18 @@ function submit() {
   console.log(_unit);
 
   var _DATABASE_CONTRACT = db_contract;
-  if (_amount == "" || _name == "" || _unit == "" || expirydate==""||!isNaN(document.getElementById("nameofproduct").value) || !isNaN(document.getElementById("unit").value)) {
+  if (_amount == "" || _name == "" || _unit == "" || _expirydte == ""||!isNaN(document.getElementById("nameofproduct").value) || !isNaN(document.getElementById("unit").value)) {
     alert("Please enter input again");
     return;
   }
+  if(toTimestamp(document.getElementById("expirydate").value)<=Date.now()/1000){
+    alert("Please enter new date")
+    return
+
+  }
 
   document.getElementById("Button").disabled = true;
-  alert("Wating for....")
+
   var productContract = web3.eth.contract(abiProduct);
   console.log(_name);
   var product = productContract.new(
