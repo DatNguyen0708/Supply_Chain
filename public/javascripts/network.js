@@ -9,7 +9,7 @@ getContractAddress = function(callback) {
 
             //solo network
             if (result == "1") {
-                db_contract = '0x6daf5Cf1E8f637a7A224D6d8FA2fcF724daF72b0';            
+                db_contract = '0x99B820477c393F0b86D5A66D1073448Ae02C2F4A';            
             }
 
             //Testnet Setup Morden

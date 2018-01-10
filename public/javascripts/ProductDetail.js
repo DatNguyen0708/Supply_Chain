@@ -46,14 +46,14 @@ function showDetail(){
     var amountProduct = document.getElementById("amountProduct");
 
     var expirydate = document.getElementById("expirydate"); 
+    var expired= document.getElementById("expired");
 
     var ratioProduct = document.getElementById("ratioProduct");
+    console.log(productContract.at(productId).expirydate.call().toNumber())
+
+
 
     addressProduct.innerHTML = productId;
-
-    console.log(productId);
-
-    //nameProduct = nameProduct.toUpperCase();
 
     nameProduct.innerHTML = web3.toUtf8(productContract.at(productId).name.call().toString()).toUpperCase();
 
@@ -64,12 +64,16 @@ function showDetail(){
     amountProduct.innerHTML = productContract.at(productId).getAmount.call().toNumber();
 
     expirydate.innerHTML= convertTimestamp(productContract.at(productId).expirydate.call());
+ 
 
     var checkboxConsumed = productContract.at(productId).isConsumed.call().toString();
     
 
     if(checkboxConsumed=="true") {$("#isConsumed").prop("checked", true);}
     else {$("#isConsumed").prop("checked", false);}
+    if(productContract.at(productId).expirydate.call().toNumber()<=Date.now()/1000){
+        expired.innerHTML += "EXPIRED"
+    }
 
     
 
@@ -85,7 +89,7 @@ function showAction(){
 
     var actionCount = productContract.at(productId).getCountAction.call().toNumber();
 
-    console.log(actionCount);
+   
 
     for(var i = 0 ; i<actionCount ; i++){
 
@@ -104,7 +108,7 @@ function getActionById(actionId){
 
     var actionById = productContract.at(productId).getAction.call(actionId);
 
-    console.log(actionById);
+   
 
     actionById[3] = actionId+1;
 
@@ -114,8 +118,7 @@ function getActionById(actionId){
 
 function waitAndRefreshAction(actionCount){
 
-    console.log(listActions);
-
+   
 
     var res = "";
 
@@ -159,7 +162,7 @@ function waitAndRefreshAction(actionCount){
             document.getElementById("tableAction").innerHTML = document.getElementById("tableAction").innerHTML.replace(/lt;/g, "<");
             document.getElementById("tableAction").innerHTML = document.getElementById("tableAction").innerHTML.replace(/gt;/g, ">");
 
-        console.log("Refreshing product!");
+       
 
         $(document).ready( function () {
         //createtable();
@@ -181,8 +184,7 @@ function showParentAndChild() {
     var countChild = productContract.at(productId).getCountChild.call().toNumber();
   
 
-    console.log(productId + " "+countParent + " " +countChild);
-
+    
     for (var i = 0; i < countParent; i++) {
         getParentById(i, productId);
         
@@ -202,31 +204,29 @@ function getParentById(parentId, productId){
 
     var AddressParentByIdx = productContract.at(productId).getAddressParentByIdx.call(parentId);
 
-    console.log(AddressParentByIdx);
-
+    
     parents.push(parentId+1);
 
     parents.push(AddressParentByIdx);
 
-    console.log(parents);
+    
 }
 
 function getChildById(childId, productId){
 
     var AddressChildByIdx = productContract.at(productId).getAddressChildByIdx.call(childId);
 
-    console.log(AddressChildByIdx);
+   
 
     childs.push(childId+1);
 
     childs.push(AddressChildByIdx);
     
-    console.log(childs);
+    
 }
 
 function waitAndRefreshParent(countParent, productId) {
 
-    console.log(parents);
 
     var arrayRatioPro = [];
 
@@ -238,10 +238,10 @@ function waitAndRefreshParent(countParent, productId) {
 
         arrayRatioPro.push(ratioProByIdx);
 
-        console.log(ratioProByIdx);
+        
     }
 
-    console.log(arrayRatioPro);
+
 
 
 
@@ -281,7 +281,7 @@ function waitAndRefreshParent(countParent, productId) {
             document.getElementById("tableParent").innerHTML = document.getElementById("tableParent").innerHTML.replace(/lt;/g, "<");
             document.getElementById("tableParent").innerHTML = document.getElementById("tableParent").innerHTML.replace(/gt;/g, ">");
 
-        console.log("Refreshing product!");
+       
 
         $(document).ready( function () {
         //createtable();
@@ -293,9 +293,7 @@ function waitAndRefreshParent(countParent, productId) {
 
 function waitAndRefreshChild(countChild) {
 
-    console.log(childs);
 
-    console.log(countChild);
 
     var res = "";
 
@@ -316,7 +314,6 @@ function waitAndRefreshChild(countChild) {
 
             var auc = childs[j];
 
-            console.log(childs[j]);
 
             //show timestamp and ratio of each product when it have already create
             var actions = productContract.at(childs[j*2+1]).getAction.call(0);
@@ -341,8 +338,6 @@ function waitAndRefreshChild(countChild) {
             document.getElementById("tableChild").innerHTML = document.getElementById("tableChild").innerHTML.replace(/amp;/g, "&");
             document.getElementById("tableChild").innerHTML = document.getElementById("tableChild").innerHTML.replace(/lt;/g, "<");
             document.getElementById("tableChild").innerHTML = document.getElementById("tableChild").innerHTML.replace(/gt;/g, ">");
-
-        console.log("Refreshing product!");
 
         $(document).ready( function () {
         //createtable();

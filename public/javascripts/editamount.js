@@ -2,7 +2,6 @@
 window.onload = function () {
         var account = document.getElementById('account').value;
         var product = document.getElementById('add').value;
-        var product = document.getElementById('add').value;
         var a= web3.toUtf8(web3.eth.contract(abiProduct).at(product).name.call().toString());
         document.getElementById('12').innerHTML = a;
     
@@ -16,7 +15,7 @@ function submit() {
 
     if (checkPass == false) { alert("WRONG PASSWORD"); return; }
     document.getElementById("Button").disabled = true;
-    web3.eth.contract(abiProduct).at(product).setNewAmount.sendTransaction(amount, {
+    web3.eth.contract(abiProduct).at(product).EditAmount.sendTransaction(amount, {
         from: executefrom,
         gas: "0x0" + (4000000).toString(16)
     }, function (error, result) {

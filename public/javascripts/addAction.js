@@ -57,20 +57,20 @@ function submit() {
 
         function (error, result) {
             if (!error) {
-                console.log(result);
-                console.log(web3.eth.getTransactionReceipt(result));
 
                 while (1) {
                     if (web3.eth.getTransactionReceipt(result) != null) {
                         hideSpinner();
                         if (web3.eth.getTransactionReceipt(result).status == "0x1") {
                             alert('You are add derive success');
-                            var event = web3.eth.contract(abiProduct).at(product).CreateContract1({});
+                            var event = web3.eth.contract(abiProduct).at(product).ActionDerive({});
                             event.watch(function (err, msg) {
-                                if (!err)
-                                    console.log(msg.args.proadd1);
-                                    location.replace("/"+msg.args.proadd1);
-                            });  
+                                if (!err){
+                                console.log(msg);
+                                console.log(msg.args.derive);
+                                location.replace("/" + msg.args.derive);
+                                }
+                            });
                         }
                         break;
                     }
@@ -78,7 +78,7 @@ function submit() {
             } else {
                 if (error != null) {
                     console.log(error);
-                    alert('You are add derive success');
+                    alert('You are add derive not success');
                     return;
                 }
                 console.error(error);

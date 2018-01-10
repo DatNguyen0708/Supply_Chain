@@ -42,8 +42,8 @@ app.get('/addaction/:add/:account', (req, res) => {
     res.render('addAction', { add: req.params.add, account: req.params.account});
 });
 
-app.get('/setnewamount/:add/:account', (req, res) => {
-    res.render('setNewAmount', { add: req.params.add, account: req.params.account});
+app.get('/editamount/:add/:account', (req, res) => {
+    res.render('editamount', { add: req.params.add, account: req.params.account});
 });
 
 app.get("/accounts", function (req, res) {

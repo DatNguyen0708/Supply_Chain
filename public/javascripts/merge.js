@@ -87,14 +87,15 @@ function submit() {
       while (1) {
         if (web3.eth.getTransactionReceipt(result) != null) {
           if (web3.eth.getTransactionReceipt(result).status == "0x1") {
-            console.log(result)
-            console.log(web3.eth.getTransactionReceipt(result))
+            // console.log(result)
+            // console.log(web3.eth.getTransactionReceipt(result))
             alert("You merge product success");
-            var event = web3.eth.contract(abiProduct).at(addfirstproduct).CreateContract({});
+            var event = web3.eth.contract(abiProduct).at(addfirstproduct).ActionMerge({});
             event.watch(function (err, msg) {
-              if (!err)
-                console.log(msg.args.proadd);
-              location.replace("/" + msg.args.proadd);
+              if (!err){
+                console.log(msg.args.merge);
+              location.replace("/" + msg.args.merge);
+              }
             });
           }
 

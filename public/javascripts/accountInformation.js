@@ -11,7 +11,15 @@ window.onload = function() {
     productContract = web3.eth.contract(abiProduct).at(db_contract);
 
     var address = document.getElementById('address').value;
-    console.log(address);
+    for(i=0;i<dbContract.getCountAccount();i++){
+      if(dbContract.getAccount.call(i)[0]==address){
+          document.getElementById("companyname").innerHTML+=web3.toUtf8(dbContract.getAccount.call(i)[1]);
+          document.getElementById("companyaddress").innerHTML+=web3.toUtf8(dbContract.getAccount.call(i)[2]);
+
+      }
+
+    }
+
     var countproduct = dbContract.getCountProductOfOwner.call(address).toNumber();
 
     var data = [];

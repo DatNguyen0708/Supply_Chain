@@ -106,7 +106,7 @@ function submit() {
       if (typeof contract.address !== 'undefined') {
         console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
         alert('You are deploy success');
-        location.replace("/index#all_product")
+        location.replace("/"+contract.address)
 
       }
     })
