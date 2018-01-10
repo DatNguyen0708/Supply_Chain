@@ -8,7 +8,7 @@ window.onload = function() {
     $("#content").append(`
     	<h1  style="color: red; margin-top:5%;" align="center">List of Product</h1>
 		<div id="tableListProduct" style="margin-left:5%; margin-right:5%;"></div>
-       
+     <div>  
       
 		`);
 
@@ -48,7 +48,7 @@ window.onload = function() {
       res = res + "<tr>";
       res = res + "<td>" + i + "</td>";
       res = res + "<td><a href='/"+ data[j] + "'>" + data[j] + "</a></td>";
-      res = res + "<td><a href='/cancel/" + data[j]  + "' class='btn btn-primary' id = 'cancel"+i+"'>Cancel</a></td>";
+      res = res + "<td><a href='/cancel/" + j  + "' class='btn btn-primary' >Cancel</a></td>";
 
       res = res + "</tr>";
     }

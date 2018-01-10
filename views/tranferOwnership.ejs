@@ -2,31 +2,22 @@
     <script src="/javascripts/tranferOwnership.js"></script>
 
 
+
+
 <!-- Page Content -->
     <input type="hidden" value="<%= add %>" id="add">
     <input type="hidden" value="<%= account %>" id="account">
-    <div class="panel panel-info" id="infoPanel"  style="margin-top: 5%; margin-left: 5%; margin-right: 5%">
-    <div class="panel-heading">
-        <h3 class="panel-title">Chung ta se lam gi ?</h3>
-    </div>
-    <div class="panel-body" id="infoPanelText">
-        <div id="bidder"></div>
+   
 
-    </div>
-  </div>
-    <div class="container" style="margin-top: 10px;">
+    
+
+    <div class="container" style="margin-top: 100px;">
 	    <div class="row">
 	      <div class="col-md-2"></div>
-	      <div class="col-md-8 test"> 
+	      <div class="col-md-8"> 
 	        <h1  style="color: red;" align="center">Tranfer Ownership For This Product</h1>
-	        <h3  style="color: blue;" align="center"><%= add %></h3>
+	        <h3  style="color: blue;" align="center"> <%= add %></h3>
 	        <br></br>
-	        <div class="box-body padding-large">
-	          <div class="form-group row">
-	            <label for="amountRemain " class="col-md-3 col-xs-12 text-left">Amount Remain</label>
-                <input type="number" name="amountRemain" class="col-md-9 col-xs-12 form-control" id="amountRemain" disabled>        
-	          </div>
-	        </div>
 	        <div class="box-body padding-large">
 	          <div class="form-group row">
 	            <label for="executefrom " class="col-md-3 col-xs-12 text-left">Execute From</label>
@@ -36,15 +27,13 @@
 	        <div class="box-body padding-large">
 	          <div class="form-group row">
 	            <label for="password" class="col-md-3 col-xs-12 text-left">Password</label>
-                <input type="password" name="password" class="col-md-9 col-xs-12 form-control" id="password" placeholder="Password">
+                <input  type="password" name="password" class="col-md-9 col-xs-12 form-control" id="password" placeholder="Password">
 	          </div>
 	        </div>
 	        <div class="box-body padding-large">
 	          <div class="form-group row">
 	            <label for="amount" class="col-md-3 col-xs-12 text-left">Amount</label>
-	            <div id="amountLimit">
-                	
-                </div>
+                <input onkeyup="validateamount(this);" type="text" name="amount" class="col-md-9 col-xs-12 form-control" id="amount" placeholder="Amount..." >
 	          </div>
 	        </div>
 	        <div class="box-body padding-large">
@@ -56,7 +45,7 @@
 	        <div class="box-body padding-large">
 	          <div class="form-group row">
 	            <label class="col-md-5 col-xs-12 text-left"></label>
-	            <button type="submit " class="col-md-2 col-xs-12 btn btn-primary " onclick="submit();">Submit</button>
+	            <button type="submit " id="Button" class="col-md-2 col-xs-12 btn btn-primary " onclick="submit();">Submit</button>
 	            <label class="col-md-5 col-xs-12 text-left"></label>
 	          </div>
 	        </div>
@@ -66,5 +55,5 @@
   </div>
 
 
-
+<br></br><br></br> <br></br><br></br>  <br>
  <% include footer%>

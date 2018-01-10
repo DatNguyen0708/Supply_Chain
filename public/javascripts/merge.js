@@ -48,24 +48,53 @@ function submit() {
     var executefrom = document.getElementById('x').value.toString();
     var executefrom = executefrom.replace(/"/g, "'");
     var password = document.getElementById('password').value;
+
+    if (newproduct == "" || a == "" || amount == "" || unit == "") {
+      alert("Please enter blank input")
+      return;
+    }
     if(ratio.length-1 != comboboxProduct.length){
-      alert("WRONG RATIO...............")
+      alert("WRONG RATIO...............");
+      return;
     };
     for(i=0;i<ratio.length;i++){
 
       if(isNaN(ratio[i])){
-        alert("WRONG RATIO, IT IS NOT NUMBER ...............")
+        alert("WRONG RATIO, IT MUST BE NUMBER ...............")
         return;
 
       }
     }
   console.log(web3.eth.contract(abiProduct).at(addfirstproduct));
-  var checkpass=checkPassword(executefrom, password);
 
-      if(checkpass == false) {  alert("WRONG PASSWORD"); return; } 
-  //web3.personal.unlockAccount(executefrom, password);
+  var checkPass = checkPassword(executefrom, password);
+
+  if(checkPass == false) {  alert("WRONG PASSWORD"); return; } 
+
+  document.getElementById("Button").disabled = true;
+
   web3.eth.contract(abiProduct).at(addfirstproduct).merge.sendTransaction(comboboxProduct, newproduct, ratio, amount, unit, {
     from: executefrom,
     gas: 4000000
+  }, function (error, result) {
+    if (!error) {
+
+      while (1) {
+        if (web3.eth.getTransactionReceipt(result) != null) {
+          if (web3.eth.getTransactionReceipt(result).status == "0x1") {
+            alert("You merge product success");
+            location.replace("/" + addfirstproduct);
+          }
+          break;
+        }
+      }
+    }
+    else {
+      if (error != null) {
+        alert(error);
+        return;
+      }
+      console.error(error);
+    }
   });
 }

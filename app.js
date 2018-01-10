@@ -38,6 +38,14 @@ app.get("/accountInformation/:address", function (req, res) {
 	res.render("accountInformation", { address: req.params.address}) ;
 });
 
+app.get("/edit/:idx", function (req, res) {
+	res.render("edit", { idx: req.params.idx}) ;
+});
+
+app.get("/cancel/:idx", function (req, res) {
+	res.render("cancel", { idx: req.params.idx}) ;
+});
+
 app.get('/addaction/:add/:account', (req, res) => {
     res.render('addAction', { add: req.params.add, account: req.params.account});
 });
@@ -49,6 +57,7 @@ app.get('/setnewamount/:add/:account', (req, res) => {
 app.get("/accounts", function (req, res) {
 	res.render("accounts") ;
 });
+
 app.get("/admintrator", function (req, res) {
 	res.render("admintrator") ;
 });
@@ -61,6 +70,7 @@ app.get("/admintrator/listAccount", function (req, res) {
 app.get("/admintrator/listProduct", function (req, res) {
 	res.render("listProduct") ;
 });
+
 app.get('/merge/:add/:account', (req, res) => {
     res.render('merge', { add: req.params.add, account: req.params.account});
 });

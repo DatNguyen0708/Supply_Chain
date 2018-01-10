@@ -10,14 +10,8 @@ window.onload = function() {
         </div>
         <div class="container" style="margin-top:4%">
         <div class="row">
-            <div class="col-md-6" >
-                  <h3  style="color: red;  margin-top:2%" align="center">List All of Account</h3>
-                  <div id="tableListAccount"></div>
-            </div>
-            <div class="col-md-6">
-                  <h3  style="color: red;  margin-top:2%" align="center">List all of Account access create new raw product </h3>
-                  <div id="tableListAccountRaw"></div>
-            </div>
+                  <h3  style="color: red;  margin-top:2%; " align="center">List All of Account</h3>
+                  <div id="tableListAccount" style="margin-left: 5%; margin-right: 5%;"></div>
             </div>
         </div>
     `);
@@ -32,10 +26,22 @@ window.onload = function() {
        <div class="row test">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <h1  style="color: red;  margin-top:2%" align="center">Access to create new raw product</h1>
+            <h1  style="color: red;  margin-top:2%" align="center">Add Account</h1>
               <div class="form-group row">
                 <label for="chooseaccount " class="col-md-3 col-xs-12 text-left">Choose Account</label>
                 <input type="text" name="account" class="col-md-9 col-xs-12 form-control" id="account" placeholder="Account">
+              </div>
+              <div class="form-group row">
+                <label for="name " class="col-md-3 col-xs-12 text-left">Name</label>
+                <input type="text" name="name" class="col-md-9 col-xs-12 form-control" id="name" placeholder="Name">
+              </div>
+              <div class="form-group row">
+                <label for="description " class="col-md-3 col-xs-12 text-left">Description</label>
+                <input type="text" name="description" class="col-md-9 col-xs-12 form-control" id="description" placeholder="Description">
+              </div>
+              <div class="form-group row">
+                <label for="checkraw" class="col-md-3 col-xs-12 text-left">Check Raw</label>
+                <input type="checkbox" value="" id="checkraw"></label>
               </div>
               <div class="form-group row">
                 <label for="executefrom" class="col-md-3 col-xs-12 text-left">Execute From</label>
@@ -47,7 +53,7 @@ window.onload = function() {
               </div>
               <div class="form-group row">
                 <label class="col-md-5 col-xs-12 text-left"></label>
-                <button type="submit " class="col-md-2 col-xs-12 btn btn-primary " onclick="access();">Access</button>
+                <button type="submit " class="col-md-2 col-xs-12 btn btn-primary " onclick="add();">Add</button>
                 <label class="col-md-5 col-xs-12 text-left"></label>
               </div>
             </div>
@@ -61,7 +67,7 @@ window.onload = function() {
     var data = [];
 
     for (i = 0; i < countAccount; i++) {
-      var s = dbContract.getAddressAccount.call(i);
+      var s = dbContract.getAccount.call(i);
       data.push(s);
 
     }
@@ -70,7 +76,8 @@ window.onload = function() {
     var res = "";
 
     var auc = [];
-    auc[0] = ["STT", "Account","Be Accessed"];
+
+    auc[0] = ["STT", "Address","Name", "Description","Be Accessed", "Edit"];
 
     res = "<table border=1 id=\"listAccount\" class=\"table table-striped table-bordered responstable\" cellspacing=\"0\" style=\"width: 100%;color: brown;\">";
     res += "<thead>"
@@ -83,19 +90,22 @@ window.onload = function() {
     res += "</tr></thead><tbody>";
 
     for (var j = 0; j < data.length; j++) {
-        
-       
+      var datainfo = data[j];
+       console.log(datainfo[0]);
       var i = j+1;
       res = res + "<tr>";
       res = res + "<td>" + i + "</td>";
-      res = res + "<td><a href='/accountInformation/"+ data[j] + "'>" + data[j] + "</a></td>";
-      if (dbContract.checkAccountRaw.call(data[j]) == true){
+      res = res + "<td><a href='/accountInformation/"+ datainfo[0] + "'>" + datainfo[0] + "</a></td>";
+      res = res + "<td>" + web3.toUtf8(datainfo[1]) + "</td>";
+      res = res + "<td>" + web3.toUtf8(datainfo[2]) + "</td>";
+
+      if (dbContract.checkAccount.call(datainfo[0]) == 1){
         res = res + "<td><span style='color: green;' class='glyphicon glyphicon-ok'></span></td>";
       }
       else{
         res = res + "<td><input type='checkbox' disabled></td>";
       }
-      
+      res = res + "<td><a href='/edit/" + j + "' class='btn btn-primary' >Edit</a></td>";
       res = res + "</tr>";
     }
 
@@ -108,7 +118,6 @@ window.onload = function() {
     document.getElementById("tableListAccount").innerHTML = document.getElementById("tableListAccount").innerHTML.replace(/lt;/g, "<");
     document.getElementById("tableListAccount").innerHTML = document.getElementById("tableListAccount").innerHTML.replace(/gt;/g, ">");
     console.log("Refreshing product!");
-    
 
     $(document).ready(function() {
       //createtable();
@@ -119,86 +128,30 @@ window.onload = function() {
         ]
       });
     });
-  
-
-    var countAccountRaw = dbContract.getCountAccountRaw.call().toNumber();
-    console.log(countAccountRaw);
-
-    var dataRaw = [];
-
-    for (i = 0; i < countAccountRaw; i++) {
-      var s = dbContract.getAddressAccountRaw.call(i);
-      dataRaw.push(s);
-
-    }
-    console.log(dataRaw);
-
-    var res = "";
-
-    var auc = [];
-    auc[0] = ["STT", "Account"];
-
-    res = "<table border=1 id=\"listAccountRaw\" class=\"table table-striped table-bordered responstable\" cellspacing=\"0\" style=\"width: 100%;color: brown;\">";
-    res += "<thead>"
-
-    res += "<tr>";
-    for (var j = 0; j <= auc[0].length - 1; j++) {
-      res += "<th>" + auc[0][j] + "</th>";
-    }
-
-    res += "</tr></thead><tbody>";
-
-    for (var j = 0; j < dataRaw.length; j++) {
-        
-       
-      var i = j+1;
-      res = res + "<tr>";
-      res = res + "<td>" + i + "</td>";
-      res = res + "<td><a href='/accountInformation/"+ dataRaw[j] + "'>" + dataRaw[j] + "</a></td>";      
-      res = res + "</tr>";
-    }
-
-    res += "</tbody><tfoot></tfoot></table>";
-
-    document.getElementById("tableListAccountRaw").innerHTML = res;
-    document.getElementById("tableListAccountRaw").innerHTML = document.getElementById("tableListAccountRaw").innerHTML.replace(/&/g, "");
-    document.getElementById("tableListAccountRaw").innerHTML = document.getElementById("tableListAccountRaw").innerHTML.replace(/amp;#92;/g, "\\");
-    document.getElementById("tableListAccountRaw").innerHTML = document.getElementById("tableListAccountRaw").innerHTML.replace(/amp;/g, "&");
-    document.getElementById("tableListAccountRaw").innerHTML = document.getElementById("tableListAccountRaw").innerHTML.replace(/lt;/g, "<");
-    document.getElementById("tableListAccountRaw").innerHTML = document.getElementById("tableListAccountRaw").innerHTML.replace(/gt;/g, ">");
-    console.log("Refreshing product!");
-
-    $(document).ready(function() {
-      //createtable();
-      $('#listAccountRaw').DataTable({
-        "lengthMenu": [
-          [5, 20, 50, -1],
-          [5, 20, 50, "All"]
-        ]
-      });
-    });
-
 });
 }
 
-function access(){
+function add(){
     var accessAccount = document.getElementById('account').value;
+    var name = document.getElementById('name').value;
+    var description = document.getElementById('description').value;
     var executefrom = document.getElementById('x').value;
+    var checkraw = document.getElementById("checkraw").value;
     var pass = document.getElementById('password').value;
     var checkpass=checkPassword(executefrom, pass);
 
     if(checkpass == false) { 
        alert("WRONG PASSWORD"); return; 
-     } 
-     if (dbContract.checkAccountRaw.call(accessAccount)== true){
-        alert("This account has been granted permission to create!");
-        return;
-     }else{
-        dbContract.AddlistAccountRaw.sendTransaction(accessAccount, {
-      from: executefrom,
-      gas: 4000000
-    }); 
-     }
-    
-    location.replace("/admintrator/listAccount");  
+    } 
+   if (dbContract.checkAccount.call(accessAccount)== 1){
+      alert("This account has been granted permission to create!");
+      return;
+   }else{
+      dbContract.AddlistAccount.sendTransaction(accessAccount, name, description, checkraw, {
+    from: executefrom,
+    gas: 4000000
+  }); 
+   }
+  
+  location.replace("/admintrator/listAccount");  
 }
