@@ -97,14 +97,90 @@ window.onload = function() {
 
 
 
-    $('#page0').addClass('page-active');
-    $('#page1').addClass('page-active');
-    $('#page2').addClass('page-active');
+        $('#page0').addClass('page-active');
+        $('#page1').addClass('page-active');
+        $('#page2').addClass('page-active');
+        $('#page3').addClass('page-active');
+        $('#page4').addClass('page-active');
+        $('#page5').addClass('page-active');
+
+
+        $(document).ready(function() {
+
+
+
+            $('#pagination-demo').twbsPagination({
+
+
+                totalPages: data.length/6+1,
+                // the current page that show on start
+                startPage: 1,
+
+                // maximum visible pages
+                visiblePages: 3,
+
+                initiateStartPageClick: true,
+
+                // template for pagination links
+                href: false,
+
+                // variable name in href template for page number
+                hrefVariable: '{{number}}',
+
+                // Text labels
+                first: 'First',
+                prev: 'Previous',
+                next: 'Next',
+                last: 'Last',
+
+                // carousel-style pagination
+                loop: false,
+
+
+
+                // callback function
+                onPageClick: function(event, page) {
+                    page = page - 1;
+
+
+                    page1 = page * 6;
+                    page2 = page * 6 + 1;
+                    page3 = page * 6 + 2;
+                    page4 = page * 6 + 3;
+                    page5 = page * 6 + 4;
+                    page6 = page * 6 + 5;
+
+                    $('.page-active').removeClass('page-active');
+
+
+                    $('#page' + page1).addClass('page-active');
+                    $('#page' + page2).addClass('page-active');
+                    $('#page' + page3).addClass('page-active');
+                    $('#page' + page4).addClass('page-active');
+                    $('#page' + page5).addClass('page-active');
+                    $('#page' + page6).addClass('page-active');
+
+                },
+
+                // pagination Classes
+                paginationClass: 'pagination',
+                nextClass: 'next',
+                prevClass: 'prev',
+                lastClass: 'last',
+                firstClass: 'first',
+                pageClass: 'page',
+                activeClass: 'active',
+                disabledClass: 'disabled'
+
+
+
+            });
+
+        });
 
 
     });
 }
-
 
 
 

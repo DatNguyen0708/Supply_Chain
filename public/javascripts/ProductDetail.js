@@ -102,7 +102,7 @@ function getActionById(actionId){
 
     console.log(actionById);
 
-    actionById[3] = actionId+1;
+    actionById[4] = actionId+1;
 
     listActions.push(actionById);
 
@@ -116,7 +116,7 @@ function waitAndRefreshAction(actionCount){
     var res = "";
 
         var auc = [];
-            auc[0] = ["STT", "Action", "Timestamp", "Ratio"];
+            auc[0] = ["STT", "Action", "Timestamp", "Ratio", "Amount"];
 
         res = "<table border=1 id=\"listAction\" class=\"table table-striped table-bordered responstable\" cellspacing=\"0\" style=\"width: 100%;color: brown;\">";     
             res += "<thead>"
@@ -137,12 +137,13 @@ function waitAndRefreshAction(actionCount){
             console.log(actionId[0]);
 
             res = res + "<tr>";
-            res = res + "<td>" + actionId[3] + "</td>";
+            res = res + "<td>" + actionId[4] + "</td>";
             res = res + "<td>" + actionId[0] + "</td>";
             res = res + "<td>" + convertTimestamp(actionId[1]) + "</td>";
-           // if(actionId[2]==0) res = res + "<td>" + "" + "</td>";
-            //else
+            if(actionId[2]==0) res = res + "<td>" + "" + "</td>";
+            else
             res = res + "<td>" + actionId[2] + "</td>";
+            res = res + "<td>" + actionId[3] + "</td>";
             res = res + "</tr>";
         }
 
@@ -160,7 +161,7 @@ function waitAndRefreshAction(actionCount){
         $(document).ready( function () {
         //createtable();
         $('#listAction').DataTable({
-            "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]]
+            "lengthMenu": [[5, 20, 50, -1], [5, 20, 50, "All"]]
         });
          } );
     
@@ -243,7 +244,7 @@ function waitAndRefreshParent(countParent, productId) {
     var res = "";
 
         var auc = [];
-            auc[0] = ["STT", "Address","Ratio"];
+            auc[0] = ["STT", "Address","Ratio", "Unit"];
 
         res = "<table border=1 id=\"listParent\" class=\"table table-striped table-bordered responstable\" cellspacing=\"0\" style=\"width: 100%;color: brown;\">";     
             res += "<thead>"
@@ -260,8 +261,10 @@ function waitAndRefreshParent(countParent, productId) {
 
             res = res + "<tr>";
             res = res + "<td>" + parents[j*2] + "</td>";
-            res = res + "<td><a href='/"+ parents[j*2+1] + "'>" + parents[j*2+1] + "</a></td>";
+            //res = res + "<td><a href='/"+ parents[j*2+1] + "'>" + parents[j*2+1] + "</a></td>";
+            res = res + "<td><a href='/"+ parents[j*2+1] + "'>" + web3.toUtf8(web3.eth.contract(abiProduct).at(parents[j*2+1]).name.call().toString()) +" : "+ parents[j*2+1] + "</a></td>";
             res = res + "<td>" + arrayRatioPro[j] + "</td>";
+            res = res + "<td>" + web3.toUtf8(web3.eth.contract(abiProduct).at(parents[j*2+1]).unit.call().toString()) + "</td>";
             res = res + "</tr>";
         }
 
@@ -279,7 +282,7 @@ function waitAndRefreshParent(countParent, productId) {
         $(document).ready( function () {
         //createtable();
         $('#listParent').DataTable({
-            "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]]
+            "lengthMenu": [[5, 20, 50, -1], [5, 20, 50, "All"]]
         });
          } );
 }
@@ -318,7 +321,8 @@ function waitAndRefreshChild(countChild) {
 
             res = res + "<tr>";
             res = res + "<td>" + childs[j*2] + "</td>";
-            res = res + "<td><a href='/"+ childs[j*2+1] + "'>" + childs[j*2+1] + "</a></td>";
+            //res = res + "<td><a href='/"+ childs[j*2+1] + "'>" + childs[j*2+1] + "</a></td>";
+            res = res + "<td><a href='/"+ childs[j*2+1] + "'>"+web3.toUtf8(web3.eth.contract(abiProduct).at(childs[j*2+1]).name.call().toString()) +" : "+ childs[j*2+1] + "</a></td>";
             res = res + "<td>" + convertTimestamp(actions[1]) + "</td>";
             //if(actions[2] ==0) res = res + "<td>" + "" + "</td>";
             //else
@@ -340,7 +344,7 @@ function waitAndRefreshChild(countChild) {
         $(document).ready( function () {
         //createtable();
         $('#listChild').DataTable({
-            "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]]
+            "lengthMenu": [[5, 20, 50, -1], [5, 20, 50, "All"]]
         });
     } );
 }

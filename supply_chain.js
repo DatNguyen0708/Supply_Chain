@@ -1,11 +1,23 @@
 pragma solidity ^ 0.4 .15;
 
 contract Database {
+
   // mang dia chi product ma database nay luu tru
   address[] public products;
 
+  // mang dia chi account dc quyen tao nguyen lieu tho
+  address[] public accountRaw;
+
+  //chu so huu contract (admin)
+  address public ownerDB;
+
+  //mang dia chi account cos so huu product
+  address[] public accounts;
+
   // Constructor to create a Database 
-  function Database() {}
+  function Database() {
+      ownerDB= msg.sender;
+  }
 
   function() {
        // If anyone wants to send Ether to this contract, the transaction gets rejected
@@ -15,6 +27,74 @@ contract Database {
 
   mapping(address => address[]) public productOfOwner;
 
+  //kiem tra co phai chu so huu db ko
+  modifier onlyOwnerDB {
+      if (msg.sender != ownerDB)
+        revert();
+      _;
+  }
+
+  // lay dia chi chu db
+  function getOwnerDB() constant returns (address){
+        return ownerDB;
+  }
+
+  // chuyen quyen so huu db 
+  function transferOwnerDB(address _newOwnerDB) onlyOwnerDB{
+    ownerDB = _newOwnerDB;
+  }
+
+  // kiem tra account co quyen tao sp ms hay ko
+  function checkAccountRaw(address _account) returns (bool){
+    for (uint i = 0; i < accountRaw.length ; i++) {
+      if (_account == accountRaw[i]) {
+          return true;
+      }
+    }
+    return false;
+  }
+
+  // kiem tra account da co so huu sp hay chua
+  function checkAccount(address _account) returns (bool){
+    for (uint i = 0; i < accounts.length ; i++) {
+      if (_account == accounts[i]) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // access cho 1 account co quyen tao sp tho hay ko
+  function AddlistAccountRaw(address _account) onlyOwnerDB {
+      accountRaw.push(_account);
+  }
+
+  // them account vao danh sach account co so huu sp co trong he thong
+  function AddlistAccount(address _account)  {
+      accounts.push(_account);
+  }
+
+  // dem so luong account co so huu sp trong he thong
+  function getCountAccount() constant returns (uint){
+        return accounts.length;
+  }
+
+  // lay dia chi account theo id
+  function getAddressAccount(uint idx) constant returns (address){
+        return accounts[idx];
+  }
+
+  // dem so luong account 
+  function getCountAccountRaw() constant returns (uint){
+        return accountRaw.length;
+  }
+
+  // lay dia chi account co quyen tao nguyen lieu tho theo id
+  function getAddressAccountRaw(uint idx) constant returns (address){
+        return accountRaw[idx];
+  }
+
+  // gom cac san pham co chung chu so huu
   function AddlistProductOfOwner(address _handler, address _pro){
       productOfOwner[_handler].push(_pro);
   }
@@ -24,10 +104,9 @@ contract Database {
        products.push(productAddress);
   }
 
-  function createProduct(bytes32 _name, address[] _parentProducts, bytes32 _unit, uint _amount, address _handler) returns(address) {
-
-        return new Product(_name, _parentProducts, _unit, _amount, _handler, this);
-
+  // tao sp moi
+  function createProduct(bytes32 _name, address[] _parentProducts, bytes32 _unit, uint _amount, uint[] _ratio, address _handler, uint _expirydateChild) returns(address) {
+        return new Product(_name, _parentProducts, _unit, _amount, _ratio, _handler, _expirydateChild, this);
   }
 
   // so product hien tai duoc luu trong contract database
@@ -35,14 +114,17 @@ contract Database {
         return products.length;
   }
 
+  // lay dia chi product
   function getAddressProduct(uint idx) constant returns (address){
         return products[idx];
   }
 
+  // dem so pro thuoc quyen so huu cua 1 account bat ky
   function getCountProductOfOwner(address _handler) constant returns (uint) {
         return productOfOwner[_handler].length;
   }
 
+  // lay dia chi pro theo id
   function getProductOfOwnerByAddress(address _handler, uint idx) constant returns (address) {
         return productOfOwner[_handler][idx];
   }
@@ -64,7 +146,8 @@ contract Product {
       // dau thoi gian va numberblock khi action thuc hien xong
       uint timestamp;
 
-      uint ratio;
+
+      uint amount;
     }
 
     // product da duoc su dung xong hay chua
@@ -81,12 +164,20 @@ contract Product {
       _;
     }
 
+    // // check quyen huy sp nao do khi nay sinh van de
+    // modifier onlyAccessCancel {
+    //   if ((msg.sender != owner)  (msg.sender != Database(DATABASE_CONTRACT).getOwnerDB()))
+    //     revert();
+    //   _;
+    // }
+
     // kiem tra no la nguyen lieu tho hay khong
     modifier onlyHaveChild {
       if (parentProducts.length != 0)
         revert();
       _;
     }
+
 
     // mang dia chi cha cua sp hien tai
     address[] public parentProducts;
@@ -104,56 +195,84 @@ contract Product {
 
     uint public amount;
 
-    uint[] public ratioMerge;
+    uint public expirydate;
+
+    uint[] public ratioPro;
+
+    event CreateContract(address, uint);
+    event CreateContract1(address, uint);
 
     // mang cac hanh dong duoc thuc hien tren sp do
     Action[] public actions;
 
-    function Product(bytes32 _name, address[] _parentProducts, bytes32 _unit, uint _amount, address handler, address _DATABASE_CONTRACT) {
+    function Product(bytes32 _name, address[] _parentProducts, bytes32 _unit, uint _amount, uint[] _ratio, address handler, uint _expirydate, address _DATABASE_CONTRACT) {
 
-        name = _name;
-        parentProducts = _parentProducts;
-        unit =_unit;
-        amount= _amount;
-        if (amount==0){
+      name = _name;
+      parentProducts = _parentProducts;
+      unit = _unit;
+      amount = _amount;
+      expirydate = _expirydate;
+
+      if (expirydate <= now){
+        revert();
+      }
+
+
+      if (amount == 0) {
+        revert();
+      }
+
+      isConsumed = false;
+
+      owner = handler;
+
+      DATABASE_CONTRACT = _DATABASE_CONTRACT;
+      Database database = Database(DATABASE_CONTRACT);
+      if (parentProducts.length == 0){
+        if (msg.sender != owner){
           revert();
         }
-        
-        isConsumed = false;
-        
-        owner = handler;
+        bool check = database.checkAccountRaw(owner);
+          if (check == false){
+            revert();         
+        }       
+      }
+      bool check1 = database.checkAccount(owner);
+      if( check1 == false){
+        database.AddlistAccount(owner);
+      }
 
-        DATABASE_CONTRACT = _DATABASE_CONTRACT;
+      Action memory creation;
+      creation.description = "Product creation";
+      creation.timestamp = now;
+      creation.amount = _amount;
 
-        Action memory creation;
-        creation.description = "Product creation";
-        creation.timestamp = now;
+      ratioPro = _ratio;
 
-        actions.push(creation);
+      actions.push(creation);
 
-        Database database = Database(DATABASE_CONTRACT);
+      database.AddlistProductOfOwner(owner, this);
 
-        database.AddlistProductOfOwner(owner, this);
-
-        database.storeProductReference(this);
+      database.storeProductReference(this);
     }
+
 
     function() {
         // If anyone wants to send Ether to this contract, the transaction gets rejected```
         revert();
     }
 
-
-    function derive(bytes32 newProductsName, bytes32 unitChild, uint amountChild, uint ratioToChild) notConsumed onlyOwner{ 
+    // tao hanh dong tren mot sp bat ky
+    function derive(bytes32 newProductsName, bytes32 unitChild, uint amountChild, uint ratioToChild, uint expirydateChild) notConsumed onlyOwner{ 
 
         uint totalSpend = amountChild * ratioToChild;
 
-        if (amount < totalSpend){
+        if ((expirydateChild <= now) || (amount < totalSpend) || (expirydate<now)) {
           revert();
         }
 
         if (amount == totalSpend){
-          isConsumed=true;
+          isConsumed = true;
         }
 
         this.setAmount(this.getAmount() - totalSpend);
@@ -161,7 +280,8 @@ contract Product {
         Action memory action;
         action.description = "Derived"; 
         action.timestamp = now;
-        action.ratio = ratioToChild;
+
+        action.amount = totalSpend;
 
         actions.push(action);
 
@@ -169,55 +289,90 @@ contract Product {
 
         address[] memory parentProduct = new address[](1);
         parentProduct[0] = this;
-        address newProduct1 = database.createProduct(newProductsName, parentProduct, unitChild, amountChild, owner ); 
-        childProducts.push(newProduct1);
-        
+
+        uint[] memory ratio1 = new uint[](1);
+        ratio1[0] = ratioToChild;
+
+        address newProduct = database.createProduct(newProductsName, parentProduct, unitChild, amountChild, ratio1, owner, expirydateChild ); 
+        childProducts.push(newProduct);  
+
+        CreateContract1(newProduct, now);     
     }
 
-
+    // lay action
     function getAction(uint idx) constant returns (string, uint, uint) {
         Action storage a = actions[idx];
 
         return (a.description,
                 a.timestamp,
-                a.ratio
+                a.amount
                 );
     }
 
     //chuyen quyen so huu product cho ng khac
     function transferOwnership(address _newOwner, uint _amount) onlyOwner{
 
-        if(_newOwner == owner){
+        if((_newOwner == owner) || (amount < _amount) || (expirydate <= now)){
           revert();
         }
 
-        if (amount < _amount) {
-          revert();
+        bool check = false;
+
+        Action memory action;
+        action.description = "Tranfer to new Owner";
+        action.timestamp = now;
+        action.amount = _amount;
+        actions.push(action);
+
+        for (uint i = 0; i < parentProducts.length; i++){
+          Product pro = Product(parentProducts[i]);
+          if ((_newOwner == pro.getOwner()) && (pro.getName() == name)){
+            check = true;
+            pro.setAmount(pro.getAmount() + _amount);
+            this.setAmount(this.getAmount() - _amount);
+          
+            break;
+          }
+        }
+        if (check == false){       
+          address[] memory parentProduct = new address[](1);
+          parentProduct[0] = this;
+          uint[] memory ratio1 = new uint[](1);
+          ratio1[0] = 0;
+
+          this.setAmount(this.getAmount() - _amount);  
+
+          address newProduct = Database(DATABASE_CONTRACT).createProduct( name, parentProduct, unit, _amount, ratio1, _newOwner, expirydate);  
+          childProducts.push(newProduct);             
         }
 
-        if(amount == _amount) {
-
-          this.setConsumed(true);
-        }
-
-
-
-        address[] memory parentProduct1 = new address[](1);
-        parentProduct1[0] = this;
-
-        this.setAmount(this.getAmount() - _amount);
-
-        Database database = Database(DATABASE_CONTRACT);
-
-        address newProduct2 = database.createProduct( name, parentProduct1, unit, _amount, _newOwner );  
-
-        childProducts.push(newProduct2);
-
-
+        if (this.getAmount() == 0) {
+              this.setConsumed(true);
+        } 
+        
     }
+
+    function getExpirydate() constant returns (uint){
+        return expirydate;
+    }
+
     // get owner
     function getOwner() constant returns (address){
         return owner;
+    }
+
+    // lay ten sp
+    function getName() constant returns (bytes32){
+        return name;
+    }
+
+    function getCountRatioPro() constant returns (uint){
+        return ratioPro.length;
+    }
+
+
+    function getRatioProByIdx(uint idx) constant returns (uint){
+        return ratioPro[idx];
     }
 
     // dem so hanh dong cua product hien tai
@@ -266,76 +421,75 @@ contract Product {
         if (isConsumed== true) this.setAmount(0); 
     }
 
-    // them so luong product neu da su dung het, ap dung voi nguyen lieu tho
-    function setNewAmount(uint _newAmount) onlyHaveChild onlyOwner{
-        amount += _newAmount; 
-        isConsumed= false;
+    function cancel() {
+      if ((msg.sender == owner) || (msg.sender == Database(DATABASE_CONTRACT).getOwnerDB())){
+        this.setAmount(0);
+        this.setConsumed(true);
+      }  
+      else {
+        revert();
+      }   
     }
 
-    function merge( address[] otherProducts, bytes32 newProductName,uint[] ratioToProduct,uint newProductAmount, bytes32 newProductUnit) notConsumed  {
+    // them so luong product neu da su dung het, ap dung voi nguyen lieu tho
+    function EditAmount(uint _newAmount) onlyHaveChild onlyOwner{
+        if(_newAmount < 0){
+          revert();
+        }
+        amount = _newAmount;
 
-        if ((otherProducts.length +1) != ratioToProduct.length )
-           revert();
+        Action memory action;
+        action.description ="Edit Amount"; 
+        action.timestamp = now;
+        action.amount = _newAmount;
+        actions.push(action); 
 
-        //code them cho th xu ly phai la parent
-        address[] memory parentProduct1 = new address[](otherProducts.length+1);
+        if(amount == 0){
+          isConsumed = true;
+        }
+        else{
+          isConsumed= false;
+        }
+    }
 
-        for (uint i1 = 0; i1 < otherProducts.length; i1++) {
-          parentProduct1[i1] = otherProducts[i1];
+    // Ham ket hop nhieu sp thanh mot sp
+    function merge( address[] otherProducts, bytes32 newProductName,uint[] ratioToProduct,uint newProductAmount, bytes32 newProductUnit, uint expirydateChild) notConsumed  {
+        if ((expirydateChild <= now) || (otherProducts.length != ratioToProduct.length ) || (otherProducts.length==1)) {
+          revert();
         }
 
-        parentProduct1[otherProducts.length] = this;
-
-        for (uint j1 = 0; j1 < parentProduct1.length; j1++) {
-
-          Product pro1 = Product(parentProduct1[j1]);
-          if(pro1.getOwner() != msg.sender) revert();
-          if (pro1.getAmount() < (newProductAmount * ratioToProduct[j1])) revert();     
+        for (uint i = 0; i < otherProducts.length; i++) {
+          Product pro = Product(otherProducts[i]);
+          if((pro.getOwner() != msg.sender) || (pro.getAmount() < (newProductAmount * ratioToProduct[i])) || (pro.getExpirydate() < now)) revert(); 
         }
 
-        Database database = Database(DATABASE_CONTRACT);
+        address newProduct = Database(DATABASE_CONTRACT).createProduct(newProductName, otherProducts, newProductUnit, newProductAmount, ratioToProduct, owner, expirydateChild);
 
-        address newProduct = database.createProduct(newProductName, parentProduct1, newProductUnit, newProductAmount, owner);
-
-        for (uint k = 0; k < parentProduct1.length; k++){
-          Product pro2 = Product(parentProduct1[k]);
+        for (uint k = 0; k < otherProducts.length; k++){
+          Product pro2 = Product(otherProducts[k]);
           pro2.setAmount(pro2.getAmount() - (newProductAmount * ratioToProduct[k])) ; 
-          pro2.collaborateInMerge(newProduct,ratioToProduct[k]);
+          pro2.collaborateInMerge(newProduct,ratioToProduct[k], newProductAmount );
           if (pro2.getAmount() == 0) pro2.setConsumed(true);  
           else pro2.setConsumed(false);
         }   
+
+        CreateContract(newProduct, now);
     }
 
-    function collaborateInMerge(address newProductAddress, uint ratioToProduct) notConsumed {
+    function collaborateInMerge(address newProductAddress, uint ratioToProduct, uint newProductAmount) notConsumed {
         childProducts.push(newProductAddress);
 
         Action memory action;
         action.description = "Collaborate in merge";
         action.timestamp = now;
-        action.ratio = ratioToProduct;
+  
+        action.amount = newProductAmount * ratioToProduct;
 
         actions.push(action);
     }
-
 }
 
-//db  0x97764612CEAd6C29811594bF1231b2B087B403A2
-//ac2 0x308fF6517725C12dDaD704fD7C5633a82e103a21
-//ac3 0xC50E11CE0f80B3F1B05a4b279f95e94a73BB0640
-//ac4 
-//ac5 
-
-//pd1_ac3       0xa2d4540CFA30aC0a2a7Ff1f6ba978e851B1d1cAb    8800
-//pd2_ac3       0x66FCe348E7742910135B536f5E0aa92289A1A2fb     200 -30    
-//pd3_ac3       0x06178f2A79a2090377318948cc2176831E3258A9     200 -10
-//pd4_ac3       0x84c9B3484Cd7c004AEA15065619B1796Fe9720AF     300
-//pd5_ac3       0x57fcBdf932b703f824a688BF3fFc44C1310E3227     0 
-//pd6_ac3       0x94eEf8996867a7e9cefa153A2b3762A0F63E9e0a    200
-//pd7_ac4       0x1d73b14d761BB04ee61ebb8741d082cD245f378F    100 -20
-//pd8_ac4_child   0x419C8D1CA8Dc2bc4f44eAf968507944B121897A6    10
-
-
-//pd4   
-//pd5   
-//pd6 
-//abi [ { "constant": true, "inputs": [], "name": "name", "outputs": [ { "name": "", "type": "bytes32", "value": "0x" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_newOwner", "type": "address" }, { "name": "_amount", "type": "uint256" } ], "name": "transferOwnership", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "childProducts", "outputs": [ { "name": "", "type": "address", "value": "0x" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_amount", "type": "uint256" } ], "name": "setAmount", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "DATABASE_CONTRACT", "outputs": [ { "name": "", "type": "address", "value": "0x" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "newProductAddress", "type": "address" } ], "name": "collaborateInMerge", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "getConsumed", "outputs": [ { "name": "", "type": "bool", "value": false } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getCountParent", "outputs": [ { "name": "", "type": "uint256", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "idx", "type": "uint256" } ], "name": "getAddressChildByIdx", "outputs": [ { "name": "", "type": "address", "value": "0xa20edb925ed23009eff6198ff27d643c15fdec4a" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "ratio", "outputs": [ { "name": "", "type": "uint256", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "isConsumed", "outputs": [ { "name": "", "type": "bool", "value": false } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "description", "type": "string" }, { "name": "newProductsNames", "type": "bytes32[]" }, { "name": "units", "type": "bytes32[]" }, { "name": "amounts", "type": "uint256[]" }, { "name": "ratios", "type": "uint256[]" } ], "name": "addAction", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "actions", "outputs": [ { "name": "description", "type": "string", "value": "Product creation" }, { "name": "timestamp", "type": "uint256", "value": "1514254204" }, { "name": "blockNumber", "type": "uint256", "value": "2466" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getOwner", "outputs": [ { "name": "", "type": "address", "value": "0xc6bb845e7e6903ff1ab642b0d0998f62dd6e1136" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "owner", "outputs": [ { "name": "", "type": "address", "value": "0xc6bb845e7e6903ff1ab642b0d0998f62dd6e1136" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "otherProducts", "type": "address[]" }, { "name": "newProductName", "type": "bytes32" }, { "name": "ratioToProduct", "type": "uint256[]" }, { "name": "newProductAmount", "type": "uint256" }, { "name": "newProductUnit", "type": "bytes32" } ], "name": "merge", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "unit", "outputs": [ { "name": "", "type": "bytes32", "value": "0x6b67000000000000000000000000000000000000000000000000000000000000" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_newAmount", "type": "uint256" } ], "name": "setNewAmount", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "amount", "outputs": [ { "name": "", "type": "uint256", "value": "9600" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "idx", "type": "uint256" } ], "name": "getAction", "outputs": [ { "name": "", "type": "string", "value": "Product creation" }, { "name": "", "type": "uint256", "value": "1514254204" }, { "name": "", "type": "uint256", "value": "2466" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_consumed", "type": "bool" } ], "name": "setConsumed", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "getCountChild", "outputs": [ { "name": "", "type": "uint256", "value": "2" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getAmount", "outputs": [ { "name": "", "type": "uint256", "value": "9600" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "idx", "type": "uint256" } ], "name": "getAddressParentByIdx", "outputs": [ { "name": "", "type": "address", "value": "0x" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "parentProducts", "outputs": [ { "name": "", "type": "address", "value": "0x" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "inputs": [ { "name": "_name", "type": "bytes32", "index": 0, "typeShort": "bytes", "bits": "32", "displayName": "&thinsp;<span class=\"punctuation\">_</span>&thinsp;name", "template": "elements_input_bytes" }, { "name": "_parentProducts", "type": "address[]", "index": 1, "typeShort": "address", "bits": "[]", "displayName": "&thinsp;<span class=\"punctuation\">_</span>&thinsp;parent Products", "template": "elements_input_json" }, { "name": "_unit", "type": "bytes32", "index": 2, "typeShort": "bytes", "bits": "32", "displayName": "&thinsp;<span class=\"punctuation\">_</span>&thinsp;unit", "template": "elements_input_bytes" }, { "name": "_amount", "type": "uint256", "index": 3, "typeShort": "uint", "bits": "256", "displayName": "&thinsp;<span class=\"punctuation\">_</span>&thinsp;amount", "template": "elements_input_uint" }, { "name": "_ratio", "type": "uint256", "index": 4, "typeShort": "uint", "bits": "256", "displayName": "&thinsp;<span class=\"punctuation\">_</span>&thinsp;ratio", "template": "elements_input_uint" }, { "name": "handler", "type": "address", "index": 5, "typeShort": "address", "bits": "", "displayName": "handler", "template": "elements_input_address" }, { "name": "_DATABASE_CONTRACT", "type": "address", "index": 6, "typeShort": "address", "bits": "", "displayName": "&thinsp;<span class=\"punctuation\">_</span>&thinsp; D A T A B A S E&thinsp;<span class=\"punctuation\">_</span>&thinsp; C O N T R A C T", "template": "elements_input_address" } ], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "payable": false, "stateMutability": "nonpayable", "type": "fallback" } ]
+//db  0x0508C9280549D1beA4B90661CbCf44BAB922A710
+//ac2 0xa4920e2FbDe36c2Ae9F554B5eaB3Ef953Fe37F2d
+//ac3 0x08eCDcd61bDe541EF1403AE446f44485d2C2FabC
+//0xcbd0dFA1cef54da88Ab0c94d2eEEc8584977ca1D
