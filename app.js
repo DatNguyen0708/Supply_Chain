@@ -38,6 +38,14 @@ app.get("/accountInformation/:address", function (req, res) {
 	res.render("accountInformation", { address: req.params.address}) ;
 });
 
+app.get("/edit/:idx", function (req, res) {
+	res.render("edit", { idx: req.params.idx}) ;
+});
+
+app.get("/cancel/:idx", function (req, res) {
+	res.render("cancel", { idx: req.params.idx}) ;
+});
+
 app.get('/addaction/:add/:account', (req, res) => {
     res.render('addAction', { add: req.params.add, account: req.params.account});
 });
@@ -64,6 +72,10 @@ app.get("/admintrator/listProduct", function (req, res) {
 });
 
 app.get('/merge/:add/:account', (req, res) => {
+    res.render('merge', { add: req.params.add, account: req.params.account});
+});
+
+app.get('/cancelProduct/:add/:account', (req, res) => {
     res.render('merge', { add: req.params.add, account: req.params.account});
 });
 

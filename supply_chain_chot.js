@@ -16,6 +16,10 @@ contract Database {
     bool checkRaw;
 
     address ownerPro;
+
+    bytes32 phonenumber;
+
+    bytes32 email;
   }
 
   // mang dia chi account dc quyen tao nguyen lieu tho
@@ -50,7 +54,7 @@ contract Database {
     ownerDB = _newOwnerDB;
   }
 
-  function editAccount(address _account, bytes32 _name, bytes32 _description, bool _checkRaw) onlyOwnerDB {
+  function editAccount(address _account, bytes32 _name, bytes32 _description, bool _checkRaw, bytes32 _phonenumber, bytes32 _email) onlyOwnerDB {
     if((_name == "") || (_description == "")) {
       revert();
     }
@@ -60,6 +64,8 @@ contract Database {
         a.name = _name;
         a.description = _description;
         a.checkRaw = _checkRaw;
+        a.phonenumber = _phonenumber;
+        a.email = _email;
         return;
       }
     }
@@ -82,7 +88,7 @@ contract Database {
   }
 
   // access cho 1 account co quyen tao sp tho hay ko
-  function AddlistAccount(address _account, bytes32 _name, bytes32 _description, bool _checkRaw) onlyOwnerDB {
+  function AddlistAccount(address _account, bytes32 _name, bytes32 _description, bool _checkRaw, bytes32 _phonenumber, bytes32 _email) onlyOwnerDB {
     for (uint i = 0; i < accounts.length; i++) {
       OwnerPro storage a1 = accounts[i];
       if (a1.ownerPro == _account) {
@@ -96,6 +102,8 @@ contract Database {
     a.description = _description;
     a.ownerPro = _account;
     a.checkRaw = _checkRaw;
+    a.phonenumber = _phonenumber;
+    a.email = _email;
   }
 
   // dem so luong account co so huu sp trong he thong
@@ -104,14 +112,16 @@ contract Database {
   }
 
   // lay dia chi account theo id
-  function getAccount(uint idx) constant returns(address, bytes32, bytes32, bool) {
+  function getAccount(uint idx) constant returns(address, bytes32, bytes32, bool, bytes32, bytes32) {
 
     OwnerPro storage a = accounts[idx];
     return (
       a.ownerPro,
       a.name,
       a.description,
-      a.checkRaw
+      a.checkRaw,
+      a.phonenumber,
+      a.email
     );
   }
 
@@ -440,6 +450,12 @@ contract Product {
     if ((msg.sender == owner) || (msg.sender == Database(DATABASE_CONTRACT).getOwnerDB())) {
       this.setAmount(0);
       this.setConsumed(true);
+
+      Action memory action;
+      action.description = "Cancel Product";
+      action.timestamp = now;
+      action.amount = 0;
+      actions.push(action);
     } else {
       revert();
     }
@@ -517,12 +533,12 @@ contract Product {
   }
 }
 
-//db  0x7DB67389b7Fac92e82441eCB7868144817CE95Ed
-//ac2 0xa562a101e01747Fb14a94eF6e0c7Bbea68A593D6
-//ac3 0xE104C85AEd805c74538E05A543e176620cbdC4C3
-//ac4 0x09e288CA24E8473BbB6A15D78A8B41316609aceF
-//ac5 0x58AEeCdcc4ebaf78DdA373f1aF3A9294516739bd
-//ac6 0x7Bb34159863812f2d479D63f9Af4706D47bb2B67
+//db  0xaeA8d13218D3f97dbE2720363F947BC4622b1446
+//ac2 0x3CA56e8273aE23F774C69cC51B2032BfFAD9bA05       db
+//ac3 0x53D78BE576F44fb9035bFC8BcCEF2377AdF43429       bap  raw
+//ac4 0xd38583Ca4A4365954Bacaa7a69A7074e61e72429       enclave
+//ac5 0xc1117D37c2191330783929D106b7c360b4922143       asian raw
+//ac6 0x677453c711697b51Bfe70F30Bcf5425ceAdB9B7a       sioux 
 
 //pd2   0xEb62F2908f06B36462B6F5C2E28E31C07bF71cC2   tranfer
 //pd3   0x154A13ec6cF20d17383384803b7F095200aACb85   derive

@@ -78,8 +78,9 @@ function view() {
         res = res + "<td>" + i + "</td>";
         res = res + "<td>" + web3.toUtf8(web3.eth.contract(abiProduct).at(data[j]).name.call().toString()) + "</td>";
         res = res + "<td><a href='/" + data[j] + "'>" + data[j] + "</a></td>";
-        res = res + "<td><a href='/merge/" + data[j] + "/"+executefrom + "' class='btn btn-primary' id = 'merge"+i+"'>Merge</a><a href='/addaction/" + data[j] + "/"+executefrom+ "' class='btn btn-info' style= 'margin-left:5px;' id = 'addaction"+i+"'>Derive</a><a href='/tranferOwnership/" + data[j] + "/"+executefrom+ "' class='btn btn-danger' style= 'margin-left:5px;' id = 'ownership"+i+"'>Sell</a><a href='/setnewamount/" + data[j] + "/" +executefrom+ "' class='btn btn-success' id= '" + j + "' style= 'margin-left:5px;' >Set Amount</a></td>";
+        //res = res + "<td><a href='/merge/" + data[j] + "/"+executefrom + "' class='btn btn-primary' id = 'merge"+i+"'>Merge</a><a href='/addaction/" + data[j] + "/"+executefrom+ "' class='btn btn-info' style= 'margin-left:5px;' id = 'addaction"+i+"'>Derive</a><a href='/tranferOwnership/" + data[j] + "/"+executefrom+ "' class='btn btn-danger' style= 'margin-left:5px;' id = 'ownership"+i+"'>Sell</a><a href='/setnewamount/" + data[j] + "/" +executefrom+ "' class='btn btn-success' id= '" + j + "' style= 'margin-left:5px;' >Edit Amount</a></td>";
 
+        res = res + "<td><a href='/merge/" + data[j] + "/"+executefrom + "' class='btn btn-primary' id = 'merge"+i+"'>Merge</a><a href='/addaction/" + data[j] + "/"+executefrom+ "' class='btn btn-info' style= 'margin-left:5px;' id = 'addaction"+i+"'>Derive</a><a href='/tranferOwnership/" + data[j] + "/"+executefrom+ "' class='btn btn-danger' style= 'margin-left:5px;' id = 'ownership"+i+"'>Sell</a><a href='/setnewamount/" + data[j] + "/" +executefrom+ "' class='btn btn-success' id= '" + j + "' style= 'margin-left:5px;' >Edit Amount</a><a href='/cancelProduct/" + data[j] + "/" +executefrom+ "' class='btn btn-success' id= '" + j + "' style= 'margin-left:5px;' >Cancel</a></td>";
 
         res = res + "</tr>";
       }
@@ -100,10 +101,10 @@ function view() {
       for (var j = 0; j < data.length; j++) {
         var i=j+1;
         if(web3.eth.contract(abiProduct).at(data[j]).getAmount.call().toNumber() == 0){
-          console.log("hjhj em o day ne anh"+j);
           $('#merge' + i).hide();
           $("#addaction"+i).hide();
           $("#ownership"+i).hide();
+          $("#cancel"+i).hide();
         }
         if (web3.eth.contract(abiProduct).at(data[j]).getCountParent.call().toNumber() != 0) {
           $('#' + j).hide();
@@ -113,6 +114,7 @@ function view() {
           $('#merge' + i).attr('disabled','disabled');
           $("#addaction"+i).attr('disabled','disabled');
           $("#ownership"+i).attr('disabled','disabled');
+          $("#cancel"+i).attr('disabled','disabled');
         }
 
       }

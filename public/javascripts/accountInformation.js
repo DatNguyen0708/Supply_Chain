@@ -12,6 +12,29 @@ window.onload = function() {
 
     var address = document.getElementById('address').value;
     console.log(address);
+
+    for (i = 0; i < dbContract.getCountAccount(); i++) {
+      if (dbContract.getAccount.call(i)[0] == address) {
+
+        document.getElementById("companyname").innerHTML += "Company: " + web3.toUtf8(dbContract.getAccount.call(i)[1]);
+        document.getElementById("companyaddress").innerHTML += web3.toUtf8(dbContract.getAccount.call(i)[2]);
+
+        var check = document.getElementById("checkraw");
+        if (dbContract.checkAccount.call(address) == 1) {
+          $("#checkraw").append(`
+                <span style='color: green;' class='glyphicon glyphicon-ok'></span>
+            `); 
+        } else {
+          $("#checkraw").append(`
+                <input type='checkbox' disabled>
+            `); 
+          
+        }
+
+      }
+
+    }
+
     var countproduct = dbContract.getCountProductOfOwner.call(address).toNumber();
 
     var data = [];
@@ -26,7 +49,7 @@ window.onload = function() {
     var res = "";
 
     var auc = [];
-    auc[0] = ["STT", "Product"];
+    auc[0] = ["STT", "Name", "Product"];
 
     res = "<table border=1 id=\"listAccountInfo\" class=\"table table-striped table-bordered responstable\" cellspacing=\"0\" style=\"width: 100%;color: brown;\">";
     res += "<thead>"
@@ -39,10 +62,11 @@ window.onload = function() {
     res += "</tr></thead><tbody>";
 
     for (var j = 0; j < data.length; j++) {
-      var i = j+1;
+      var i = j + 1;
       res = res + "<tr>";
       res = res + "<td>" + i + "</td>";
-      res = res + "<td><a href='/"+ data[j] + "'>" + data[j] + "</a></td>";
+      res = res + "<td>" + web3.toUtf8(web3.eth.contract(abiProduct).at(data[j]).name.call().toString()).toUpperCase()+ "</td>";
+      res = res + "<td><a href='/" + data[j] + "'>" + data[j] + "</a></td>";
       res = res + "</tr>";
     }
 

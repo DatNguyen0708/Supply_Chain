@@ -50,7 +50,7 @@ window.onload = function() {
 
       console.log(dbContract.ownerDB.call());
       if (dbContract.ownerDB.call() == accountCheck) {
-      	location.replace("/admintrator/index")
+        location.replace("/admintrator/index")
       }
       else{
         alert("Your account does not have access to this action");

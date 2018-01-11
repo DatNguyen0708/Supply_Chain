@@ -12,7 +12,7 @@
          var namePro = document.getElementById("namePro");
 
          console.log(web3.toUtf8(web3.eth.contract(abiProduct).at(product).name.call().toString()));
-         namePro.innerHTML = web3.toUtf8(web3.eth.contract(abiProduct).at(product).name.call().toString());
+         namePro.innerHTML = web3.toUtf8(web3.eth.contract(abiProduct).at(product).name.call().toString()).toUpperCase();
          var a = web3.eth.accounts;
          console.log(a);
          for (n = 0; n < a.length; n++) {

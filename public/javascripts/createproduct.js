@@ -53,13 +53,14 @@ function check() {
     return;
   }
 
-  console.log(dbContract.checkAccountRaw.call(accountCheck));
-  if (dbContract.checkAccountRaw.call(accountCheck) == true) {
+  var checkRaw = dbContract.checkAccount.call(accountCheck).toNumber();
+  if(checkRaw !=1){
+    alert("Your account does not have access to this action");
+  }
+  else {
     $("#check_account").hide();
     $("#create_new_raw_product").show();
     document.getElementById("account").value = accountCheck;
-  } else {
-    alert("Your account does not have access to this action");
   }
 }
 
@@ -67,6 +68,9 @@ function submit() {
 
   //$("#productOfOwner").text("");
   var executefrom = document.getElementById("account").value;
+
+  var _expirydate = document.getElementById("expirydate").value;
+  var expirydate= toTimestamp(document.getElementById("expirydate").value)
 
   var _name = web3.toHex(document.getElementById("nameofproduct").value);
   var _unit = web3.toHex(document.getElementById("unit").value);
@@ -76,9 +80,14 @@ function submit() {
   console.log(_unit);
 
   var _DATABASE_CONTRACT = db_contract;
-  if (_amount == "" || _name == "" || _unit == "" || !isNaN(document.getElementById("nameofproduct").value) || !isNaN(document.getElementById("unit").value)) {
+  if (_amount == "" || _name == "" || _unit == "" || _expirydate == ""||!isNaN(document.getElementById("nameofproduct").value) || !isNaN(document.getElementById("unit").value)) {
     alert("Please enter input again");
     return;
+  }
+  if(toTimestamp(document.getElementById("expirydate").value)<=Date.now()/1000){
+    alert("Please enter new date");
+    return
+
   }
 
   document.getElementById("Button").disabled = true;
@@ -90,6 +99,7 @@ function submit() {
     _unit,
     _amount, [],
     executefrom,
+    expirydate,
     _DATABASE_CONTRACT, {
       from: executefrom,
       data: bytecode,
@@ -104,7 +114,7 @@ function submit() {
       if (typeof contract.address !== 'undefined') {
         console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
         alert('You are deploy success');
-        location.replace("/index#all_product")
+        location.replace("/"+contract.address)
 
       }
     })

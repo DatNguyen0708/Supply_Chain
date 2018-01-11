@@ -5,7 +5,7 @@ window.onload = function () {
         var namePro = document.getElementById("namePro");
 
         console.log(web3.toUtf8(web3.eth.contract(abiProduct).at(product).name.call().toString()));
-        namePro.innerHTML = web3.toUtf8(web3.eth.contract(abiProduct).at(product).name.call().toString());
+        namePro.innerHTML = web3.toUtf8(web3.eth.contract(abiProduct).at(product).name.call().toString()).toUpperCase();
         
 }
 function submit() {

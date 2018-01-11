@@ -53,15 +53,37 @@ window.onload = function() {
 
             console.log(name[n]);
 
+            var countAccount = dbContract.getCountAccount.call().toNumber();
+            console.log(countAccount);
+
+            var listAccount = [];
+
+            for (k = 0; k < countAccount; k++) {
+              var s = dbContract.getAccount.call(k);
+              listAccount.push(s);
+
+            }
+            
+            for (var j = 0; j < listAccount.length; j++) {
+                var datainfo = listAccount[j];
+               console.log(web3.toUtf8(datainfo[1]));
+               if (datainfo[0] == owners[n]){
+                 var nameOwner = web3.toUtf8(datainfo[1]);
+                 var address = web3.toUtf8(datainfo[2]);
+                 break;
+               }
+           }
+
             if (web3.eth.contract(abiProduct).at(data[n]).getCountParent.call() == 0) {
 
                 $("#wrapper").append(`
-                    <div class="col-md-4 page" id="page${n}">   
+                    <div class="col-md-3 page" id="page${n}">   
                             <div class="panel-group">
                                 <div class="panel panel-danger">
                                   <div class="panel-heading" >${name[n]}</div>
                                   <div class="panel-body test">
-                                        <b style="color: #FF3333;">Owner : </b><a href="accountInformation/${owners[n]}">${owners[n]}</a>
+                                        <b style="color: #FF3333;">Owner   : </b><a href="accountInformation/${owners[n]}">${nameOwner}</a><br>
+                                        <b style="color: #FF3333;">Address : </b><b>${address}</b>
                                         <nav class="nav-tabs" style="margin-top:5px;">
                                             <ul class="nav nav-pills pull-left">
                                                 <a href="${data[n]}" class="w3-button w3-block w3-green" style="align:center;">Detail</a>  
@@ -75,12 +97,13 @@ window.onload = function() {
             } else {
 
                 $("#wrapper").append(`
-                    <div class="col-md-4 page" id="page${n}">   
+                    <div class="col-md-3 page" id="page${n}">   
                             <div class="panel-group">
                                 <div class="panel panel-success">
                                   <div class="panel-heading" >${name[n]}</div>
                                   <div class="panel-body test">
-                                        <b style="color: green;">Owner : </b><a href="accountInformation/${owners[n]}">${owners[n]}</a>
+                                        <b style="color: #FF3333;">Owner   : </b><a href="accountInformation/${owners[n]}">${nameOwner}</a><br>
+                                        <b style="color: #FF3333;">Address : </b><b>${address}</b>
                                         <nav class="nav-tabs" style="margin-top:5px;">
                                             <ul class="nav nav-pills pull-left">
                                                 <a href="${data[n]}" class="w3-button w3-block w3-green" style="align:center;">Detail</a>  
@@ -103,6 +126,8 @@ window.onload = function() {
         $('#page3').addClass('page-active');
         $('#page4').addClass('page-active');
         $('#page5').addClass('page-active');
+        $('#page6').addClass('page-active');
+        $('#page7').addClass('page-active');
 
 
         $(document).ready(function() {
@@ -112,7 +137,7 @@ window.onload = function() {
             $('#pagination-demo').twbsPagination({
 
 
-                totalPages: data.length/6+1,
+                totalPages: data.length/8+1,
                 // the current page that show on start
                 startPage: 1,
 
@@ -143,12 +168,14 @@ window.onload = function() {
                     page = page - 1;
 
 
-                    page1 = page * 6;
-                    page2 = page * 6 + 1;
-                    page3 = page * 6 + 2;
-                    page4 = page * 6 + 3;
-                    page5 = page * 6 + 4;
-                    page6 = page * 6 + 5;
+                    page1 = page * 8;
+                    page2 = page * 8 + 1;
+                    page3 = page * 8 + 2;
+                    page4 = page * 8 + 3;
+                    page5 = page * 8 + 4;
+                    page6 = page * 8 + 5;
+                    page7 = page * 8 + 6;
+                    page8 = page * 8 + 7;
 
                     $('.page-active').removeClass('page-active');
 
@@ -159,6 +186,8 @@ window.onload = function() {
                     $('#page' + page4).addClass('page-active');
                     $('#page' + page5).addClass('page-active');
                     $('#page' + page6).addClass('page-active');
+                    $('#page' + page7).addClass('page-active');
+                    $('#page' + page8).addClass('page-active');
 
                 },
 
@@ -181,52 +210,3 @@ window.onload = function() {
 
     });
 }
-
-
-
-// <div class="w3-container">
-//                <p>Address : ${data[n]}</p>
-//                <hr>
-//            <p>Owner   : <a href="accountInformation/${owners[n]}">${owners[n]}</a></p>
-
-//            </div>
-//            <a href="${data[n]}" class="w3-button w3-block w3-blue">Detail</a>
-//            </div>
-
-
-
-//     var auctionSection = document.getElementById("page");
-//     var res = "";
-//     for(n = 0; n < 9; n++) { 
-
-
-//    res = res + "<div class='list-group'>" ;
-//    res = res + "<a href='javascript:void(0)' class='list-group-item active'>"; 
-//    res = res + "<h4 class='list-group-item-heading'>" +n+" </h4>" ;
-//    res = res + "<p class='list-group-item-text'>Lorem ipsum dim id est laborum.</p>" ;
-//    res = res + "</a>" ;
-//    res = res + "</div> ";
-
-
-// }dbContract
-
-
-
-// var ress="";
-
-// var paganiation1 = document.getElementById("a");
-
-// ress = ress + "<nav aria-label=...>";
-// ress = ress + "<ul class=pagination>";
-// ress = ress + "<li id='previous-page'>";
-// ress = ress + "<a href='javascript:void(0)' aria-label=Previous>";
-// ress = ress + "<span aria-hidden=true>&laquo;</span>";
-// ress = ress + "</a>";
-// ress = ress + "</li>";dbContract
-// ress = ress dbContract+ "</ul>";
-// ress = ress + "</nav>";
-
-
-
-//  auctionSection.innerHTML = res;
-//  paganiation1.innerHTML = ress;

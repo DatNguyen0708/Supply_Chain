@@ -60,6 +60,8 @@ function showDetail(){
 
     ownerProduct.innerHTML = productContract.at(productId).getOwner.call().toString();
 
+    ownerProduct.setAttribute("href",/accountInformation/+productContract.at(productId).getOwner.call().toString());
+
     unitProduct.innerHTML = web3.toUtf8(productContract.at(productId).unit.call().toString());
 
     amountProduct.innerHTML = productContract.at(productId).getAmount.call().toNumber();
@@ -243,7 +245,7 @@ function waitAndRefreshParent(countParent, productId) {
     var res = "";
 
         var auc = [];
-            auc[0] = ["STT", "Address","Ratio", "Unit"];
+            auc[0] = ["STT", "Product","Ratio", "Unit"];
 
         res = "<table border=1 id=\"listParent\" class=\"table table-striped table-bordered responstable\" cellspacing=\"0\" style=\"width: 100%;color: brown;\">";     
             res += "<thead>"
@@ -261,8 +263,8 @@ function waitAndRefreshParent(countParent, productId) {
             res = res + "<tr>";
             res = res + "<td>" + parents[j*2] + "</td>";
             //res = res + "<td><a href='/"+ parents[j*2+1] + "'>" + parents[j*2+1] + "</a></td>";
-            res = res + "<td><a href='/"+ parents[j*2+1] + "'>" + web3.toUtf8(web3.eth.contract(abiProduct).at(parents[j*2+1]).name.call().toString()) +" : "+ parents[j*2+1] + "</a></td>";
-            if(arrayRatioPro[j] ==0) res = res + "<td>" + "" + "</td>";
+            res = res + "<td><a href='/"+ parents[j*2+1] + "'>" + web3.toUtf8(web3.eth.contract(abiProduct).at(parents[j*2+1]).name.call().toString()).toUpperCase() +"</a></td>";
+            if(arrayRatioPro[j] ==0) res = res + "<td>" + "1" + "</td>";
             else
             res = res + "<td>" + arrayRatioPro[j] + "</td>";
             res = res + "<td>" + web3.toUtf8(web3.eth.contract(abiProduct).at(parents[j*2+1]).unit.call().toString()) + "</td>";
@@ -297,7 +299,7 @@ function waitAndRefreshChild(countChild) {
     var res = "";
 
         var auc = [];
-            auc[0] = ["STT", "Address", "CreateAt"];
+            auc[0] = ["STT", "Product", "CreateAt"];
 
         res = "<table border=1 id=\"listChild\" class=\"table table-striped table-bordered responstable\" cellspacing=\"0\" style=\"width: 100%;color: brown;\">";     
             res += "<thead>"
@@ -323,7 +325,7 @@ function waitAndRefreshChild(countChild) {
             res = res + "<tr>";
             res = res + "<td>" + childs[j*2] + "</td>";
             //res = res + "<td><a href='/"+ childs[j*2+1] + "'>" + childs[j*2+1] + "</a></td>";
-            res = res + "<td><a href='/"+ childs[j*2+1] + "'>"+web3.toUtf8(web3.eth.contract(abiProduct).at(childs[j*2+1]).name.call().toString()) +" : "+ childs[j*2+1] + "</a></td>";
+            res = res + "<td><a href='/"+ childs[j*2+1] + "'>"+web3.toUtf8(web3.eth.contract(abiProduct).at(childs[j*2+1]).name.call().toString()).toUpperCase() +"</a></td>";
             res = res + "<td>" + convertTimestamp(actions[1]) + "</td>";
             //if(actions[2] ==0) res = res + "<td>" + "" + "</td>";
             //else

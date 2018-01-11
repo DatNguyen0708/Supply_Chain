@@ -320,10 +320,10 @@ a.cart-in{
             
     @import url(http://fonts.googleapis.com/css?family=Roboto:400,500,900);
 body {
-      background-color: #f44336;
+      /*background-color: #f44336;*/
                 transition: background-color 300ms;
                 font-family: 'Roboto', sans-serif;   
-                background:url('http://cdn.pcwallart.com/images/light-yellow-background-wallpaper-4.jpg');
+                /*background:url('http://cdn.pcwallart.com/images/light-yellow-background-wallpaper-4.jpg');*/
                 background-repeat:none;
                 background-size:cover;
 }

@@ -6,15 +6,15 @@ window.onload = function() {
       throw "Cannot load contract address";
     }
     $("#content").append(`
-    	<h1  style="color: red; margin-top:5%;" align="center">List of Product</h1>
-		<div id="tableListProduct" style="margin-left:5%; margin-right:5%;"></div>
-       
+      <h1  style="color: red; margin-top:5%;" align="center">List of Product</h1>
+    <div id="tableListProduct" style="margin-left:5%; margin-right:5%;"></div>
+     <div>  
       
-		`);
+    `);
 
     dbContract = web3.eth.contract(abiDatabase).at(db_contract);
 
-    productContract = web3.eth.contract(abiProduct).at(db_contract);
+    productContract = web3.eth.contract(abiProduct);
 
     //console.log(address);
     var countproducts = dbContract.getCountProduct.call().toNumber();
@@ -44,12 +44,18 @@ window.onload = function() {
     res += "</tr></thead><tbody>";
 
     for (var j = 0; j < data.length; j++) {
+      console.log(productContract.at(data[j]).amount.call().toNumber());
       var i = j+1;
       res = res + "<tr>";
       res = res + "<td>" + i + "</td>";
       res = res + "<td><a href='/"+ data[j] + "'>" + data[j] + "</a></td>";
-      res = res + "<td><a href='/cancel/" + data[j]  + "' class='btn btn-primary' id = 'cancel"+i+"'>Cancel</a></td>";
-
+      if ((productContract.at(data[j]).amount.call().toNumber()) > 0){
+        res = res + "<td><a href='/cancel/" + j  + "' class='btn btn-primary' >Cancel</a></td>";
+      }
+      else {
+        res = res + "<td></td>";
+      }
+      
       res = res + "</tr>";
     }
 
