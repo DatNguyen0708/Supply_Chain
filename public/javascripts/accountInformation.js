@@ -18,6 +18,8 @@ window.onload = function() {
 
         document.getElementById("companyname").innerHTML += "Company: " + web3.toUtf8(dbContract.getAccount.call(i)[1]);
         document.getElementById("companyaddress").innerHTML += web3.toUtf8(dbContract.getAccount.call(i)[2]);
+        document.getElementById("phonenumber").innerHTML += web3.toUtf8(dbContract.getAccount.call(i)[4]);
+        document.getElementById("email").innerHTML += web3.toUtf8(dbContract.getAccount.call(i)[5]);
 
         var check = document.getElementById("checkraw");
         if (dbContract.checkAccount.call(address) == 1) {

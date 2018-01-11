@@ -21,6 +21,8 @@ function submit() {
 
     if (checkPass == false) { alert("WRONG PASSWORD"); return; }
 
+    if(amount==""){alert("Please enter amount");return;}
+
     document.getElementById("Button").disabled = true;
 
     web3.eth.contract(abiProduct).at(product).EditAmount.sendTransaction(amount, {

@@ -76,7 +76,7 @@ app.get('/merge/:add/:account', (req, res) => {
 });
 
 app.get('/cancelProduct/:add/:account', (req, res) => {
-    res.render('merge', { add: req.params.add, account: req.params.account});
+    res.render('cancelProduct', { add: req.params.add, account: req.params.account});
 });
 
 app.get('/:address', (req, res) => {

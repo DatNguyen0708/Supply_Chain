@@ -82,7 +82,7 @@ window.onload = function() {
                                 <div class="panel panel-danger">
                                   <div class="panel-heading" >${name[n]}</div>
                                   <div class="panel-body test">
-                                        <b style="color: #FF3333;">Owner   : </b><a href="accountInformation/${owners[n]}">${nameOwner}</a><br>
+                                        <b style="color: #FF3333;">Owner   : </b><a href="accountInformation/${owners[n]}" style="font-weight: bold;">${nameOwner}</a><br>
                                         <b style="color: #FF3333;">Address : </b><b>${address}</b>
                                         <nav class="nav-tabs" style="margin-top:5px;">
                                             <ul class="nav nav-pills pull-left">
@@ -102,7 +102,7 @@ window.onload = function() {
                                 <div class="panel panel-success">
                                   <div class="panel-heading" >${name[n]}</div>
                                   <div class="panel-body test">
-                                        <b style="color: #FF3333;">Owner   : </b><a href="accountInformation/${owners[n]}">${nameOwner}</a><br>
+                                        <b style="color: #FF3333;">Owner   : </b><a href="accountInformation/${owners[n]}" style="font-weight: bold;">${nameOwner}</a><br>
                                         <b style="color: #FF3333;">Address : </b><b>${address}</b>
                                         <nav class="nav-tabs" style="margin-top:5px;">
                                             <ul class="nav nav-pills pull-left">

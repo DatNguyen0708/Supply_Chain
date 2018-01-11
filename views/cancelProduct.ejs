@@ -1,0 +1,52 @@
+ <% include header%>
+ <script src="/javascripts/cancelProduct.js"></script>
+ <div class="container" id="content">
+                    <div class="row test">
+			        <div class="col-md-2"></div>
+			        <div class="col-md-8">
+                    <input type="hidden" value="<%= add %>" id="address">
+                    <input type="hidden" value="<%= account %>" id="account">
+			            <h1  style="color: blue;  margin-top:2%" align="center">Cancel Product</h1>
+			              <div class="form-group row">
+			                <label for="addressProduct" class="col-md-3 col-xs-12 text-left">Product</label>
+			                <label id="addressProduct" style="color:brown;" class="col-md-9 col-xs-12 text-left" ></label>
+			              </div>
+			              <div class="form-group row">
+			                <label for="name" class="col-md-3 col-xs-12 text-left">Name</label>
+			                <label id="name" style="color:brown;" class="col-md-9 col-xs-12 text-left"></label>
+			              </div>
+			              <div class="form-group row">
+			                <label for="" class="col-md-3 col-xs-12 text-left">Owner</label>
+			                <label id="owner" style="color:brown;" class="col-md-9 col-xs-12 text-left"></label>
+			              </div>
+			              <div class="form-group row">
+			                <label for="" class="col-md-3 col-xs-12 text-left">Unit</label>
+			                <label id="unit" style="color:brown;" class="col-md-9 col-xs-12 text-left"></label>
+			              </div>
+			              <div class="form-group row">
+			                <label for="" class="col-md-3 col-xs-12 text-left">Amount</label>
+			                <label id="amount" style="color:brown;" class="col-md-9 col-xs-12 text-left"></label>
+			              </div>
+			              <div class="form-group row">
+			                <label for="checkraw" class="col-md-3 col-xs-12 text-left">Expirydate</label>
+			                <label id="expirydate" style="color:brown;" class="col-md-9 col-xs-12 text-left"></label>
+			              </div>
+			              <div class="form-group row">
+			                <label for="executefrom" class="col-md-3 col-xs-12 text-left">Execute From</label>
+			                <input type="text" name="executefrom" class="col-md-9 col-xs-12 form-control" id="x" value="" disabled>
+			              </div>
+			              <div class="form-group row">
+			                <label for="password" class="col-md-3 col-xs-12 text-left">Password</label>
+			                <input type="password" name="password" class="col-md-9 col-xs-12 form-control" id="password" placeholder="Password">
+			              </div>
+			              <div class="form-group row">
+			                <label class="col-md-5 col-xs-12 text-left"></label>
+			                <button type="submit " class="col-md-2 col-xs-12 btn btn-primary " id= "Button" onclick="cancel();">Cancel</button>
+			                <label class="col-md-5 col-xs-12 text-left"></label>
+			              </div>
+			            </div>
+			          <div class="col-md-2"></div>
+			      </div>
+                </div>
+                 <br><br><br><br><br><br><br>
+ <% include footer%>

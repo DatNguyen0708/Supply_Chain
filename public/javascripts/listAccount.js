@@ -61,7 +61,7 @@ window.onload = function() {
               </div>
               <div class="form-group row">
                 <label class="col-md-5 col-xs-12 text-left"></label>
-                <button type="submit " class="col-md-2 col-xs-12 btn btn-primary " onclick="add();">Add</button>
+                <button type="submit " class="col-md-2 col-xs-12 btn btn-primary " id="Button" onclick="add();">Add</button>
                 <label class="col-md-5 col-xs-12 text-left"></label>
               </div>
             </div>
@@ -106,8 +106,8 @@ window.onload = function() {
       res = res + "<td><a href='/accountInformation/"+ datainfo[0] + "'>" + datainfo[0] + "</a></td>";
       res = res + "<td>" + web3.toUtf8(datainfo[1]) + "</td>";
       res = res + "<td>" + web3.toUtf8(datainfo[2]) + "</td>";
-      res = res + "<td>" + datainfo[4] + "</td>";
-      res = res + "<td>" + datainfo[5] + "</td>";
+      res = res + "<td>" + web3.toUtf8(datainfo[4]) + "</td>";
+      res = res + "<td>" + web3.toUtf8(datainfo[5]) + "</td>";
       if (dbContract.checkAccount.call(datainfo[0]) == 1){
         res = res + "<td><span style='color: green;' class='glyphicon glyphicon-ok'></span></td>";
       }
@@ -147,6 +147,7 @@ function add(){
     var description = web3.toHex(document.getElementById('description').value);
     var executefrom = document.getElementById('x').value;
     var phonenumber = toHex(document.getElementById('phonenumber').value);
+    phonenumber = "0x"+phonenumber;
     console.log(typeof phonenumber);
     console.log(phonenumber);
     var email = web3.toHex(document.getElementById('email').value);
@@ -169,6 +170,8 @@ function add(){
       alert("This account has been granted permission to create!");
       return;
    }else{
+
+    document.getElementById("Button").disabled = true;
       dbContract.AddlistAccount.sendTransaction(accessAccount, name, description, checkraw, phonenumber, email, {
     from: executefrom,
     gas: 4000000

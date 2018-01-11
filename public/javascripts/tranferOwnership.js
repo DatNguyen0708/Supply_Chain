@@ -10,6 +10,7 @@
          var product = document.getElementById('add').value;
          console.log(product);
          var namePro = document.getElementById("namePro");
+         document.getElementById("currentamount").innerHTML = web3.eth.contract(abiProduct).at(product).amount.call().toNumber();
 
          console.log(web3.toUtf8(web3.eth.contract(abiProduct).at(product).name.call().toString()));
          namePro.innerHTML = web3.toUtf8(web3.eth.contract(abiProduct).at(product).name.call().toString()).toUpperCase();

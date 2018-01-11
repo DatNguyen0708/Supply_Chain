@@ -29,11 +29,12 @@ window.onload = function() {
 function submit(){
 
     var account = document.getElementById('account').value;
-    var name = document.getElementById('name').value;
-    var description = document.getElementById('description').value;
+    var name = web3.toHex(document.getElementById('name').value);
+    var description = web3.toHex(document.getElementById('description').value);
     var executefrom = document.getElementById('x').value;
-    var phonenumber = document.getElementById('phonenumber').value;
-    var email = document.getElementById('email').value;
+    var phonenumber = toHex(document.getElementById('phonenumber').value);
+    phonenumber = "0x" + phonenumber;
+    var email = web3.toHex(document.getElementById('email').value);
     var checkraw = document.getElementById("checkraw").checked;
     console.log(checkraw);
     var pass = document.getElementById('password').value;

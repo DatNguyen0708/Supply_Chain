@@ -52,6 +52,10 @@ function view() {
   
     data.push(s);
   }
+  if(data.length==0){ 
+    alert("This account don't have product");
+    return;
+  }
 
   console.log(data);
   if( data.length !=0){
@@ -76,11 +80,11 @@ function view() {
         var i = j + 1;
         res = res + "<tr>";
         res = res + "<td>" + i + "</td>";
-        res = res + "<td>" + web3.toUtf8(web3.eth.contract(abiProduct).at(data[j]).name.call().toString()) + "</td>";
+        res = res + "<td>" + web3.toUtf8(web3.eth.contract(abiProduct).at(data[j]).name.call().toString()).toUpperCase() + "</td>";
         res = res + "<td><a href='/" + data[j] + "'>" + data[j] + "</a></td>";
         //res = res + "<td><a href='/merge/" + data[j] + "/"+executefrom + "' class='btn btn-primary' id = 'merge"+i+"'>Merge</a><a href='/addaction/" + data[j] + "/"+executefrom+ "' class='btn btn-info' style= 'margin-left:5px;' id = 'addaction"+i+"'>Derive</a><a href='/tranferOwnership/" + data[j] + "/"+executefrom+ "' class='btn btn-danger' style= 'margin-left:5px;' id = 'ownership"+i+"'>Sell</a><a href='/setnewamount/" + data[j] + "/" +executefrom+ "' class='btn btn-success' id= '" + j + "' style= 'margin-left:5px;' >Edit Amount</a></td>";
 
-        res = res + "<td><a href='/merge/" + data[j] + "/"+executefrom + "' class='btn btn-primary' id = 'merge"+i+"'>Merge</a><a href='/addaction/" + data[j] + "/"+executefrom+ "' class='btn btn-info' style= 'margin-left:5px;' id = 'addaction"+i+"'>Derive</a><a href='/tranferOwnership/" + data[j] + "/"+executefrom+ "' class='btn btn-danger' style= 'margin-left:5px;' id = 'ownership"+i+"'>Sell</a><a href='/setnewamount/" + data[j] + "/" +executefrom+ "' class='btn btn-success' id= '" + j + "' style= 'margin-left:5px;' >Edit Amount</a><a href='/cancelProduct/" + data[j] + "/" +executefrom+ "' class='btn btn-success' id= '" + j + "' style= 'margin-left:5px;' >Cancel</a></td>";
+        res = res + "<td><a href='/merge/" + data[j] + "/"+executefrom + "' class='btn btn-primary' id = 'merge"+i+"'>Merge</a><a href='/addaction/" + data[j] + "/"+executefrom+ "' class='btn btn-info' style= 'margin-left:5px;' id = 'addaction"+i+"'>Derive</a><a href='/tranferOwnership/" + data[j] + "/"+executefrom+ "' class='btn btn-danger' style= 'margin-left:5px;' id = 'ownership"+i+"'>Sell</a><a href='/setnewamount/" + data[j] + "/" +executefrom+ "' class='btn btn-success' id= '" + j + "' style= 'margin-left:5px;' >Edit Amount</a><a href='/cancelProduct/" + data[j] + "/" +executefrom+ "' class='btn btn-success' id= 'cancel" + j + "' style= 'margin-left:5px;' >Cancel</a></td>";
 
         res = res + "</tr>";
       }
@@ -104,7 +108,7 @@ function view() {
           $('#merge' + i).hide();
           $("#addaction"+i).hide();
           $("#ownership"+i).hide();
-          $("#cancel"+i).hide();
+          $("#cancel"+j).hide();
         }
         if (web3.eth.contract(abiProduct).at(data[j]).getCountParent.call().toNumber() != 0) {
           $('#' + j).hide();
