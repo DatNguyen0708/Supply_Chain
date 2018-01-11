@@ -25,15 +25,13 @@ window.onload = function() {
         var a = web3.eth.contract(abiDatabase).at(db_contract).getCountProduct.call().toNumber();
         console.log(a);
 
-
         var data = [];
 
         for (i = 0; i < a; i++) {
-
             var s = web3.eth.contract(abiDatabase).at(db_contract).getAddressProduct.call(i)
             data.push(s);
-
         }
+
         console.log(data);
 
         var owners = [];
@@ -41,7 +39,6 @@ window.onload = function() {
         var name = [];
 
         var factory = [];
-
 
         for (n = 0; n < data.length; n++) {
 
@@ -74,7 +71,6 @@ window.onload = function() {
            }
 
             if (web3.eth.contract(abiProduct).at(data[n]).getCountParent.call() == 0) {
-
                 $("#wrapper").append(`
                     <div class="col-md-3 page" id="page${n}">   
                             <div class="panel-group">
@@ -94,7 +90,6 @@ window.onload = function() {
                     </div>   
                 `)
             } else {
-
                 $("#wrapper").append(`
                     <div class="col-md-3 page" id="page${n}">   
                             <div class="panel-group">
@@ -114,10 +109,7 @@ window.onload = function() {
                     </div>   
                 `)
             }
-
         }
-
-
 
         $('#page0').addClass('page-active');
         $('#page1').addClass('page-active');
@@ -128,13 +120,9 @@ window.onload = function() {
         $('#page6').addClass('page-active');
         $('#page7').addClass('page-active');
 
-
         $(document).ready(function() {
 
-
-
             $('#pagination-demo').twbsPagination({
-
 
                 totalPages: data.length/8+1,
                 // the current page that show on start
@@ -160,12 +148,9 @@ window.onload = function() {
                 // carousel-style pagination
                 loop: false,
 
-
-
                 // callback function
                 onPageClick: function(event, page) {
                     page = page - 1;
-
 
                     page1 = page * 8;
                     page2 = page * 8 + 1;
@@ -177,7 +162,6 @@ window.onload = function() {
                     page8 = page * 8 + 7;
 
                     $('.page-active').removeClass('page-active');
-
 
                     $('#page' + page1).addClass('page-active');
                     $('#page' + page2).addClass('page-active');

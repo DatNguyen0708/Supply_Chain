@@ -16,6 +16,10 @@ contract Database {
     bool checkRaw;
 
     address ownerPro;
+
+    uint phonenumber;
+
+    bytes32 email;
   }
 
   // mang dia chi account dc quyen tao nguyen lieu tho
@@ -50,7 +54,7 @@ contract Database {
     ownerDB = _newOwnerDB;
   }
 
-  function editAccount(address _account, bytes32 _name, bytes32 _description, bool _checkRaw) onlyOwnerDB {
+  function editAccount(address _account, bytes32 _name, bytes32 _description, bool _checkRaw, uint _phonenumber, bytes32 _email) onlyOwnerDB {
     if((_name == "") || (_description == "")) {
       revert();
     }
@@ -60,6 +64,8 @@ contract Database {
         a.name = _name;
         a.description = _description;
         a.checkRaw = _checkRaw;
+        a.phonenumber = _phonenumber;
+        a.email = _email;
         return;
       }
     }
@@ -82,7 +88,7 @@ contract Database {
   }
 
   // access cho 1 account co quyen tao sp tho hay ko
-  function AddlistAccount(address _account, bytes32 _name, bytes32 _description, bool _checkRaw) onlyOwnerDB {
+  function AddlistAccount(address _account, bytes32 _name, bytes32 _description, bool _checkRaw, uint _phonenumber, bytes32 _email) onlyOwnerDB {
     for (uint i = 0; i < accounts.length; i++) {
       OwnerPro storage a1 = accounts[i];
       if (a1.ownerPro == _account) {
@@ -96,6 +102,8 @@ contract Database {
     a.description = _description;
     a.ownerPro = _account;
     a.checkRaw = _checkRaw;
+    a.phonenumber = _phonenumber;
+    a.email = _email;
   }
 
   // dem so luong account co so huu sp trong he thong
@@ -104,14 +112,16 @@ contract Database {
   }
 
   // lay dia chi account theo id
-  function getAccount(uint idx) constant returns(address, bytes32, bytes32, bool) {
+  function getAccount(uint idx) constant returns(address, bytes32, bytes32, bool, uint, bytes32) {
 
     OwnerPro storage a = accounts[idx];
     return (
       a.ownerPro,
       a.name,
       a.description,
-      a.checkRaw
+      a.checkRaw,
+      a.phonenumber,
+      a.email
     );
   }
 
