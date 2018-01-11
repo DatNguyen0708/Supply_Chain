@@ -49,7 +49,6 @@ function submit(){
       gas: 4000000
     }, function (error, result) {
       if (!error) {
-
         while (1) {
           if (web3.eth.getTransactionReceipt(result) != null) {
             if (web3.eth.getTransactionReceipt(result).status == "0x1") {

@@ -133,8 +133,7 @@ window.onload = function() {
 
 function add(){
 
-    var accessAccount = document.getElementById('account').value;
-    
+    var accessAccount = document.getElementById('account').value;    
     var name = document.getElementById('name').value;
     var description = document.getElementById('description').value;
     var executefrom = document.getElementById('x').value;
