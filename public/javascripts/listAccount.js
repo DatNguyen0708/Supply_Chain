@@ -10,7 +10,7 @@ window.onload = function() {
         </div>
         <div class="container" style="margin-top:4%">
         <div class="row">
-                  <h3  style="color: red;  margin-top:2%; " align="center">List All of Account</h3>
+                  <h1  style="color: red;  margin-top:2%; " align="center">List All of Account</h1>
                   <div id="tableListAccount" style="margin-left: 5%; margin-right: 5%;"></div>
             </div>
         </div>
@@ -26,7 +26,7 @@ window.onload = function() {
        <div class="row test">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <h1  style="color: red;  margin-top:2%" align="center">Add Account</h1>
+            <h2  style="color: red;  margin-top:2%" align="center">Add Account</h2>
               <div class="form-group row">
                 <label for="chooseaccount " class="col-md-3 col-xs-12 text-left">Choose Account</label>
                 <input type="text" name="account" class="col-md-9 col-xs-12 form-control" id="account" placeholder="Account">
@@ -134,17 +134,21 @@ window.onload = function() {
 function add(){
 
     var accessAccount = document.getElementById('account').value;
-    if (web3.isAddress(accessAccount.toString()) == false){
-      alert("Address invalid!");
-      return;
-    }
+    
     var name = document.getElementById('name').value;
     var description = document.getElementById('description').value;
     var executefrom = document.getElementById('x').value;
     var checkraw = document.getElementById("checkraw").checked;
     var pass = document.getElementById('password').value;
     var checkpass=checkPassword(executefrom, pass);
-
+     if ((name == "") || (description == "") || (accessAccount == "") ){
+      alert("Please enter full data");
+      return;
+   }
+   if (web3.isAddress(accessAccount.toString()) == false){
+      alert("Address invalid!");
+      return;
+    }
     if(checkpass == false) { 
        alert("WRONG PASSWORD"); return; 
     } 

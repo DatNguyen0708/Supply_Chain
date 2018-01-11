@@ -39,8 +39,8 @@ function submit(){
     if(checkpass == false) { 
        alert("WRONG PASSWORD"); return; 
     } 
-   if ((name == "") && (description == "")){
-      alert("du lieu khong hop le");
+   if ((name == "") || (description == "")){
+      alert("Invalid Data");
       return;
    }else{
       document.getElementById("Button").disabled = true;
