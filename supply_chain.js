@@ -450,6 +450,12 @@ contract Product {
     if ((msg.sender == owner) || (msg.sender == Database(DATABASE_CONTRACT).getOwnerDB())) {
       this.setAmount(0);
       this.setConsumed(true);
+
+      Action memory action;
+      action.description = "Cancel Product";
+      action.timestamp = now;
+      action.amount = 0;
+      actions.push(action);
     } else {
       revert();
     }

@@ -1,7 +1,6 @@
 window.onload = function() {
   getContractAddress(function(db_contract, error) {
     if (error != null) {
-      //setStatus("Cannot find network. Please run an ethereum node or use Metamask.", "error");
       console.log(error);
       throw "Cannot load contract address";
     }
@@ -21,6 +20,8 @@ window.onload = function() {
     $("#account").val(account[0]);
     $("#name").val(web3.toUtf8(account[1]));
     $("#description").val(web3.toUtf8(account[2]));
+    $("#phonenumber").val(web3.toUtf8(account[4]));
+    $("#email").val(web3.toUtf8(account[5]));
     $("#checkraw").prop("checked", account[3]);
     $("#x").val(executefrom);
   });
@@ -31,6 +32,8 @@ function submit(){
     var name = document.getElementById('name').value;
     var description = document.getElementById('description').value;
     var executefrom = document.getElementById('x').value;
+    var phonenumber = document.getElementById('phonenumber').value;
+    var email = document.getElementById('email').value;
     var checkraw = document.getElementById("checkraw").checked;
     console.log(checkraw);
     var pass = document.getElementById('password').value;
@@ -39,12 +42,12 @@ function submit(){
     if(checkpass == false) { 
        alert("WRONG PASSWORD"); return; 
     } 
-   if ((name == "") || (description == "")){
+   if ((name == "") || (description == "") || (phonenumber == "") || (email == "")){
       alert("Invalid Data");
       return;
    }else{
       document.getElementById("Button").disabled = true;
-      dbContract.editAccount.sendTransaction(account, name, description, checkraw, {
+      dbContract.editAccount.sendTransaction(account, name, description, checkraw, phonenumber, email, {
       from: executefrom,
       gas: 4000000
     }, function (error, result) {

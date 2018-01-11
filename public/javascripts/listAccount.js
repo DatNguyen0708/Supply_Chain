@@ -40,6 +40,14 @@ window.onload = function() {
                 <input type="text" name="description" class="col-md-9 col-xs-12 form-control" id="description" placeholder="Description">
               </div>
               <div class="form-group row">
+                <label for="phonenumber " class="col-md-3 col-xs-12 text-left">Phone Number</label>
+                <input type="number" name="phonenumber" class="col-md-9 col-xs-12 form-control" id="phonenumber" placeholder="Phone Number">
+              </div>
+              <div class="form-group row">
+                <label for="email " class="col-md-3 col-xs-12 text-left">Email</label>
+                <input type="email" name="email" class="col-md-9 col-xs-12 form-control" id="email" placeholder="Email">
+              </div>
+              <div class="form-group row">
                 <label for="checkraw" class="col-md-3 col-xs-12 text-left">Check Raw</label>
                 <input type="checkbox" value="" id="checkraw"></label>
               </div>
@@ -77,7 +85,7 @@ window.onload = function() {
 
     var auc = [];
 
-    auc[0] = ["STT", "Address","Name", "Description","Be Accessed", "Edit"];
+    auc[0] = ["STT", "Address","Name", "Description","Phone Number","Email","Be Accessed", "Edit"];
 
     res = "<table border=1 id=\"listAccount\" class=\"table table-striped table-bordered responstable\" cellspacing=\"0\" style=\"width: 100%;color: brown;\">";
     res += "<thead>"
@@ -98,7 +106,8 @@ window.onload = function() {
       res = res + "<td><a href='/accountInformation/"+ datainfo[0] + "'>" + datainfo[0] + "</a></td>";
       res = res + "<td>" + web3.toUtf8(datainfo[1]) + "</td>";
       res = res + "<td>" + web3.toUtf8(datainfo[2]) + "</td>";
-
+      res = res + "<td>" + web3.toUtf8(datainfo[4]) + "</td>";
+      res = res + "<td>" + web3.toUtf8(datainfo[5]) + "</td>";
       if (dbContract.checkAccount.call(datainfo[0]) == 1){
         res = res + "<td><span style='color: green;' class='glyphicon glyphicon-ok'></span></td>";
       }
@@ -137,10 +146,12 @@ function add(){
     var name = document.getElementById('name').value;
     var description = document.getElementById('description').value;
     var executefrom = document.getElementById('x').value;
+    var phonenumber = document.getElementById('phonenumber').value;
+    var email = document.getElementById('email').value;
     var checkraw = document.getElementById("checkraw").checked;
     var pass = document.getElementById('password').value;
     var checkpass=checkPassword(executefrom, pass);
-     if ((name == "") || (description == "") || (accessAccount == "") ){
+     if ((name == "") || (description == "") || (accessAccount == "") || (phonenumber == "") || (email == "") ){
       alert("Please enter full data");
       return;
    }
@@ -155,7 +166,7 @@ function add(){
       alert("This account has been granted permission to create!");
       return;
    }else{
-      dbContract.AddlistAccount.sendTransaction(accessAccount, name, description, checkraw, {
+      dbContract.AddlistAccount.sendTransaction(accessAccount, name, description, checkraw, phonenumber, email, {
     from: executefrom,
     gas: 4000000
   }, function (error, result) {
