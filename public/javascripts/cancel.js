@@ -27,17 +27,11 @@ window.onload = function() {
     console.log(convertTimestamp(productContract.at(pro).expirydate.call()).toString());
 
     var product = document.getElementById("addressProduct");
-
     var name = document.getElementById("name");
-
     var owner = document.getElementById("owner");
-
     var unit = document.getElementById("unit");
-
     var amount = document.getElementById("amount");
-
     var expirydate = document.getElementById("expirydate");
-
 
     product.innerHTML = pro.toString();
     $("#x").val(executefrom);
@@ -66,8 +60,28 @@ function cancel(){
     productContract.at(pro).cancel.sendTransaction({
     from: executefrom,
     gas: 4000000
+  }, function (error, result) {
+    if (!error) {
+
+      while (1) {
+        if (web3.eth.getTransactionReceipt(result) != null) {
+          if (web3.eth.getTransactionReceipt(result).status == "0x1") {
+            alert("You add account success!");
+            location.replace("/admintrator/listProduct"); 
+          }
+          break;
+        }
+      }
+    }
+    else {
+      if (error != null) {
+        alert(error);
+        return;
+      }
+      console.error(error);
+    }
   }); 
    
   
-  location.replace("/admintrator/listProduct");  
+ // location.replace("/admintrator/listProduct");  
 }

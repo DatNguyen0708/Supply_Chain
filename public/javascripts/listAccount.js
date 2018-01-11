@@ -132,11 +132,16 @@ window.onload = function() {
 }
 
 function add(){
+
     var accessAccount = document.getElementById('account').value;
+    if (web3.isAddress(accessAccount.toString()) == false){
+      alert("Address invalid!");
+      return;
+    }
     var name = document.getElementById('name').value;
     var description = document.getElementById('description').value;
     var executefrom = document.getElementById('x').value;
-    var checkraw = document.getElementById("checkraw").value;
+    var checkraw = document.getElementById("checkraw").checked;
     var pass = document.getElementById('password').value;
     var checkpass=checkPassword(executefrom, pass);
 
@@ -150,8 +155,28 @@ function add(){
       dbContract.AddlistAccount.sendTransaction(accessAccount, name, description, checkraw, {
     from: executefrom,
     gas: 4000000
+  }, function (error, result) {
+    if (!error) {
+
+      while (1) {
+        if (web3.eth.getTransactionReceipt(result) != null) {
+          if (web3.eth.getTransactionReceipt(result).status == "0x1") {
+            alert("You add account success!");
+            location.replace("/admintrator/listAccount"); 
+          }
+          break;
+        }
+      }
+    }
+    else {
+      if (error != null) {
+        alert(error);
+        return;
+      }
+      console.error(error);
+    }
   }); 
    }
   
-  location.replace("/admintrator/listAccount");  
+ // location.replace("/admintrator/listAccount");  
 }

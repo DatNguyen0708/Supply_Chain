@@ -26,6 +26,7 @@ window.onload = function() {
   });
 }
 function submit(){
+
     var account = document.getElementById('account').value;
     var name = document.getElementById('name').value;
     var description = document.getElementById('description').value;
@@ -42,11 +43,32 @@ function submit(){
       alert("du lieu khong hop le");
       return;
    }else{
+      document.getElementById("Button").disabled = true;
       dbContract.editAccount.sendTransaction(account, name, description, checkraw, {
-    from: executefrom,
-    gas: 4000000
-  }); 
-   }
+      from: executefrom,
+      gas: 4000000
+    }, function (error, result) {
+      if (!error) {
+
+        while (1) {
+          if (web3.eth.getTransactionReceipt(result) != null) {
+            if (web3.eth.getTransactionReceipt(result).status == "0x1") {
+              alert("You edit account information success!");
+              location.replace("/admintrator/listAccount"); 
+            }
+            break;
+          }
+        }
+      }
+      else {
+        if (error != null) {
+          alert(error);
+          return;
+        }
+        console.error(error);
+      }
+    }); 
+     }
   
-  location.replace("/admintrator/listAccount");  
+  //location.replace("/admintrator/listAccount");  
 }
