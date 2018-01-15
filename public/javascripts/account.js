@@ -110,7 +110,7 @@ function view() {
           $("#ownership"+i).hide();
           $("#cancel"+j).hide();
         }
-        if (web3.eth.contract(abiProduct).at(data[j]).getCountParent.call().toNumber() != 0) {
+        if ( ((web3.eth.contract(abiProduct).at(data[j]).getCountParent.call().toNumber() != 0) || ((web3.eth.contract(abiProduct).at(data[j]).getCountParent.call().toNumber() == 0)&&(web3.eth.contract(abiProduct).at(data[j]).amount.call().toNumber() != 0)))) {
           $('#' + j).hide();
         }
         if (web3.eth.contract(abiProduct).at(data[j]).expirydate.call().toNumber() <Date.now()/1000) {

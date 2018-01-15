@@ -465,11 +465,12 @@ contract Product {
   }
 
   // them so luong product neu da su dung het, ap dung voi nguyen lieu tho
-  function EditAmount(uint _newAmount) onlyHaveChild onlyOwner {
+  function EditAmount(uint _newAmount, uint _expirydate) onlyHaveChild onlyOwner {
     if (_newAmount < 0) {
       revert();
     }
     amount = _newAmount;
+    expirydate = _expirydate;
 
     Action memory action;
     action.description = "Edit Amount";
@@ -536,12 +537,12 @@ contract Product {
   }
 }
 
-//db  0xF0ba6120292fc5Ac12aa0e9ae28EE8268A350C40
-//ac2 0xC5bC9A1082439869f76fC573D7BDf9E5Ec1b4F32       db
-//ac3 0x5E2DA29Fce74BC51061A3aAb5d5524c7565db064       bap  raw
-//ac4 0xEFF2cd979895480E08A25315A6B76f85fcAb1402       enclave
-//ac5 0xe9a51090d80e6d3255F3634aF45EC469993a12aa       asian raw
-//ac6 0x115cBBa70971856E3511C7c6e1034E3B29679612       sioux 
+//db  0xdD16fC4C93B2B649E3D05D5B01f4478f5D4089a9
+//ac2 0xba047015c42584b8Bdfb6330eC184F1e4fcB444B       db
+//ac3 0xd914A3848EcaC78787B7299460E4996066ADA022       bap  raw
+//ac4 0xF47B502CC5EaAD7064E2cDcF2D4E6C087a16Ecea       enclave
+//ac5 0xCc80f07A28D9673eF9efC974629ba76F107D4fcd       asian raw
+//ac6 0xc974e65023DED800bb0B87b27786df0D92DC5168       sioux 
 
 //pd2   0xEb62F2908f06B36462B6F5C2E28E31C07bF71cC2   tranfer
 //pd3   0x154A13ec6cF20d17383384803b7F095200aACb85   derive

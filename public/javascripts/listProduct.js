@@ -53,7 +53,7 @@ window.onload = function() {
         res = res + "<td><a href='/cancel/" + j  + "' class='btn btn-primary' >Cancel</a></td>";
       }
       else {
-        res = res + "<td></td>";
+        res = res + "<td><p style='color: red;'>Out of Stock</p></td>";
       }
       
       res = res + "</tr>";

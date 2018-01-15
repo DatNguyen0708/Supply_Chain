@@ -66,7 +66,7 @@ function cancel(){
       while (1) {
         if (web3.eth.getTransactionReceipt(result) != null) {
           if (web3.eth.getTransactionReceipt(result).status == "0x1") {
-            alert("You add account success!");
+            alert("You cancel product success!");
             location.replace("/admintrator/listProduct"); 
           }
           break;

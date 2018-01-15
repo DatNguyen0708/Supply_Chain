@@ -13,6 +13,9 @@ function submit() {
     var executefrom = document.getElementById('executefrom').value.toString();
     var password = document.getElementById('password').value;
     var product = document.getElementById('add').value;
+    var expirydate = toTimestamp(document.getElementById("expirydate").value);
+   
+
     var checkPass = checkPassword(executefrom, password);
 
     var checkExp = checkExpire(product);
@@ -25,7 +28,7 @@ function submit() {
 
     document.getElementById("Button").disabled = true;
 
-    web3.eth.contract(abiProduct).at(product).EditAmount.sendTransaction(amount, {
+    web3.eth.contract(abiProduct).at(product).EditAmount.sendTransaction(amount, expirydate, {
         from: executefrom,
         gas: "0x0" + (4000000).toString(16)
     }, function (error, result) {
