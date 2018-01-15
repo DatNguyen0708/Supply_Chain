@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = function() {  
   getContractAddress(function(db_contract, error) {
     if (error != null) {
       //setStatus("Cannot find network. Please run an ethereum node or use Metamask.", "error");

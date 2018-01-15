@@ -93,37 +93,37 @@ function submit() {
 
   document.getElementById("Button").disabled = true;
 
-  // web3.eth.contract(abiProduct).at(addfirstproduct).merge.sendTransaction(comboboxProduct, newproduct, ratio, amount, unit, expirydate, {
-  //   from: executefrom,
-  //   gas: 4000000
-  // }, function (error, result) {
-  //   if (!error) {
+  web3.eth.contract(abiProduct).at(addfirstproduct).merge.sendTransaction(comboboxProduct, newproduct, ratio, amount, unit, expirydate, {
+    from: executefrom,
+    gas: 4000000
+  }, function (error, result) {
+    if (!error) {
 
-  //     while (1) {
-  //       if (web3.eth.getTransactionReceipt(result) != null) {
-  //         if (web3.eth.getTransactionReceipt(result).status == "0x1") {
-  //           // console.log(result)
-  //           // console.log(web3.eth.getTransactionReceipt(result))
-  //           alert("You merge product success");
-  //           var event = web3.eth.contract(abiProduct).at(addfirstproduct).ActionMerge({});
-  //           event.watch(function (err, msg) {
-  //             if (!err){
-  //               console.log(msg.args.merge);
-  //             location.replace("/" + msg.args.merge);
-  //             }
-  //           });
-  //         }
+      while (1) {
+        if (web3.eth.getTransactionReceipt(result) != null) {
+          if (web3.eth.getTransactionReceipt(result).status == "0x1") {
+            // console.log(result)
+            // console.log(web3.eth.getTransactionReceipt(result))
+            alert("You merge product success");
+            var event = web3.eth.contract(abiProduct).at(addfirstproduct).ActionMerge({});
+            event.watch(function (err, msg) {
+              if (!err){
+                console.log(msg.args.merge);
+              location.replace("/" + msg.args.merge);
+              }
+            });
+          }
 
-  //         break;
-  //       }
-  //     }
-  //   }
-  //   else {
-  //     if (error != null) {
-  //       alert(error);
-  //       return;
-  //     }
-  //     console.error(error);
-  //   }
-  // });
+          break;
+        }
+      }
+    }
+    else {
+      if (error != null) {
+        alert(error);
+        return;
+      }
+      console.error(error);
+    }
+  });
 }

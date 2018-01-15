@@ -1,9 +1,11 @@
 var express = require("express");
 
+var cookieParser = require('cookie-parser')
 
 //let product = require('./product');
 
 var app = express();
+app.use(cookieParser())
 
 app.listen(3000);
 
@@ -59,16 +61,36 @@ app.get("/accounts", function (req, res) {
 });
 
 app.get("/admintrator", function (req, res) {
-	res.render("admintrator") ;
+	if(req.cookies["admin"] == undefined) {
+		res.render("admintrator"); 
+	}
+	else {
+		res.redirect("/admintrator/index");
+	}	
 });
-app.get("/admintrator/index", function (req, res) {
-	res.render("indexAdmin") ;
+app.get("/admintrator/index", function (req, res) {	
+	if(req.cookies["admin"] == undefined) {
+		 res.redirect('/admintrator'); 
+	}
+	else{
+		res.render("indexAdmin");
+	}
 });
 app.get("/admintrator/listAccount", function (req, res) {
-	res.render("listAccount") ;
+	if(req.cookies["admin"] == undefined) {
+		res.redirect('/admintrator'); 
+	}
+	else {
+		res.render("listAccount");
+	}
 });
 app.get("/admintrator/listProduct", function (req, res) {
-	res.render("listProduct") ;
+	if(req.cookies["admin"] == undefined) {
+		res.redirect('/admintrator'); 
+	}
+	else {
+	res.render("listProduct");
+	}
 });
 
 app.get('/merge/:add/:account', (req, res) => {

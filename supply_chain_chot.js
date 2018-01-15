@@ -55,7 +55,7 @@ contract Database {
   }
 
   function editAccount(address _account, bytes32 _name, bytes32 _description, bool _checkRaw, bytes32 _phonenumber, bytes32 _email) onlyOwnerDB {
-    if((_name == "") || (_description == "")) {
+    if((_name == "") || (_description == "") || (_description == "") || (_phonenumber == "") || (_email == "")) {
       revert();
     }
     for (uint i = 0; i < accounts.length; i++) {
@@ -89,6 +89,9 @@ contract Database {
 
   // access cho 1 account co quyen tao sp tho hay ko
   function AddlistAccount(address _account, bytes32 _name, bytes32 _description, bool _checkRaw, bytes32 _phonenumber, bytes32 _email) onlyOwnerDB {
+    if((_name == "") || (_description == "") || (_description == "") || (_phonenumber == "") || (_email == "")) {
+      revert();
+    }
     for (uint i = 0; i < accounts.length; i++) {
       OwnerPro storage a1 = accounts[i];
       if (a1.ownerPro == _account) {
@@ -533,12 +536,12 @@ contract Product {
   }
 }
 
-//db  0xaeA8d13218D3f97dbE2720363F947BC4622b1446
-//ac2 0x3CA56e8273aE23F774C69cC51B2032BfFAD9bA05       db
-//ac3 0x53D78BE576F44fb9035bFC8BcCEF2377AdF43429       bap  raw
-//ac4 0xd38583Ca4A4365954Bacaa7a69A7074e61e72429       enclave
-//ac5 0xc1117D37c2191330783929D106b7c360b4922143       asian raw
-//ac6 0x677453c711697b51Bfe70F30Bcf5425ceAdB9B7a       sioux 
+//db  0xF0ba6120292fc5Ac12aa0e9ae28EE8268A350C40
+//ac2 0xC5bC9A1082439869f76fC573D7BDf9E5Ec1b4F32       db
+//ac3 0x5E2DA29Fce74BC51061A3aAb5d5524c7565db064       bap  raw
+//ac4 0xEFF2cd979895480E08A25315A6B76f85fcAb1402       enclave
+//ac5 0xe9a51090d80e6d3255F3634aF45EC469993a12aa       asian raw
+//ac6 0x115cBBa70971856E3511C7c6e1034E3B29679612       sioux 
 
 //pd2   0xEb62F2908f06B36462B6F5C2E28E31C07bF71cC2   tranfer
 //pd3   0x154A13ec6cF20d17383384803b7F095200aACb85   derive
